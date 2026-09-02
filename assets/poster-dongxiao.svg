@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#16130F"/>
+  <rect x="18" y="16" width="924" height="508" rx="14" fill="none" stroke="#3A3226" stroke-width="3"/>
+  <rect x="26" y="24" width="908" height="492" rx="10" fill="none" stroke="#2A241B" stroke-width="2"/>
+  <text x="40" y="52" font-family="ui-monospace,monospace" font-size="18" fill="#8B8270">TC 00:00:00:00</text>
+  <text x="920" y="52" font-family="ui-monospace,monospace" font-size="18" fill="#FF7A6B" text-anchor="end">&#9679; REC</text>  <path d="M330 330 C 420 220, 540 210, 640 250" fill="none" stroke="#E6392B" stroke-width="10" stroke-linecap="round"/>
+  <path d="M610 218 L 648 252 L 600 272" fill="none" stroke="#E6392B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M700 130 L 710 155 L 736 158 L 716 176 L 722 202 L 700 188 L 678 202 L 684 176 L 664 158 L 690 155 Z" fill="none" stroke="#F2B705" stroke-width="7" stroke-linejoin="round"/>
+  <text x="480" y="420" font-size="52" fill="#F1EAD9" text-anchor="middle" font-family="cursive,sans-serif">动效 · 占位</text>  <text x="40" y="500" font-family="ui-monospace,monospace" font-size="16" fill="#5C5343">1920 x 1080 PLACEHOLDER</text>
+</svg>

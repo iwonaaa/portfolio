@@ -1,0 +1,91 @@
+{
+  "name": "你的名字",
+  "nameEn": "YOUR NAME",
+  "role": "动效设计师 · 影视动画专业应届本科毕业生",
+  "roleEn": "MOTION DESIGNER — FILM & ANIMATION GRADUATE",
+  "tagline": "把每一帧，都当成彩蛋来做。",
+  "location": "中国 · 求职中",
+  "heroNote": "我的作品集 · PORTFOLIO PDF",
+  "notebook": {
+    "ae": "AE 动效合集：界面动效、图标微交互、转场与加载设计。",
+    "ip": "角色 IP 相关：角色短动画、动作循环与表演练习。",
+    "thesis": "毕业设计完整记录：分镜、制作流程与成片。"
+  },
+  "about": [
+    "占位简介第一段：一句话介绍你是谁——你就读的专业方向、擅长的领域（动效 / 特效 / 动画），以及想去的岗位方向。",
+    "占位简介第二段：讲讲你的创作习惯或风格偏好，比如喜欢研究游戏 UI 动效、痴迷电影片头设计等，让 HR 记住你。"
+  ],
+  "skills": [
+    {
+      "name": "After Effects",
+      "level": 90
+    },
+    {
+      "name": "Premiere Pro",
+      "level": 85
+    },
+    {
+      "name": "Cinema 4D / Blender",
+      "level": 75
+    },
+    {
+      "name": "Photoshop / Illustrator",
+      "level": 80
+    },
+    {
+      "name": "Figma",
+      "level": 65
+    }
+  ],
+  "software": [
+    "AE",
+    "PR",
+    "C4D",
+    "Blender",
+    "PS",
+    "AI",
+    "Figma",
+    "DaVinci"
+  ],
+  "timeline": [
+    {
+      "period": "2022.09 — 2026.06",
+      "title": "影视动画专业 · 本科",
+      "org": "某某大学（占位）",
+      "desc": "主修动画原理、影视后期、三维动效等课程，毕业设计《占位》。"
+    },
+    {
+      "period": "2025.06 — 2025.12",
+      "title": "动效设计实习生",
+      "org": "某互联网公司（占位）",
+      "desc": "负责产品品宣视频与界面动效制作，参与某某项目（占位）。"
+    },
+    {
+      "period": "2024.10",
+      "title": "比赛 / 获奖经历",
+      "org": "某比赛（占位）",
+      "desc": "作品《占位》获得某某奖项。"
+    },
+    {
+      "period": "2025.12 — 2026.03",
+      "title": "动效设计实习生 · 游戏方向",
+      "org": "某游戏公司（占位）",
+      "desc": "参与游戏技能特效与 UI 动效制作，输出战斗与界面动效资源。"
+    },
+    {
+      "period": "2026.03 — 2026.06",
+      "title": "品宣视频实习生",
+      "org": "某品牌工作室（占位）",
+      "desc": "负责新品发布视频的动效包装、剪辑与版本迭代。"
+    }
+  ],
+  "contact": {
+    "email": "hello@example.com",
+    "phone": "138-0000-0000",
+    "wechat": "your-wechat-id",
+    "resumeUrl": "",
+    "bilibili": ""
+  },
+  "music": "",
+  "soundOn": false
+}

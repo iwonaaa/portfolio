@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#16130F"/>
+  <rect x="18" y="16" width="924" height="508" rx="14" fill="none" stroke="#3A3226" stroke-width="3"/>
+  <rect x="26" y="24" width="908" height="492" rx="10" fill="none" stroke="#2A241B" stroke-width="2"/>
+  <circle cx="480" cy="250" r="86" fill="none" stroke="#E6392B" stroke-width="9"/>
+  <path d="M480 164 C 420 168, 392 210, 394 252 C 396 306, 442 340, 488 336 C 542 332, 574 290, 570 240 C 566 194, 530 162, 472 168" fill="none" stroke="#FF7A6B" stroke-width="4" stroke-linecap="round"/>
+  <path d="M456 208 L 456 292 L 528 250 Z" fill="#E6392B"/>
+  <text x="480" y="400" font-size="46" fill="#F1EAD9" text-anchor="middle" font-family="ui-monospace,monospace" letter-spacing="6">SHOWREEL 2026</text>
+  <text x="480" y="436" font-size="20" fill="#8B8270" text-anchor="middle" font-family="ui-monospace,monospace" letter-spacing="4">MOTION / VFX / ANIMATION</text>
+  <text x="40" y="500" font-family="ui-monospace,monospace" font-size="16" fill="#5C5343">1920 x 1080 PLACEHOLDER</text>
+  <text x="920" y="500" font-family="ui-monospace,monospace" font-size="16" fill="#5C5343" text-anchor="end">&#9654; 成片后替换</text>
+</svg>

@@ -1,0 +1,50 @@
+{
+  "postcards": [
+    {
+      "id": "pc1",
+      "title": "海报与平面设计",
+      "en": "POSTER SERIES",
+      "cards": [
+        {
+          "img": "assets/pc-a1.svg",
+          "note": "音乐节海报 · 占位"
+        },
+        {
+          "img": "assets/pc-a2.svg",
+          "note": "展览主视觉 · 占位"
+        },
+        {
+          "img": "assets/pc-a3.svg",
+          "note": "社团招新海报 · 占位"
+        },
+        {
+          "img": "assets/pc-a4.svg",
+          "note": "电影之夜海报 · 占位"
+        }
+      ]
+    },
+    {
+      "id": "pc2",
+      "title": "手绘与设定",
+      "en": "DRAWING & CONCEPT",
+      "cards": [
+        {
+          "img": "assets/pc-b1.svg",
+          "note": "角色设定草图 · 占位"
+        },
+        {
+          "img": "assets/pc-b2.svg",
+          "note": "场景概念 · 占位"
+        },
+        {
+          "img": "assets/pc-b3.svg",
+          "note": "分镜手稿 · 占位"
+        },
+        {
+          "img": "assets/pc-b4.svg",
+          "note": "涂鸦日常 · 占位"
+        }
+      ]
+    }
+  ]
+}

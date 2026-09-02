@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <rect width="900" height="600" fill="#FFFDF6"/>
+  <rect x="22" y="22" width="856" height="556" rx="10" fill="none" stroke="#C9BCA0" stroke-width="3" stroke-dasharray="14 10"/>
+  <rect x="716" y="52" width="120" height="140" rx="6" fill="none" stroke="#E6392B" stroke-width="4"/>
+  <path d="M726 66 L 826 66 M 726 84 L 826 84" stroke="#C9BCA0" stroke-width="4"/>
+  <text x="776" y="150" font-size="34" text-anchor="middle" fill="#E6392B" font-family="cursive,sans-serif">邮</text>
+  <path d="M470 90 L 470 480" stroke="#E0D5B8" stroke-width="3" stroke-dasharray="10 8"/>
+  <path d="M520 130 h 300 M 520 180 h 300 M 520 230 h 240" stroke="#D9CCAC" stroke-width="4" stroke-linecap="round"/>
+  <path d="M120 420 Q 200 380 280 420 T 440 420" fill="none" stroke="#E6392B" stroke-width="8" stroke-linecap="round"/><circle cx="740" cy="180" r="60" fill="none" stroke="#2B4FD8" stroke-width="8"/>
+  <text x="80" y="120" font-size="52" fill="#221D15" font-family="cursive,sans-serif">海报 · 01</text>
+  <text x="80" y="158" font-size="20" letter-spacing="3" fill="#8B8270" font-family="ui-monospace,monospace">MUSIC FEST POSTER</text>
+  <text x="80" y="530" font-size="22" fill="#5C5343" font-family="cursive,sans-serif">占位图片 · 后台替换为真实作品图</text>
+</svg>
