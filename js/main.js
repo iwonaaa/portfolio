@@ -25,64 +25,49 @@ window.addEventListener("error", e => {
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-let audioCtx = null;
-let masterGain = null;
-function ac() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.5;
-    masterGain.connect(audioCtx.destination);
-  }
-  if (audioCtx.state === "suspended") audioCtx.resume();
-  return audioCtx;
+// 音效：只保留两个 —— 翻书 + 明信片堆悬停。其他音效以后找到合适的再加。
+const SFX_FILES = {
+  page: "assets/sfx-flip.mp3",
+  hover: "assets/sfx-hover.mp3",
+  click: "assets/sfx-click.mp3",
+  open: "assets/sfx-open.mp3"
+};
+const SFX_DELAY = { page: 0.09, hover: 0, click: 0, open: 0.25 }; // page: 峰值(0.36s)对齐翻页高潮(0.45s)；open: 峰值(0.15s)对齐弹窗展开(0.4s)
+let sfxCtx = null;
+const sfxBufs = {};
+async function loadSfxBuf(name) {
+  try {
+    const buf = await (await fetch(SFX_FILES[name])).arrayBuffer();
+    sfxBufs[name] = await sfxCtx.decodeAudioData(buf);
+  } catch (e) {}
 }
-function tone(freq, dur, type = "sine", vol = 0.15, slideTo = null, delay = 0) {
-  const ctx = ac();
-  const t0 = ctx.currentTime + delay;
-  const osc = ctx.createOscillator();
-  const g = ctx.createGain();
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, t0);
-  if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, t0 + dur);
-  g.gain.setValueAtTime(0, t0);
-  g.gain.linearRampToValueAtTime(vol, t0 + 0.008);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  osc.connect(g).connect(masterGain);
-  osc.start(t0);
-  osc.stop(t0 + dur + 0.05);
-}
-function noiseSweep(dur, f0, f1, vol = 0.2, delay = 0) {
-  const ctx = ac();
-  const t0 = ctx.currentTime + delay;
-  const len = Math.floor(ctx.sampleRate * dur);
-  const buf = ctx.createBuffer(1, len, ctx.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
-  const src = ctx.createBufferSource();
-  src.buffer = buf;
-  const bp = ctx.createBiquadFilter();
-  bp.type = "bandpass";
-  bp.Q.value = 1.2;
-  bp.frequency.setValueAtTime(f0, t0);
-  bp.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
-  const g = ctx.createGain();
-  g.gain.setValueAtTime(vol, t0);
-  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  src.connect(bp).connect(g).connect(masterGain);
-  src.start(t0);
+function initSfx() {
+  if (sfxCtx) return;
+  try {
+    sfxCtx = new (window.AudioContext || window.webkitAudioContext)();
+    Object.keys(SFX_FILES).forEach(loadSfxBuf);
+    const resume = () => { if (sfxCtx && sfxCtx.state === "suspended") sfxCtx.resume().catch(() => {}); };
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, resume, { passive: true }));
+  } catch (e) {}
 }
 function sfx(name) {
   if (!state.sound) return;
-  try {
-    if (name === "click") tone(340, 0.06, "square", 0.12, 190);
-    else if (name === "hover") tone(560, 0.035, "sine", 0.04);
-    else if (name === "open") { noiseSweep(0.32, 320, 2600, 0.22); tone(220, 0.3, "triangle", 0.08, 440); }
-    else if (name === "close") noiseSweep(0.26, 2400, 300, 0.18);
-    else if (name === "page") { noiseSweep(0.4, 420, 2600, 0.2); noiseSweep(0.28, 800, 3400, 0.1, 0.1); tone(160, 0.08, "sine", 0.05, null, 0.32); }
-    else if (name === "page") noiseSweep(0.28, 420, 1900, 0.16);
-    else if (name === "konami") [523.25, 587.33, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, 0.14, "square", 0.12, null, i * 0.11));
-  } catch (err) { /* audio unavailable */ }
+  if (!sfxCtx) initSfx();
+  const buf = sfxBufs[name];
+  if (!buf || !sfxCtx) return;
+  if (sfxCtx.state === "suspended") sfxCtx.resume().catch(() => {});
+  const d = SFX_DELAY[name] || 0;
+  const play = () => {
+    try {
+      const src = sfxCtx.createBufferSource();
+      src.buffer = buf;
+      const g = sfxCtx.createGain();
+      g.gain.value = 0.9;
+      src.connect(g); g.connect(sfxCtx.destination);
+      src.start();
+    } catch (e) {}
+  };
+  if (d > 0) setTimeout(play, d * 1000); else play();
 }
 
 const io = new IntersectionObserver(entries => {
@@ -116,13 +101,18 @@ function fillSite(s) {
     </div>`).join("");
   $("#software").innerHTML = s.software.map(sw => `<span class="sw-chip">${esc(sw)}</span>`).join("");
 
-  $("#nle-track").innerHTML = s.timeline.map(t => `
-    <div class="clip">
+  $("#nle-track").innerHTML = s.timeline.map((t, i) => `
+    <div class="clip" data-i="${i}" data-cursor="link" role="button" tabindex="0" aria-label="查看经历详情：${esc(t.title)}">
       <span class="period">${esc(t.period)}</span>
       <h3>${esc(t.title)}</h3>
       <p class="org">${esc(t.org)}</p>
       <p class="cdesc">${esc(t.desc)}</p>
     </div>`).join("");
+  $$("#nle-track .clip").forEach(el => {
+    const t = s.timeline[+el.dataset.i];
+    el.addEventListener("click", () => openClipModal(t));
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openClipModal(t); } });
+  });
 
   const c = s.contact;
   const chips = [
@@ -192,7 +182,6 @@ function renderWorks() {
     const w = state.works.find(x => x.id === card.dataset.id);
     const vid = $("video", card);
     card.addEventListener("mouseenter", () => {
-      sfx("hover");
       if (vid) vid.play().catch(() => {});
     });
     card.addEventListener("mouseleave", () => {
@@ -261,7 +250,7 @@ function closeCinema() {
   document.body.classList.remove("cinema-open");
   document.body.style.overflow = "";
   $("#cinema").setAttribute("aria-hidden", "true");
-  sfx("close");
+  sfx("click");
   window.dispatchEvent(new CustomEvent("cinema-close"));
 }
 
@@ -343,22 +332,52 @@ function initTimecode() {
   }, 40);
 }
 
-let bgm = null;
+let bgm = null, bgmOn = false;
 function initMusic(src) {
   const btn = $("#btn-music");
   if (!btn) return;
   btn.style.display = "";
   bgm = new Audio(src);
   bgm.loop = true;
-  bgm.volume = 0.5;
-  let on = false;
-  const sync = () => { btn.textContent = on ? "音乐 ON" : "音乐 OFF"; btn.classList.toggle("on", on); btn.setAttribute("aria-pressed", String(on)); };
+  bgm.volume = 0;
+  const TARGET = 0.45;
+  const sync = () => { btn.textContent = bgmOn ? "音乐 ON" : "音乐 OFF"; btn.classList.toggle("on", bgmOn); btn.setAttribute("aria-pressed", String(bgmOn)); };
+  const fadeTo = (v, after) => {
+    if (typeof gsap !== "undefined") gsap.to(bgm, { volume: v, duration: 0.8, ease: "power1.inOut", onComplete: after });
+    else { bgm.volume = v; if (after) after(); }
+  };
+  const playWithFade = () => { bgm.volume = 0; bgm.play().then(() => fadeTo(TARGET)).catch(() => {}); };
+  // 默认开：尊重用户上次的手动选择，否则默认播放
+  const stored = localStorage.getItem("bgm");
+  bgmOn = stored === null ? true : stored === "1";
   sync();
+  if (bgmOn) playWithFade();
+  // 浏览器拦截自动播放时，第一次点击/按键/触摸时补播
+  const unlock = e => {
+    if (e && e.target && e.target.closest && e.target.closest("#btn-music")) return;
+    if (bgmOn && bgm && bgm.paused) playWithFade();
+    removeEventListener("pointerdown", unlock);
+    removeEventListener("keydown", unlock);
+  };
+  addEventListener("pointerdown", unlock);
+  addEventListener("keydown", unlock);
+  addEventListener("wheel", unlock, { passive: true });
+  addEventListener("touchstart", unlock, { passive: true });
   btn.addEventListener("click", () => {
-    on = !on;
-    if (on) bgm.play().catch(() => {}); else bgm.pause();
+    bgmOn = !bgmOn;
+    localStorage.setItem("bgm", bgmOn ? "1" : "0");
+    if (bgmOn) playWithFade(); else fadeTo(0, () => bgm.pause());
     sync();
     sfx("click");
+  });
+  // 打开作品放映厅 → 音乐缓出停止；关闭弹窗 → 缓入恢复
+  addEventListener("cinema-open", () => {
+    if (!bgmOn || !bgm || bgm.paused) return;
+    fadeTo(0, () => bgm.pause());
+  });
+  addEventListener("cinema-close", () => {
+    if (!bgmOn || !bgm) return;
+    playWithFade();
   });
 }
 
@@ -705,7 +724,7 @@ function initDoodle() {
       a.splice(Number(b.dataset.i), 1);
       save(a);
       renderWall();
-      sfx("close");
+      sfx("click");
     }));
   }
   $("#doodle-save").addEventListener("click", () => {
@@ -917,13 +936,48 @@ function initPlayer() {
 const BURST_COLORS = [["#9EC9F5","#9ED8C6"],["#91D3F7","#9AE4CF"],["#DC93CF","#E3D36B"],["#CF8EEF","#CBEB98"],["#87E9C6","#1FCC93"],["#A7ECD0","#9AE4CF"],["#87E9C6","#A635D9"],["#D58EB3","#E0B6F5"],["#F48BA2","#CF8EEF"],["#91D3F7","#A635D9"],["#CF8EEF","#CBEB98"],["#87E9C6","#A635D9"],["#9EC9F5","#9ED8C6"],["#91D3F7","#9AE4CF"]];
 let engWorkId = null;
 let engBase = 0;
+let engServer = 0;
+let engOnline = false;
+let engComments = [];
+
+async function fetchEngagement(myId) {
+  try {
+    const r = await fetch("/.netlify/functions/engage?work=" + encodeURIComponent(myId));
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    if (engWorkId !== myId) return;
+    engServer = d.likes || 0;
+    engComments = Array.isArray(d.comments) ? d.comments : [];
+    engOnline = true;
+  } catch (e) { engOnline = false; }
+}
+
+async function postEngage(body) {
+  if (!engOnline) return;
+  try {
+    const r = await fetch("/.netlify/functions/engage", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (!r.ok) return;
+    const d = await r.json();
+    if (typeof d.likes === "number") { engServer = d.likes; updateLikeUI(localStorage.getItem("pf_like_" + engWorkId) === "1", false); }
+    if (Array.isArray(d.comments)) { engComments = d.comments; renderComments(); }
+  } catch (e) {}
+}
 
 function loadEngagement(w) {
   engWorkId = w.id;
   engBase = w.likes || 0;
+  engServer = 0;
+  engComments = [];
+  engOnline = false;
   const liked = localStorage.getItem("pf_like_" + w.id) === "1";
   updateLikeUI(liked, false);
   renderComments();
+  const myId = w.id;
+  fetchEngagement(myId).then(() => {
+    if (engWorkId !== myId) return;
+    updateLikeUI(localStorage.getItem("pf_like_" + myId) === "1", false);
+    renderComments();
+  });
 }
 
 function updateLikeUI(liked, animate) {
@@ -931,7 +985,7 @@ function updateLikeUI(liked, animate) {
   const num = $("#like-num");
   btn.classList.toggle("liked", liked);
   btn.setAttribute("aria-pressed", String(liked));
-  const total = engBase + (liked ? 1 : 0);
+  const total = engOnline ? (engBase + engServer) : (engBase + (liked ? 1 : 0));
   if (animate && typeof gsap !== "undefined") {
     gsap.to(num, { yPercent: -60, autoAlpha: 0, duration: 0.15, ease: "power2.in", onComplete: () => {
       num.textContent = total;
@@ -985,17 +1039,20 @@ function initLike() {
     if (liked) {
       localStorage.removeItem(key);
       updateLikeUI(false, false);
+      postEngage({ op: "like", work: engWorkId, delta: -1 });
       sfx("click");
     } else {
       localStorage.setItem(key, "1");
       updateLikeUI(true, true);
       likeBurst();
+      postEngage({ op: "like", work: engWorkId, delta: 1 });
       sfx("open");
     }
   });
 }
 
 function getComments() {
+  if (engOnline) return engComments;
   try { return JSON.parse(localStorage.getItem("pf_comments_" + engWorkId) || "[]"); } catch (e) { return []; }
 }
 
@@ -1026,6 +1083,7 @@ function initComments() {
     localStorage.setItem("pf_comments_" + engWorkId, JSON.stringify(items.slice(0, 50)));
     textEl.value = "";
     renderComments();
+    postEngage({ op: "comment", work: engWorkId, name, text });
     sfx("click");
   };
   $("#comment-send").addEventListener("click", send);
@@ -1044,6 +1102,7 @@ function renderStacks() {
   }).join("");
   $$(".pstack", grid).forEach(el => {
     const s = stacks.find(x => x.id === el.dataset.id);
+    el.addEventListener("pointerenter", () => sfx("hover"));
     el.addEventListener("click", () => openPcViewer(s));
     el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPcViewer(s); } });
   });
@@ -1103,7 +1162,7 @@ function closePcViewer() {
   document.body.style.overflow = "";
   $("#pc-viewer").setAttribute("aria-hidden", "true");
   window.dispatchEvent(new CustomEvent("pc-close"));
-  sfx("close");
+  sfx("click");
 }
 
 function pcFling(dx, dy) {
@@ -1121,7 +1180,7 @@ function pcFling(dx, dy) {
   topEl.style.zIndex = n + 5;
   gsap.timeline()
     .to(topEl, { x: flyX, y: flyY, rotation: dirX * 22, autoAlpha: 0, duration: 0.42, ease: "power2.out" })
-    .add(() => { applyPcLayout(true); sfx("click"); })
+    .add(() => { applyPcLayout(true); sfx("page"); })
     .fromTo(topEl,
       { x: 60 * dirX, y: 70, rotation: dirX * 14, autoAlpha: 0 },
       { x: (n - 1) * 12, y: (n - 1) * 9, rotation: ((n - 1) % 2 === 0 ? -1 : 1) * (1.6 + (n - 1) * 1.1), scale: 1 - (n - 1) * 0.025, autoAlpha: 1, duration: 0.45, ease: "power3.out" });
@@ -1145,7 +1204,7 @@ function pcFlip(dir) {
       gsap.fromTo(lastEl,
         { x: 430, y: -36, rotation: 16, autoAlpha: 0 },
         { x: 0, y: 0, rotation: -1.6, scale: 1, autoAlpha: 1, duration: 0.45, ease: "power3.out", onComplete: () => applyPcLayout(false) });
-      sfx("click");
+      sfx("page");
     } else applyPcLayout(false);
   }
 }
@@ -1211,6 +1270,38 @@ window.__nleSync = p => {
   const target = Math.max(0, x - nle.clientWidth * 0.55);
   nle.scrollLeft += (target - nle.scrollLeft) * 0.25;
 };
+
+function openClipModal(t) {
+  if (!t) return;
+  $("#clip-period").textContent = t.period;
+  $("#clip-title").textContent = t.title;
+  $("#clip-org").textContent = t.org;
+  $("#clip-desc").textContent = t.desc;
+  const dWrap = $("#clip-detail-wrap");
+  if (t.detail) { $("#clip-detail").textContent = t.detail; dWrap.style.display = ""; } else { dWrap.style.display = "none"; }
+  const tagBox = $("#clip-tags");
+  const tags = Array.isArray(t.tags) ? t.tags.filter(Boolean) : [];
+  tagBox.innerHTML = tags.map(tag => `<span class="ct">${esc(tag)}</span>`).join("");
+  tagBox.style.display = tags.length ? "" : "none";
+  $("#clip-modal").classList.add("open");
+  $("#clip-modal").setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+  sfx("click");
+  window.dispatchEvent(new CustomEvent("pc-open"));
+}
+function closeClipModal() {
+  sfx("click");
+  $("#clip-modal").classList.remove("open");
+  $("#clip-modal").setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+  window.dispatchEvent(new CustomEvent("pc-close"));
+}
+function initClipModal() {
+  const m = $("#clip-modal");
+  if (!m) return;
+  m.addEventListener("click", e => { if (e.target.closest("[data-close]")) closeClipModal(); });
+  addEventListener("keydown", e => { if (e.key === "Escape" && m.classList.contains("open")) closeClipModal(); });
+}
 
 function initTimeline() {
   const nle = $(".nle");
@@ -1321,7 +1412,7 @@ function initStars() {
       const near = Math.max(0, 1 - dist / 150);
       s.glow += ((near > 0 ? near : 0) - s.glow) * (near > s.glow ? 0.22 : 0.045);
       const twinkle = 0.5 + 0.5 * Math.sin(time * s.sp + s.ph);
-      const alpha = Math.min(1, 0.1 + twinkle * 0.16 + s.glow * 1.05);
+      const alpha = Math.min(1, s.glow * (0.9 + twinkle * 0.25));
       drawStar(sx, sy, s.r * (1 + s.glow * 0.5), alpha);
     }
   };
@@ -1351,6 +1442,7 @@ async function init() {
       if (sb) { sb.textContent = "音效 ON"; sb.classList.add("on"); sb.setAttribute("aria-pressed", "true"); }
     }
     if (site && site.music) initMusic(site.music);
+    initSfx();
     state.postcards = (window.PAGE_DATA && window.PAGE_DATA.postcards) || [];
     fillSite(site);
     fillNotebook(site);
@@ -1389,6 +1481,7 @@ initToggles();
 initKonami();
 initCinema();
 initPlayer();
+initClipModal();
 initTimeline();
 initPcViewer();
 initBook();

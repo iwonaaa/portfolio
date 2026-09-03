@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>作品集</title>
 <meta name="description" content="动效设计 / 影视动画 个人作品集">
-<link rel="stylesheet" href="css/style.css?v=5">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<link rel="stylesheet" href="css/style.css?v=10">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='%23E6392B'/%3E%3C/svg%3E">
 </head>
 <body class="grain-on">
@@ -128,6 +129,22 @@
   </span>
 </footer>
 
+<div id="clip-modal" aria-hidden="true">
+  <div class="clip-modal-backdrop" data-close></div>
+  <div class="clip-modal-card" role="dialog" data-lenis-prevent aria-modal="true" aria-label="经历详情">
+    <button id="clip-close" class="chip-btn sm" data-cursor="link" data-close>&times; 关闭</button>
+    <p class="clip-period mono" id="clip-period"></p>
+    <h3 id="clip-title"></h3>
+    <p class="clip-org" id="clip-org"></p>
+    <p class="clip-desc" id="clip-desc"></p>
+    <div class="clip-detail-wrap" id="clip-detail-wrap">
+      <p class="clip-detail-label mono">DETAIL · 详细记录</p>
+      <p class="clip-detail" id="clip-detail"></p>
+    </div>
+    <div class="clip-tags" id="clip-tags"></div>
+  </div>
+</div>
+
 <div id="cinema" aria-hidden="true">
   <div class="bar bar-top" aria-hidden="true"></div>
   <div class="bar bar-bottom" aria-hidden="true"></div>
@@ -213,8 +230,8 @@
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/pdf.min.js"></script>
 
-<script src="js/book3d.js?v=15"></script>
-<script src="js/main.js?v=9"></script>
+<script src="js/book3d.js?v=17"></script>
+<script src="js/main.js?v=15"></script>
 <script src="js/effects.js?v=3"></script>
 <script src="js/hero3d.js?v=3"></script>
 </body>

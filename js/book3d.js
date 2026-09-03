@@ -1181,19 +1181,22 @@
   let mx = 0, my = 0, camRX = 0, camRY = 0;
   const camState = { z: 5.1, ly: 1.8 };
   function camZoom(out) {
-    if (typeof gsap === "undefined") { camState.z = out ? 6.45 : 5.1; camState.ly = out ? 1.66 : 1.8; return; }
-    gsap.to(camState, { z: out ? 6.45 : 5.1, ly: out ? 1.66 : 1.8, duration: 0.45, ease: "power2.out", overwrite: "auto" });
+    if (typeof gsap === "undefined") { camState.z = out ? baseZ * 1.27 : baseZ; camState.ly = out ? 1.66 : 1.8; return; }
+    gsap.to(camState, { z: out ? baseZ * 1.27 : baseZ, ly: out ? 1.66 : 1.8, duration: 0.45, ease: "power2.out", overwrite: "auto" });
   }
   addEventListener("pointermove", e => {
     mx = (e.clientX / innerWidth - 0.5) * 2;
     my = (e.clientY / innerHeight - 0.5) * 2;
   });
 
+  let baseZ = 5.1;
   function resize() {
     const w = wrap.clientWidth, h = wrap.clientHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    baseZ = Math.max(5.1, 2.95 / (0.374 * camera.aspect));
+    if (!flipping && !dragSheet) camState.z = baseZ;
   }
   addEventListener("resize", resize);
   resize();
@@ -1206,8 +1209,8 @@
     requestAnimationFrame(loop);
     if (!visible || document.hidden) return;
     const t = clock.getElapsedTime();
-    camRY += ((mx * 0.16) - camRY) * 0.05;
-    camRX += ((my * 0.07) - camRX) * 0.05;
+    camRY += ((mx * 0.09) - camRY) * 0.05;
+    camRX += ((my * 0.04) - camRX) * 0.05;
     book.rotation.y = camRY + Math.sin(t * 0.4) * 0.012;
     book.rotation.x = BASE_TILT + camRX * 0.35;
     book.position.y = BOOK_Y + Math.sin(t * 0.8) * 0.03;
