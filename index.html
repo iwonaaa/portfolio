@@ -1,20 +1,239 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex">
-  <title>作品集后台管理</title>
-  <style>
-    body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #F1EAD9; }
-    #nc-root { min-height: 100vh; }
-    .admin-tip { position: fixed; left: 12px; bottom: 12px; z-index: 9999; background: #221D15; color: #F6F0E4; font-size: 12px; padding: 8px 14px; border-radius: 8px; opacity: .85; pointer-events: none; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>作品集</title>
+<meta name="description" content="动效设计 / 影视动画 个人作品集">
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>
+<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='%23E6392B'/%3E%3C/svg%3E">
 </head>
-<body>
-  <div class="admin-tip">作品集后台 · 改动后等 1~2 分钟自动上线</div>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>
-  <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+<body class="grain-on">
+<div id="cursor-dot"></div>
+<div id="cursor-ring"><span id="cursor-label"></span></div>
+<canvas id="grain"></canvas>
+<div id="errbox"></div>
+<div id="sparks" aria-hidden="true"></div>
+
+<header id="top">
+  <a class="brand" href="#hero" data-cursor="link"><span data-name>你的名字</span><i class="rec-dot" aria-hidden="true"></i><span class="brand-en mono">PORTFOLIO</span></a>
+  <nav>
+    <a href="#works" data-cursor="link">作品</a>
+    <a href="#about" data-cursor="link">关于</a>
+    <a href="#exp" data-cursor="link">经历</a>
+    <a href="#contact" data-cursor="link">联系</a>
+  </nav>
+  <button id="btn-music" class="chip-btn" data-cursor="link" style="display:none" aria-pressed="false">音乐 OFF</button>
+  <button id="btn-sound" class="chip-btn" data-cursor="link" aria-pressed="false">音效 OFF</button>
+</header>
+
+<main>
+  <section id="hero" data-dir="up">
+    <div id="hero-3d" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-text">
+      <p class="kicker mono rv">PORTFOLIO 2026 &mdash; DIRECTOR&rsquo;S CUT <i class="rec-dot" aria-hidden="true"></i> REC</p>
+      <h1 class="rv"><span class="hero-name" data-name>你的名字</span><span class="hero-name-en" data-name-en>YOUR NAME</span></h1>
+      <p class="hero-role rv" data-role>动效设计师 · 影视动画专业应届本科毕业生</p>
+      <p class="hero-tag rv" data-tagline>把每一帧，都当成彩蛋来做。</p>
+      <div class="hero-meta rv">
+        <span class="chip mono">TC <b data-tc>00:00:00:00</b></span>
+        <span class="chip mono" data-location>中国 · 求职中</span>
+      </div>
+      </div>
+      <div class="notebook showreel rv" id="notebook" data-cursor="drag" data-lenis-prevent>
+        <div class="book3d-wrap" id="book3d-wrap" data-cursor="drag" data-lenis-prevent>
+          <canvas id="book3d"></canvas>
+        </div>
+        <p class="nb-hint mono">拖页面左右翻书 &middot; 点书侧页签直达 &middot; 毕业设计点右页翻 PDF &middot; 涂鸦页在框内作画</p>
+      </div>      <div class="scroll-hint" aria-hidden="true">
+        <svg viewBox="0 0 60 90" class="doodle-arrow"><path d="M30 6 C 28 30, 34 52, 30 74 M 18 58 L 30 76 L 42 58" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>往下翻!</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="works" data-dir="right">
+    <i class="para-star" data-speed="0.16" style="top:9%;right:6%" aria-hidden="true">✦</i>
+    <i class="para-star blue" data-speed="-0.1" style="top:58%;left:3%" aria-hidden="true">✦</i>
+    <p class="sec-label mono" data-animate="left">01 &middot; WORKS</p>
+    <h2 data-animate="up">作品放映厅<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <div class="tabs" id="tabs" role="tablist" aria-label="作品分类" data-animate="up" data-delay="0.15"></div>
+    <div id="works-grid"></div>
+    <div class="stacks-head" data-animate="right">
+      <h3>图片作品 · 明信片堆<i class="u-squiggle" aria-hidden="true"></i></h3>
+      <p class="mono stacks-sub">POSTCARD STACKS — 点击牌堆，逐张翻看</p>
+    </div>
+    <div id="stacks-grid" data-animate="up" data-delay="0.2"></div>
+  </section>
+
+  <section id="about" data-dir="left">
+    <i class="para-star yellow" data-speed="0.2" style="top:14%;right:10%" aria-hidden="true">✦</i>
+    <i class="para-star" data-speed="-0.08" style="bottom:12%;left:5%" aria-hidden="true">✦</i>
+    <p class="sec-label mono" data-animate="left">02 &middot; CHARACTER</p>
+    <h2 data-animate="up">角色面板<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <div class="about-grid">
+      <figure class="photo-frame polaroid" data-animate="left" data-delay="0.1">
+        <span class="tape" aria-hidden="true"></span>
+        <img src="assets/photo.svg" alt="个人照片占位">
+        <svg class="doodle-circle" viewBox="0 0 220 280" aria-hidden="true"><path d="M112 14 C 40 16, 12 84, 16 146 C 20 218, 76 268, 128 264 C 188 260, 210 196, 206 128 C 202 66, 168 12, 96 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
+        <figcaption>本人比照片可爱 &rarr;</figcaption>
+      </figure>
+      <div class="about-body">
+        <div class="about-text" id="about-text" data-animate="right" data-delay="0.15"></div>
+        <div class="skills" id="skills" data-animate="up" data-delay="0.25"></div>
+        <div class="software" id="software" data-animate="up" data-delay="0.35"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="exp" data-dir="up">
+    <i class="para-star green" data-speed="0.13" style="top:10%;right:14%" aria-hidden="true">✦</i>
+    <p class="sec-label mono" data-animate="left">03 &middot; TIMELINE</p>
+    <h2 data-animate="up">剪辑时间线<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <div class="nle" data-lenis-prevent data-animate="up" data-delay="0.15">
+      <div class="nle-ruler" aria-hidden="true"></div>
+      <div class="nle-track" id="nle-track"></div>
+      <div class="playhead" aria-hidden="true"></div>
+    </div>
+    <p class="nle-hint mono" data-animate="up" data-delay="0.3">&larr; 拖动查看整条时间线 &rarr;</p>
+  </section>
+
+  <section id="contact" data-dir="down">
+    <div class="contact-bg" aria-hidden="true"></div>
+    <canvas id="star-canvas" aria-hidden="true"></canvas>
+    <div class="contact-inner">
+      <p class="sec-label mono light" data-animate="left">04 &middot; END CREDITS</p>
+      <div class="contact-grid">
+        <div class="contact-body">
+          <h2 data-animate="up">保持联系!</h2>
+          <p class="contact-sub" data-animate="up" data-delay="0.1">实习 / 全职 / 项目合作都欢迎聊聊</p>
+          <div class="contact-chips" id="contact-chips" data-animate="left" data-delay="0.2"></div>
+          <a id="btn-resume" class="btn-wobble" data-cursor="link" href="#" target="_blank" rel="noopener" data-animate="up" data-delay="0.35">下载简历 PDF &darr;</a>
+        </div>
+        <div class="credits-mask" aria-hidden="true" data-animate="right" data-delay="0.2">
+          <div class="credits-roll" id="credits-roll"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="mono">&copy; <b id="foot-year">2026</b> <span data-name>你的名字</span> &middot; 手工搭建 NO TEMPLATE</span>
+  <span class="mono">TC <b data-tc>00:00:00:00</b></span>
+  <span class="foot-btns">
+    <button id="btn-grain" class="chip-btn sm" data-cursor="link">颗粒 ON</button>
+    <a class="chip-btn sm" href="#top" data-cursor="link">回到片头 &uarr;</a>
+  </span>
+</footer>
+
+<div id="clip-modal" aria-hidden="true">
+  <div class="clip-modal-backdrop" data-close></div>
+  <div class="clip-modal-card" role="dialog" data-lenis-prevent aria-modal="true" aria-label="经历详情">
+    <button id="clip-close" class="chip-btn sm" data-cursor="link" data-close>&times; 关闭</button>
+    <p class="clip-period mono" id="clip-period"></p>
+    <h3 id="clip-title"></h3>
+    <p class="clip-org" id="clip-org"></p>
+    <p class="clip-desc" id="clip-desc"></p>
+    <div class="clip-detail-wrap" id="clip-detail-wrap">
+      <p class="clip-detail-label mono">DETAIL · 详细记录</p>
+      <p class="clip-detail" id="clip-detail"></p>
+    </div>
+    <div class="clip-tags" id="clip-tags"></div>
+  </div>
+</div>
+
+<div id="cinema" aria-hidden="true">
+  <div class="bar bar-top" aria-hidden="true"></div>
+  <div class="bar bar-bottom" aria-hidden="true"></div>
+  <div class="cinema-backdrop" data-close></div>
+  <div class="cinema-box" data-lenis-prevent role="dialog" aria-modal="true" aria-label="作品详情">
+    <button id="cinema-close" data-cursor="link" data-close>&#10005; 离场</button>
+    <div class="cinema-screen">
+      <video id="cv" playsinline preload="metadata"></video>
+      <img id="cv-poster" alt="">
+            <p id="cv-empty">成片占位 &middot; 后台上传视频后自动显示</p>
+      <div class="vcontrols paused" id="vcontrols">
+        <button id="v-play" class="vplay" data-cursor="link" aria-label="播放或暂停">&#9654;</button>
+        <button id="v-mute" class="vplay" data-cursor="link" aria-label="静音或取消静音" title="声音">&#128263;</button>
+        <div class="vbar" id="v-bar">
+          <div class="vbar-track"><div class="vbar-fill" id="v-fill"></div></div>
+          <div class="vthumb" id="v-thumb">
+            <svg class="clap" viewBox="0 0 44 40" aria-hidden="true">
+              <defs><clipPath id="stickClip"><rect x="4.5" y="6.5" width="35" height="8" rx="2"/></clipPath></defs>
+              <g class="clap-top">
+                <rect x="4.5" y="6.5" width="35" height="8" rx="2" fill="#F6F0E4" stroke="#221D15" stroke-width="1.6"/>
+                <g clip-path="url(#stickClip)" fill="#221D15">
+                  <path d="M8 6 L14 6 L10 15 L4 15 Z"/>
+                  <path d="M18 6 L24 6 L20 15 L14 15 Z"/>
+                  <path d="M28 6 L34 6 L30 15 L24 15 Z"/>
+                  <path d="M38 6 L44 6 L40 15 L34 15 Z"/>
+                </g>
+                <circle cx="6.5" cy="14" r="2.4" fill="#E6392B" stroke="#221D15" stroke-width="1"/>
+              </g>
+              <rect x="4.5" y="16" width="35" height="19" rx="3" fill="#221D15" stroke="#F6F0E4" stroke-width="1.4"/>
+              <g fill="#F6F0E4"><rect x="8" y="18.5" width="5" height="3" rx="1"/><rect x="15" y="18.5" width="5" height="3" rx="1"/><rect x="22" y="18.5" width="5" height="3" rx="1"/><rect x="29" y="18.5" width="5" height="3" rx="1"/></g>
+              <rect x="8" y="25" width="13" height="1.6" rx="0.8" fill="#8B8270"/>
+              <rect x="8" y="29" width="20" height="1.6" rx="0.8" fill="#8B8270"/>
+            </svg>
+          </div>
+        </div>
+        <span class="vtime mono" id="v-time">00:00 / 00:00</span>
+      </div>
+    </div>
+    <div class="cinema-info">
+      <div class="ci-top"><h3 id="ci-title"></h3><span id="ci-cat" class="stamp"></span></div>
+      <p class="ci-meta mono" id="ci-meta"></p>
+      <p id="ci-desc"></p>
+      <div class="ci-specs">
+        <div><span class="lbl">我的职责</span><span id="ci-role"></span></div>
+        <div><span class="lbl">使用软件</span><span id="ci-tools"></span></div>
+        <div><span class="lbl">时长</span><span id="ci-dur"></span></div>
+      </div>
+      <div class="ci-actions">
+        <button id="like-btn" class="like-btn" data-cursor="link" aria-pressed="false">
+          <span class="like-heart" id="like-heart">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.44 3.1C14.63 3.1 13.01 3.98 12 5.33 10.99 3.98 9.37 3.1 7.56 3.1 4.49 3.1 2 5.6 2 8.69c0 1.19.19 2.29.52 3.31C4.1 17 8.97 19.99 11.38 20.81c.34.12.9.12 1.24 0C15.03 19.99 19.9 17 21.48 12c.33-1.02.52-2.12.52-3.31 0-3.09-2.49-5.59-5.56-5.59Z"/></svg>
+          </span>
+          <span class="like-num" id="like-num">0</span>
+          <span>喜欢</span>
+        </button>
+      </div>
+      <div class="ci-comments">
+        <p class="lbl">评价 COMMENTS &middot; <span id="comment-count">0</span> 条</p>
+        <ul id="comment-list"></ul>
+        <div class="comment-form">
+          <input id="comment-name" placeholder="昵称（可选）" maxlength="12" autocomplete="off">
+          <div class="comment-row">
+            <input id="comment-text" placeholder="说点什么…" maxlength="140" autocomplete="off">
+            <button id="comment-send" data-cursor="link">发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="pc-viewer" aria-hidden="true">
+  <div class="pc-backdrop" data-pc-close></div>
+  <div class="pc-stage" id="pc-stage"></div>
+  <p class="pc-hint mono">点击卡片 或 左右拖动 翻看</p>
+  <div class="pc-counter mono" id="pc-counter">1 / 4</div>
+  <button id="pc-close" data-cursor="link" data-pc-close>&#10005; 收起</button>
+</div>
+<script src="content/data.js?v=3"></script>
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="assets/vendor/three.min.js"></script>
+<script src="assets/vendor/pdf.min.js"></script>
+
+<script src="js/book3d.js?v=17"></script>
+<script src="js/main.js?v=15"></script>
+<script src="js/effects.js?v=3"></script>
+<script src="js/hero3d.js?v=3"></script>
 </body>
 </html>
