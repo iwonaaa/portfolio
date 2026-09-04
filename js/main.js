@@ -94,6 +94,7 @@ function fillSite(s) {
   $("#foot-year").textContent = new Date().getFullYear();
 
   $("#about-text").innerHTML = s.about.map(p => `<p>${esc(p)}</p>`).join("");
+  const aboutPhoto = $("#about-photo"); if (aboutPhoto && s.photo) aboutPhoto.src = s.photo;
   $("#skills").innerHTML = s.skills.map(sk => `
     <div class="skill">
       <div class="skill-head"><b>${esc(sk.name)}</b><span class="lv">LV.${esc(sk.level)}</span></div>
@@ -1349,6 +1350,12 @@ function observeSections() {
   }, { threshold: 0.12 });
   $$("main section").forEach(s => ioSections.observe(s));
 }
+// 用户标注的定点星星：[x 比例, y 比例（画布高度）, 半径] —— 平时透明，鼠标划过点亮
+const PINNED_STARS = [
+  [0.30, 0.157, 11], [0.06, 0.186, 6.5],
+  [0.56, 0.343, 6.5], [0.82, 0.114, 6.5], [0.89, 0.214, 6.5],
+  [0.586, 0.297, 11], [0.361, 0.164, 6.5], [0.305, 0.516, 6.5], [0.62, 0.767, 10]
+];
 function initStars() {
   const cv = document.getElementById("star-canvas");
   const sec = document.getElementById("contact");
@@ -1364,12 +1371,15 @@ function initStars() {
     const n = Math.max(14, Math.round(W / 46));
     for (let i = 0; i < n; i++) {
       stars.push({
-        x: Math.random(), y: Math.pow(Math.random(), 1.35),
+        x: Math.random(), y: Math.pow(Math.random(), 1.12),
         r: 5 + Math.random() * 9,
         ph: Math.random() * Math.PI * 2,
         sp: 0.5 + Math.random() * 0.9,
         glow: 0
       });
+    }
+    for (const [px, py, pr] of PINNED_STARS) {
+      stars.push({ x: px, y: py, r: pr, ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random() * 0.9, glow: 0 });
     }
   }
   function drawStar(x, y, r, alpha) {

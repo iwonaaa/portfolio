@@ -209,16 +209,42 @@
   }
 
   const wallImages = [];
-  function loadWall() {
+  const WALL_API = "/.netlify/functions/stickers";
+  let wallOnline = false;
+  const loadWallCache = () => { try { return JSON.parse(localStorage.getItem("pf_doodles") || "[]"); } catch (e) { return []; } };
+  const saveWallCache = arr => { try { localStorage.setItem("pf_doodles", JSON.stringify(arr.slice(0, 12))); } catch (e) {} };
+  const loadMineIds = () => { try { return JSON.parse(localStorage.getItem("pf_doodle_mine") || "[]"); } catch (e) { return []; } };
+  const saveMineIds = ids => { try { localStorage.setItem("pf_doodle_mine", JSON.stringify(ids.slice(0, 30))); } catch (e) {} };
+  function setWallItems(arr) {
+    const mineIds = wallOnline ? loadMineIds() : null;
     wallImages.length = 0;
-    let arr = [];
-    try { arr = JSON.parse(localStorage.getItem("pf_doodles") || "[]"); } catch (e) {}
     arr.slice(0, 12).forEach(d => {
       const img = new Image();
       img.onload = () => redrawFace("s3r");
       img.src = d.img;
-      wallImages.push({ img, rot: d.rot ?? 0 });
+      wallImages.push({ img, rot: d.rot ?? 0, id: d.id || null, mine: wallOnline ? !!(d.id && mineIds.includes(d.id)) : true });
     });
+    redrawFace("s3r");
+  }
+  function loadWall() { setWallItems(loadWallCache()); }
+  async function syncWall() {
+    try {
+      const r = await fetch(WALL_API);
+      if (!r.ok) throw 0;
+      const d = await r.json();
+      if (!Array.isArray(d.items)) throw 0;
+      wallOnline = true;
+      setWallItems(d.items);
+      saveWallCache(d.items);
+    } catch (e) { wallOnline = false; }
+  }
+  async function postWall(body) {
+    if (!wallOnline) return null;
+    try {
+      const r = await fetch(WALL_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!r.ok) return null;
+      return await r.json();
+    } catch (e) { return null; }
   }
 
   const wallLayout = [];
@@ -333,17 +359,25 @@
     drawTrash(ctx, wallState.trashScale);
     ctx.fillStyle = "rgba(92,83,67,0.85)";
     ctx.font = '600 21px "PingFang SC", "Microsoft YaHei", sans-serif';
-    ctx.fillText("把贴纸拖进垃圾桶可以删除", 48, FH - 52);
+    ctx.fillText("自己贴的贴纸，可以拖进垃圾桶删除", 48, FH - 52);
     ctx.restore();
   }
 
   function removeWallItem(i) {
-    let arr = [];
-    try { arr = JSON.parse(localStorage.getItem("pf_doodles") || "[]"); } catch (e) {}
+    const target = wallImages[i];
+    if (wallOnline && target && target.id) {
+      saveMineIds(loadMineIds().filter(x => x !== target.id));
+      wallImages.splice(i, 1);
+      redrawFace("s3r");
+      postWall({ op: "del", id: target.id }).then(d => {
+        if (d && Array.isArray(d.items)) { setWallItems(d.items); saveWallCache(d.items); }
+      });
+      return;
+    }
+    const arr = loadWallCache();
     arr.splice(i, 1);
-    try { localStorage.setItem("pf_doodles", JSON.stringify(arr)); } catch (e) {}
+    saveWallCache(arr);
     loadWall();
-    redrawFace("s3r");
   }
 
   function facePdf(ctx, mirror) {
@@ -686,7 +720,7 @@
       }));
       pivot.add(innerMesh);
       book.add(pivot);
-      sheets.push({ pivot, geo, orig, geoB: innerGeo, origB, angle: 0, flipped: false, idx: k, rigid: true });
+      sheets.push({ pivot, geo, orig, geoB: innerGeo, origB, meshes: [mesh, innerMesh], angle: 0, flipped: false, idx: k, rigid: true });
       continue;
     }
     const geo = new THREE.PlaneGeometry(PW, PH, 26, 2);
@@ -706,7 +740,7 @@
     pivot.add(frontMesh);
     pivot.add(backMesh);
     book.add(pivot);
-    sheets.push({ pivot, geo, orig, geoB: backGeo, origB, frontMesh, backMesh, angle: 0, flipped: false, idx: k });
+    sheets.push({ pivot, geo, orig, geoB: backGeo, origB, meshes: [frontMesh, backMesh], frontMesh, backMesh, angle: 0, flipped: false, idx: k });
   }
 
   const TAB_DEFS = [
@@ -773,6 +807,21 @@
   }
 
 
+  let turningSheet = null;
+  function setSheetLayer(sheet, order, forceTop) {
+    if (!sheet || !sheet.meshes) return;
+    sheet.meshes.forEach(mesh => {
+      mesh.renderOrder = order;
+      mesh.material.depthTest = !forceTop;
+      mesh.material.depthWrite = !forceTop;
+    });
+  }
+  function syncSheetLayers() {
+    sheets.forEach((sheet, index) => setSheetLayer(sheet, index + 1, false));
+    setSheetLayer(leftTopSheet(), 100, true);
+    setSheetLayer(rightTopSheet(), 110, true);
+    setSheetLayer(turningSheet, 120, true);
+  }
   function stackYs() {
     for (let k = 0; k < faceOfSheet.length; k++) {
       const s = sheets[k];
@@ -782,6 +831,7 @@
         s.pivot.position.y = blockTop + 0.012 + (faceOfSheet.length - 1 - k) * SHEET_EPS + (k === 0 ? COVER_T / 2 + 0.004 : 0);
       }
     }
+    syncSheetLayers();
     syncBookX();
   }
   function syncBookX(dur) {
@@ -796,6 +846,7 @@
   function bendGeo(sheet, theta) {
     bendGeoOne(sheet.geo, sheet.orig, theta);
     if (sheet.geoB) bendGeoOne(sheet.geoB, sheet.origB, theta);
+    syncSheetLayers();
   }
   function bendGeoOne(geo, orig, theta) {
     const pos = geo.attributes.position;
@@ -820,6 +871,7 @@
 
   function animateSheet(sheet, toAngle, dur, done) {
     flipping = true;
+    turningSheet = sheet;
     const proxy = { t: sheet.angle };
     gsap.to(proxy, {
       t: toAngle,
@@ -830,6 +882,8 @@
         sheet.angle = toAngle;
         bendGeo(sheet, toAngle);
         flipping = false;
+        turningSheet = null;
+        syncSheetLayers();
         camZoom(false);
         if (done) done();
       }
@@ -984,6 +1038,7 @@
       for (let i = wallLayout.length - 1; i >= 0; i--) {
         const L = wallLayout[i];
         if (!L || !wallImages[i]) continue;
+        if (wallOnline && !wallImages[i].mine) continue;
         if (Math.abs(wx - L.cx) <= L.w / 2 && Math.abs(wy - L.cy) <= L.h / 2) {
           wallState.dragIdx = i;
           wallState.dx = wx - L.cx;
@@ -1003,6 +1058,7 @@
     } else if (pt.x < 0 && lt) {
       dragSheet = lt; dragDir = -1;
     } else return;
+    turningSheet = dragSheet;
     dragStartX = e.clientX;
     dragMoved = false;
     camZoom(true);
@@ -1094,6 +1150,8 @@
     if (!dragSheet) return;
     const s = dragSheet;
     dragSheet = null;
+    turningSheet = null;
+    syncSheetLayers();
     camZoom(false);
     if (!dragMoved) {
       if (flippedCount === 0 && dragDir === 1) { flipNext(); return; }
@@ -1107,13 +1165,14 @@
     if (dragDir === 1) {
       if (s.angle > Math.PI * 0.4) {
         flipping = true;
+        turningSheet = s;
         s.flipped = true;
         flippedCount++;
         const proxy = { t: s.angle };
         gsap.to(proxy, {
           t: Math.PI, duration: 0.55, ease: "power2.out",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
-          onComplete: () => { s.angle = Math.PI; bendGeo(s, Math.PI); flipping = false; stackYs(flippedCount); syncTabs(); }
+          onComplete: () => { s.angle = Math.PI; bendGeo(s, Math.PI); flipping = false; turningSheet = null; stackYs(flippedCount); syncTabs(); }
         });
         if (typeof sfx === "function") sfx("page");
       } else {
@@ -1121,19 +1180,20 @@
         gsap.to(proxy, {
           t: 0, duration: 0.6, ease: "elastic.out(1, 0.55)",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
-          onComplete: () => { s.angle = 0; bendGeo(s, 0); }
+          onComplete: () => { s.angle = 0; bendGeo(s, 0); turningSheet = null; syncSheetLayers(); }
         });
       }
     } else {
       if (s.angle < Math.PI * 0.6) {
         flipping = true;
+        turningSheet = s;
         s.flipped = false;
         flippedCount--;
         const proxy = { t: s.angle };
         gsap.to(proxy, {
           t: 0, duration: 0.55, ease: "power2.out",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
-          onComplete: () => { s.angle = 0; bendGeo(s, 0); flipping = false; stackYs(flippedCount); syncTabs(); }
+          onComplete: () => { s.angle = 0; bendGeo(s, 0); flipping = false; turningSheet = null; stackYs(flippedCount); syncTabs(); }
         });
         if (typeof sfx === "function") sfx("page");
       } else {
@@ -1141,7 +1201,7 @@
         gsap.to(proxy, {
           t: Math.PI, duration: 0.6, ease: "elastic.out(1, 0.55)",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
-          onComplete: () => { s.angle = Math.PI; bendGeo(s, Math.PI); }
+          onComplete: () => { s.angle = Math.PI; bendGeo(s, Math.PI); turningSheet = null; syncSheetLayers(); }
         });
       }
     }
@@ -1156,33 +1216,42 @@
     const f = faces.s3l;
     const out = document.createElement("canvas");
     const pw = PAD.x1 - PAD.x0, ph = PAD.y1 - PAD.y0;
-    out.width = pw; out.height = ph;
+    const sc = Math.min(1, 360 / pw);
+    out.width = Math.round(pw * sc); out.height = Math.round(ph * sc);
     const octx = out.getContext("2d");
     octx.fillStyle = PAPER;
-    octx.fillRect(0, 0, pw, ph);
-    octx.drawImage(f.cv, PAD.x0, PAD.y0, pw, ph, 0, 0, pw, ph);
-    let arr = [];
-    try { arr = JSON.parse(localStorage.getItem("pf_doodles") || "[]"); } catch (e) {}
-    arr.unshift({
+    octx.fillRect(0, 0, out.width, out.height);
+    octx.drawImage(f.cv, PAD.x0, PAD.y0, pw, ph, 0, 0, out.width, out.height);
+    const item = {
       img: out.toDataURL("image/png"),
       ts: Date.now(),
       rot: +(Math.random() * 5 - 2.5).toFixed(1),
       dx: +(Math.random() * 10 - 5).toFixed(0),
       dy: +(Math.random() * 14).toFixed(0)
-    });
-    localStorage.setItem("pf_doodles", JSON.stringify(arr.slice(0, 12)));
+    };
+    const arr = loadWallCache();
+    arr.unshift(item);
+    saveWallCache(arr);
+    if (!wallOnline) setWallItems(arr);
     strokes.length = 0;
     doodleRedraw();
-    loadWall();
     redrawFace("s3r");
     if (typeof sfx === "function") sfx("open");
+    if (wallOnline) {
+      postWall({ op: "add", img: item.img, rot: item.rot, dx: item.dx, dy: item.dy }).then(d => {
+        if (!d || !Array.isArray(d.items)) return;
+        if (d.id) { const mine = loadMineIds(); if (!mine.includes(d.id)) { mine.unshift(d.id); saveMineIds(mine); } }
+        setWallItems(d.items);
+        saveWallCache(d.items);
+      });
+    }
   }
 
   let mx = 0, my = 0, camRX = 0, camRY = 0;
   const camState = { z: 5.1, ly: 1.8 };
   function camZoom(out) {
-    if (typeof gsap === "undefined") { camState.z = out ? baseZ * 1.27 : baseZ; camState.ly = out ? 1.66 : 1.8; return; }
-    gsap.to(camState, { z: out ? baseZ * 1.27 : baseZ, ly: out ? 1.66 : 1.8, duration: 0.45, ease: "power2.out", overwrite: "auto" });
+    if (typeof gsap === "undefined") { camState.z = out ? baseZ * 1.12 : baseZ; camState.ly = out ? 1.66 : 1.8; return; }
+    gsap.to(camState, { z: out ? baseZ * 1.12 : baseZ, ly: out ? 1.66 : 1.8, duration: 0.45, ease: "power2.out", overwrite: "auto" });
   }
   addEventListener("pointermove", e => {
     mx = (e.clientX / innerWidth - 0.5) * 2;
@@ -1195,7 +1264,11 @@
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    baseZ = Math.max(5.1, 2.95 / (0.374 * camera.aspect));
+    const halfFov = THREE.MathUtils.degToRad(camera.fov / 2);
+    const viewHalf = Math.tan(halfFov);
+    const fitHeight = (PH * 1.28) / (2 * viewHalf);
+    const fitWidth = ((PW * 2 + 0.72) * 1.18) / (2 * viewHalf * camera.aspect);
+    baseZ = Math.max(5.55, fitHeight, fitWidth);
     if (!flipping && !dragSheet) camState.z = baseZ;
   }
   addEventListener("resize", resize);
@@ -1227,6 +1300,7 @@
     drawAllFaces();
   
     loadWall();
+    syncWall();
     redrawFace("s3r");
   };
   if (document.fonts && document.fonts.ready) {

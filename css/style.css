@@ -282,8 +282,8 @@ body:not(.grain-on) #grain { display: none; }
   transition: opacity 1.2s ease .1s, transform 1.7s cubic-bezier(.22, 1, .36, 1) .1s;
 }
 .contact-bg {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 22%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,.04) 13px, rgba(0,0,0,.16) 26px, rgba(0,0,0,.32) 39px, rgba(0,0,0,.5) 52px, rgba(0,0,0,.68) 65px, rgba(0,0,0,.84) 78px, rgba(0,0,0,.96) 91px, #000 104px);
+  mask-image: linear-gradient(to bottom, transparent 0px, rgba(0,0,0,.04) 13px, rgba(0,0,0,.16) 26px, rgba(0,0,0,.32) 39px, rgba(0,0,0,.5) 52px, rgba(0,0,0,.68) 65px, rgba(0,0,0,.84) 78px, rgba(0,0,0,.96) 91px, #000 104px);
 }
 .contact-bg::after {
   content: ""; position: absolute; inset: 0;
@@ -292,7 +292,7 @@ body:not(.grain-on) #grain { display: none; }
 #contact.in-view .contact-bg { opacity: 1; transform: none; }
 #star-canvas { opacity: 0; transition: opacity 1.4s ease .35s; }
 #contact.in-view #star-canvas { opacity: 1; }
-#star-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 58%; z-index: 1; pointer-events: none; }
+#star-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 70%; z-index: 1; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 99%); mask-image: linear-gradient(to bottom, #000 84%, transparent 99%); }
 .contact-inner { position: relative; z-index: 2; }
 #contact h2 { color: #F6F0E4; }
 .contact-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(30px, 6vw, 60px); align-items: center; margin-top: 20px; }
@@ -406,6 +406,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+.lenis.lenis-smooth iframe#netlify-identity-widget { pointer-events: auto; }
 
 #hero { overflow: hidden; }
 #hero-3d { position: absolute; inset: 0; z-index: 0; pointer-events: none; }

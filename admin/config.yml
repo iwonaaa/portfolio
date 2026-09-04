@@ -30,6 +30,7 @@ collections:
               - { label: "AE动画页", name: "ae", widget: "text" }
               - { label: "角色IP页", name: "ip", widget: "text" }
               - { label: "毕业设计页", name: "thesis", widget: "text" }
+          - { label: "个人照片（角色面板拍立得）", name: "photo", widget: "image", required: false, hint: "不传就用占位图；建议竖版 3:4" }
           - label: "关于我（每段一条）"
             name: "about"
             widget: "list"

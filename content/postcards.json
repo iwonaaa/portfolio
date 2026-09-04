@@ -2,28 +2,24 @@
   "postcards": [
     {
       "id": "pc1",
-      "title": "脸盲症就业指导",
-      "en": "Employment Guidance for Faceblindness",
+      "title": "海报与平面设计",
+      "en": "POSTER SERIES",
       "cards": [
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_05.png",
+          "img": "assets/pc-a1.svg",
           "note": "音乐节海报 · 占位"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_02.png",
+          "img": "assets/pc-a2.svg",
           "note": "展览主视觉 · 占位"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_06.png",
+          "img": "assets/pc-a3.svg",
           "note": "社团招新海报 · 占位"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
+          "img": "assets/pc-a4.svg",
           "note": "电影之夜海报 · 占位"
-        },
-        {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
-          "note": "脚本5"
         }
       ]
     },

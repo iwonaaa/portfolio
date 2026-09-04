@@ -5,9 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>作品集</title>
 <meta name="description" content="动效设计 / 影视动画 个人作品集">
+<script>
+  (function () {
+    var hash = window.location.hash || "";
+    if (hash.indexOf("recovery_token") !== -1 || hash.indexOf("invite_token") !== -1) {
+      window.location.replace("/admin/" + hash);
+    }
+  })();
+</script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>
-<link rel="stylesheet" href="css/style.css?v=10">
+<link rel="stylesheet" href="css/style.css?v=16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='%23E6392B'/%3E%3C/svg%3E">
 </head>
 <body class="grain-on">
@@ -77,7 +85,7 @@
     <div class="about-grid">
       <figure class="photo-frame polaroid" data-animate="left" data-delay="0.1">
         <span class="tape" aria-hidden="true"></span>
-        <img src="assets/photo.svg" alt="个人照片占位">
+        <img id="about-photo" src="assets/photo.svg" alt="个人照片">
         <svg class="doodle-circle" viewBox="0 0 220 280" aria-hidden="true"><path d="M112 14 C 40 16, 12 84, 16 146 C 20 218, 76 268, 128 264 C 188 260, 210 196, 206 128 C 202 66, 168 12, 96 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
         <figcaption>本人比照片可爱 &rarr;</figcaption>
       </figure>
@@ -231,8 +239,8 @@
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/pdf.min.js"></script>
 
-<script src="js/book3d.js?v=17"></script>
-<script src="js/main.js?v=15"></script>
+<script src="js/book3d.js?v=18"></script>
+<script src="js/main.js?v=18"></script>
 <script src="js/effects.js?v=3"></script>
 <script src="js/hero3d.js?v=3"></script>
 </body>
