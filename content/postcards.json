@@ -1,52 +1,501 @@
 {
   "postcards": [
     {
-      "id": "pc1",
-      "title": "脸盲症就业指导",
-      "en": "Employment Guidance for Faceblindness",
+      "id": "毕业设计《我的理想国》",
+      "title": "毕业设计《我的理想国》",
+      "en": "《My Utopia》",
       "cards": [
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_05.png",
-          "note": "音乐节海报 · 占位"
+          "img": "/assets/uploads/c510e3c2daffbe8140cc1a3f172343f7.png",
+          "note": "《My Utopia》"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_02.png",
-          "note": "展览主视觉 · 占位"
+          "img": "/assets/uploads/2.png",
+          "note": "《My Utopia》"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_06.png",
-          "note": "社团招新海报 · 占位"
+          "img": "/assets/uploads/11e942d181cb8ee5131fbc6f0c1e4355.jpg",
+          "note": "《My Utopia》"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
-          "note": "电影之夜海报 · 占位"
+          "img": "/assets/uploads/1.png",
+          "note": "《My Utopia》"
         },
         {
-          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
-          "note": "脚本5"
+          "img": "/assets/uploads/869bcfa89717af9f9ff9ac0fc96d64d1.jpg",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/ebfdd6dfddfb2834e229457a3f576d91.png",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/467159f72086c91965d899f84a2a5b5c.png",
+          "note": "《My Utopia》"
         }
       ]
     },
     {
-      "id": "pc2",
-      "title": "手绘与设定",
-      "en": "DRAWING & CONCEPT",
+      "id": "脸盲症就业指导",
+      "title": "《脸盲症就业指导》视觉",
+      "en": "《Employment Guidance for Faceblindness》",
       "cards": [
         {
-          "img": "assets/pc-b1.svg",
-          "note": "角色设定草图 · 占位"
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_05.png",
+          "note": "《Employment Guidance for Faceblindness》"
         },
         {
-          "img": "assets/pc-b2.svg",
-          "note": "场景概念 · 占位"
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
+          "note": "《Employment Guidance for Faceblindness》"
         },
         {
-          "img": "assets/pc-b3.svg",
-          "note": "分镜手稿 · 占位"
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_02.png",
+          "note": "《Employment Guidance for Faceblindness》"
         },
         {
-          "img": "assets/pc-b4.svg",
-          "note": "涂鸦日常 · 占位"
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_06.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_07.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_04.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        }
+      ]
+    },
+    {
+      "id": "《想要成为树懒的理由》",
+      "title": "《想要成为树懒的理由》视觉",
+      "en": "《Reasons I Want to Be a Sloth》",
+      "cards": [
+        {
+          "img": "/assets/uploads/树懒3.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/树懒5.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/树懒4.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/32.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        }
+      ]
+    },
+    {
+      "id": "创意插画",
+      "title": "创意插画",
+      "en": "Creative Illustration",
+      "cards": [
+        {
+          "img": "/assets/uploads/cad5ee53c5c648f69683179f3e8d004c.jpg",
+          "note": "《游乐园在世界下班后开启》"
+        },
+        {
+          "img": "/assets/uploads/2f906ccbb7ea8677814b357dc57aabce.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/db44100917d539431a95b612331bf314.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/ab781c55e5db6f0ac2fde2fc83a144cf.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/84effb5b4886ac0caefacdfae341ac2f.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/8c86d773c9d50b5b67e17c8a1bf62e03.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/0d5a7e95526af23237bf3dc0c756adbf.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/0adf0bc45fe62eb587bed3511cbb9826.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/259038ede3cae8206a57f1fee3fc2840.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/16bab3873652383e353015e121757090.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/22cd5fd493f919e63b81f04d20ee8799.jpg",
+          "note": "《聆听》"
+        }
+      ]
+    },
+    {
+      "id": "《闪光的秘密》",
+      "title": "《闪光的秘密》视觉",
+      "en": "《The Shining Secret》",
+      "cards": [
+        {
+          "img": "/assets/uploads/侦探原画2.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画4.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画3.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画1.png",
+          "note": "《The Shining Secret》"
+        }
+      ]
+    },
+    {
+      "id": "《HELVETICA》",
+      "title": "《HELVETICA》视觉",
+      "en": "Helvetica",
+      "cards": [
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_05.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_01.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体2.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_02.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_04.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体5.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体8.png",
+          "note": "《HELVETICA》"
+        }
+      ]
+    },
+    {
+      "id": "AI分镜1",
+      "title": "AI分镜1",
+      "en": "AI Storyboard1",
+      "cards": [
+        {
+          "img": "/assets/uploads/0c5fd6bade3dc95c188440b370e83ffa.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/38d287b9fbd142760ab3f68cf3d11d5b.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/2d699c334034f8a58662f714fdf7f076.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/f3af4409acbe927cac046b6e848eda6e.jpg",
+          "note": "AI Storyboard1 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/80f38d4e184e444a6fd93c5082d19818.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/d93a7be78a8ec5d573a67cd7a4fdb953.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/12bdd7fc92b9870dc7c1792734cd3acc.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/3c722099974332718997b8b61858cd28.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/2663f07e49215271b22b5139ffc205f4.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/5ced76a72b10b09af51ca0117f44ff4d.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/da4473689053c1db11d316930d1c0c32.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "id": "AI分镜 2",
+      "title": "AI分镜 2",
+      "en": "AI Storyboard 2",
+      "cards": [
+        {
+          "img": "/assets/uploads/2ee5cc852e1ed3493b5b7b36855852ac.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/84e6126ad2c1a20444e2bc666116e0d0.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/e6ca8af77a6cee04da2f7782f7a56d0a.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/59a173eda09447251c64ba521234993b.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/86ac99b8260cce88d2a225812a8ec39c.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/ee8c7fb5902e95d540ccb720077db3c0.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/3ee0c5e5be191a61f34635de92325094.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/5edb965b24220f537c835b3a849b19eb.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "title": "AI道具资产",
+      "id": "AI道具资产",
+      "en": "AI Tool Assets",
+      "cards": [
+        {
+          "img": "/assets/uploads/cd556d88b1cf74ffe006f362bea5538d.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/368ce2d8d5ed16a96b9b6d214577b02e.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/56b7d5c75a3764e36a517edbf4adf954.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/d22b8ceb1330e0a1bc8d10546b05abe6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/11f80392fef70197b3ea88336bac1ce6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/6f80c874b426fdfdbc1097384144dde6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/9b849afe7eaf5ea5e1afd122bc94a9cb.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/a89e89ad4d13d6ebe23f1e97cf830e16.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/b38ae5640a56004d8def67760236377a.jpg",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/cb84edcfc811315f1258fed31fb4f1bc.jpg",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/4cf643547da8234ea9dc9d7f7763aa07.png",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "id": "角色设计",
+      "title": "角色设计",
+      "en": "Character Design",
+      "cards": [
+        {
+          "img": "/assets/uploads/a952a9035cec375529ba0df2947102bb.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/15.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/11.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/12.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/13.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/16.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/17.png",
+          "note": "Character Design"
+        }
+      ]
+    },
+    {
+      "id": "手绘技能",
+      "title": "手绘技能",
+      "en": "Hand-drawing skills",
+      "cards": [
+        {
+          "img": "/assets/uploads/18.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/19.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/20.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/21.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/ada4403b4ff813de4aebf57b967faeec.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/6402d9fe0601e4f5952439e3a6db3462.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/620a04b52475252ec47c609141353611.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/46a77de3207c2a4521be653c26daf3c2.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/f1ff2753434cf34fb2d8702d25dac412.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/c3804594ccd165df4dc4c36015ed4fdb.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/ae648bf312183040db7d0130973ca6c0.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/6ac6c200d8e6b83dbb6916ec5e0f2db8.jpg",
+          "note": "Hand-drawing skills"
+        }
+      ]
+    },
+    {
+      "id": "3D作品",
+      "title": "3D作品",
+      "en": "3D work",
+      "cards": [
+        {
+          "img": "/assets/uploads/7.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/9.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/4.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/5.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/6.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/8.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/许怡媛-副本-2-.png",
+          "note": "3D work"
+        }
+      ]
+    },
+    {
+      "id": "《无巧不成婚》预告片视觉",
+      "title": "《无巧不成婚》预告片视觉",
+      "en": "\"Le sens de la fête\" Trailer Visuals ",
+      "cards": [
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-00-48.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_13-59-35.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-00-22.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-01-14.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-01-34.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-02-04.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_13-58-53.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
         }
       ]
     }
