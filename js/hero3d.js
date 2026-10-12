@@ -1,95 +1,127 @@
 "use strict";
 (function () {
   const holder = document.getElementById("hero-3d");
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!holder || reduce || typeof THREE === "undefined") return;
-  try { init(holder); } catch (err) { holder.style.display = "none"; }
-
-  function init(holder) {
-    let w = holder.clientWidth || innerWidth;
-    let h = holder.clientHeight || innerHeight;
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, 0.1, 100);
-    camera.position.z = 10;
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
-    renderer.setSize(w, h);
-    if ("outputColorSpace" in renderer && THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
-    else if ("outputEncoding" in renderer && THREE.sRGBEncoding) renderer.outputEncoding = THREE.sRGBEncoding;
-    holder.appendChild(renderer.domElement);
-
-    const DOODLES = [
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTUwIDggTDU5IDM4IEw5MSAzOCBMNjUgNTcgTDc0IDg5IEw1MCA2OSBMMjYgODkgTDM1IDU3IEw5IDM4IEw0MSAzOCBaIiBmaWxsPSJub25lIiBzdHJva2U9IiNFNjM5MkIiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTUwIDIyIEw1NSA0MSBMNzUgNDEgTDU5IDUzIEw2NSA3MyBMNTAgNjEgTDM1IDczIEw0MSA1MyBMMjUgNDEgTDQ1IDQxIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGN0E2QiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=",
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTEyIDc4IEMgMzAgNjAsIDU1IDU1LCA4MiA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMkI0RkQ4IiBzdHJva2Utd2lkdGg9IjciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik02NCAzMCBMIDg2IDM2IEwgNzIgNTYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJCNEZEOCIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=",
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTggNTAgUSAyMSAyNiAzNCA1MCBUIDYwIDUwIFQgODYgNTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U4QTgwMCIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48cGF0aCBkPSJNMTQgNjYgUSAyNyA0OCA0MCA2NiBUIDkyIDY2IiBmaWxsPSJub25lIiBzdHJva2U9IiNGMkM5NEMiIHN0cm9rZS13aWR0aD0iNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+",
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTU2IDggTCAzMCA1NCBMIDQ4IDU0IEwgNDAgOTIgTCA3MCA0MiBMIDUxIDQyIFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U2MzkyQiIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+",
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTUwIDEwIEMgMjQgMTIsIDEwIDMyLCAxMiA1MiBDIDE0IDc2LCAzNiA5MiwgNTggODggQyA4MCA4NCwgOTIgNjIsIDg4IDQwIEMgODQgMjAsIDY2IDgsIDQ0IDEyIiBmaWxsPSJub25lIiBzdHJva2U9IiMyQjRGRDgiIHN0cm9rZS13aWR0aD0iNiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTUwIDE4IEMgMzAgMjAsIDE4IDM2LCAyMCA1NCBDIDIyIDcyLCA0MCA4NCwgNTggODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzhEQTZGRiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPg==",
-      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZD0iTTI2IDI2IEwgNzQgNzQgTSA3NCAyNiBMIDI2IDc0IiBmaWxsPSJub25lIiBzdHJva2U9IiMzRTlCNEYiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTMyIDIyIEwgNzggNjggTSA3MCAyMiBMIDIyIDcwIiBmaWxsPSJub25lIiBzdHJva2U9IiM4NkRDOTYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4="
-    ];
-    const loader = new THREE.TextureLoader();
-    const items = [];
-    const perKind = innerWidth < 760 ? 1 : 2;
-    DOODLES.forEach((uri, di) => {
-      const tex = loader.load(uri);
-      if ("colorSpace" in tex && THREE.SRGBColorSpace) tex.colorSpace = THREE.SRGBColorSpace;
-      else if ("encoding" in tex && THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
-      for (let k = 0; k < perKind; k++) {
-        const size = 56 + Math.random() * 72;
-        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0.85 });
-        const mesh = new THREE.Mesh(new THREE.PlaneGeometry(size, size), mat);
-        let px = 0, py = 0, tries = 0;
-        do {
-          px = (Math.random() - 0.5) * w * 0.92;
-          py = (Math.random() - 0.5) * h * 0.85;
-          tries++;
-        } while (tries < 14 && px < -w * 0.02 && py > -h * 0.34 && py < h * 0.34);
-        mesh.position.set(px, py, 0);
-        mesh.rotation.z = (Math.random() - 0.5) * 0.8;
-        mesh.userData = {
-          baseX: mesh.position.x,
-          baseY: mesh.position.y,
-          speed: 0.25 + Math.random() * 0.5,
-          amp: 12 + Math.random() * 24,
-          phase: Math.random() * Math.PI * 2,
-          rotSpeed: (Math.random() - 0.5) * 0.12,
-          depth: 0.4 + (di % 3) * 0.3
-        };
-        scene.add(mesh);
-        items.push(mesh);
+  const hero = document.getElementById("hero");
+  if (!holder || !hero) return;
+  document.querySelectorAll('.para-star.reference-doodle').forEach((node, index) => {
+    const kind = ["cat", "strawberry", "trumpeter", "drummer", "flowers", "star", "five-star", "blue-outline-star", "yellow-outline-star", "yellow-solid-star", "blue-solid-star", "star-pair"].find(kind => node.classList.contains(kind));
+    if (!kind || node.querySelector('.doodle-art')) return;
+    const art = document.createElement('span');
+    art.className = 'doodle-art ' + kind;
+    node.appendChild(art);
+    node.style.setProperty('--float-duration', (7 + index % 5) + 's');
+    node.style.setProperty('--float-delay', -(index % 7) + 's');
+    node.style.setProperty('--doodle-tilt', (-9 + index % 5 * 4) + 'deg');
+  });
+  const kinds = ["cat", "trumpeter", "strawberry", "flowers", "five-star", "five-star", "blue-solid-star"];
+  const sizes = [108, 126, 74, 86, 53, 82, 42];
+  const items = kinds.map((kind, index) => {
+    const node = document.createElement("i");
+    node.className = "hero-doodle";
+    if (index === 5) node.dataset.addedDoodle = "1";
+    if (index === 6) node.dataset.refinementDoodle = "4";
+    node.style.setProperty("--doodle-size", sizes[index] + "px");
+    node.style.setProperty("--float-duration", (7 + index * .8) + "s");
+    node.style.setProperty("--float-delay", (-index * 1.3) + "s");
+    node.style.setProperty("--doodle-tilt", (-8 + index * 4) + "deg");
+    const art = document.createElement("span");
+    art.className = "doodle-art " + kind;
+    node.appendChild(art);
+    holder.appendChild(node);
+    return node;
+  });
+  function offsetWithin(element, container, axis) {
+    let value = 0;
+    for (let ancestor = element; ancestor && ancestor !== container; ancestor = ancestor.offsetParent) {
+      value += axis === "x" ? ancestor.offsetLeft : ancestor.offsetTop;
+    }
+    return value;
+  }
+  function layoutAnchoredDoodles() {
+    document.querySelectorAll('[data-doodle-anchor]').forEach(node => {
+      const target = document.querySelector(node.dataset.doodleAnchor);
+      node.hidden = !target;
+      if (!target) return;
+      const section = node.closest('section');
+      const small = section.clientWidth < 640;
+      const baseSize = parseFloat(node.style.getPropertyValue('--doodle-size'));
+      let size = small ? Math.max(18, Math.min(65, baseSize * .55)) : baseSize;
+      const targetX = offsetWithin(target, section, 'x');
+      const targetY = offsetWithin(target, section, 'y');
+      const side = node.dataset.doodleSide;
+      let x, y;
+      if (side === 'above') {
+        x = section.clientWidth * .46;
+        y = targetY - 28;
+      } else {
+        const gutter = side === 'left' ? targetX : section.clientWidth - targetX - target.offsetWidth;
+        size = Math.min(size, Math.max(14, gutter - 16));
+        const gutterFraction = Number(node.dataset.doodleGutter || (side === 'left' ? .5 : .67));
+        x = side === 'left' ? gutter * gutterFraction : targetX + target.offsetWidth + gutter * gutterFraction;
+        x = Math.max(size / 2 + 5, Math.min(section.clientWidth - size / 2 - 5, x));
+        y = node.dataset.doodleAlign === 'start' ? targetY - 14 : targetY + target.offsetHeight * Number(node.dataset.doodleY || .5);
+        // Narrow phone gutters cannot accommodate the tilted ticket edges.
+        if (small && node.closest('#works') && node.dataset.refinementDoodle) y = targetY - 26 - size / 2;
       }
-    });
-
-    const clock = new THREE.Clock();
-    let mx = 0, my = 0, cx = 0, cy = 0;
-    addEventListener("mousemove", e => {
-      mx = e.clientX / innerWidth - 0.5;
-      my = e.clientY / innerHeight - 0.5;
-    });
-    let visible = true;
-    new IntersectionObserver(en => { visible = en[0].isIntersecting; }).observe(holder);
-
-    renderer.setAnimationLoop(() => {
-      if (!visible || document.hidden) return;
-      const t = clock.getElapsedTime();
-      cx += (mx * 36 - cx) * 0.045;
-      cy += (-my * 24 - cy) * 0.045;
-      for (const m of items) {
-        const u = m.userData;
-        m.position.y = u.baseY + Math.sin(t * u.speed + u.phase) * u.amp;
-        m.position.x = u.baseX + cx * u.depth;
-        m.rotation.z += u.rotSpeed * 0.016;
-      }
-      camera.position.y = cy * 0.5;
-      renderer.render(scene, camera);
-    });
-
-    addEventListener("resize", () => {
-      w = holder.clientWidth || innerWidth;
-      h = holder.clientHeight || innerHeight;
-      camera.left = -w / 2; camera.right = w / 2;
-      camera.top = h / 2; camera.bottom = -h / 2;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      node.style.setProperty('--anchor-size', size + 'px');
+      node.style.left = (x - size / 2) + 'px';
+      node.style.right = 'auto';
+      node.style.top = (y - size / 2) + 'px';
     });
   }
+  function layout() {
+    layoutAnchoredDoodles();
+    const rect = hero.getBoundingClientRect();
+    const wrap = document.getElementById("book3d-wrap");
+    if (!wrap) return;
+    // Use stable document layout, not the moving camera/page projection.
+    // Independent slots prevent two decorations falling into the same gutter.
+    let bookTop = 0;
+    for (let ancestor = wrap; ancestor && ancestor !== hero; ancestor = ancestor.offsetParent) {
+      bookTop += ancestor.offsetTop;
+    }
+    const bookBottom = bookTop + wrap.offsetHeight;
+    const small = rect.width < 640;
+    const positions = [
+      [rect.width * .86, 180],
+      [rect.width * .13, bookBottom + 24],
+      [rect.width * .84, bookBottom + 38],
+      [rect.width * .30, bookBottom + 32],
+      [rect.width * .85, 335],
+      [Math.max(29, rect.width * .085 - Math.max(0, 1280 - rect.width) * .12), bookTop + wrap.offsetHeight * .30],
+      document.getElementById('notebook').classList.contains('opened')
+        ? [rect.width * .94, bookTop - 50]
+        : [rect.width * .83, bookTop + wrap.offsetHeight * .45]
+    ];
+    items.forEach((node, i) => {
+      node.hidden = small && (i === 2 || i === 3);
+      const size = small ? sizes[i] * .55 : (i === 5 && rect.width < 1000 ? 60 : sizes[i]);
+      node.style.setProperty("--doodle-size", size + "px");
+      let [x, y] = positions[i];
+      if (small) {
+        if (i === 0) { x = rect.width - 48; y = bookTop - 48; }
+        if (i === 1) { x = 54; y = bookBottom + 22; }
+        if (i === 4) { x = rect.width - 40; y = bookBottom + 22; }
+        if (i === 5) { x = 29; y = bookTop + wrap.offsetHeight * .30; }
+        if (i === 6) { x = rect.width - 28; y = bookTop - 115; }
+      }
+      x = Math.max(size / 2 + 6, Math.min(rect.width - size / 2 - 6, x));
+      y = Math.min(rect.height - size / 2 - 10, y);
+      node.style.left = (x - size / 2) + "px";
+      node.style.top = (y - size / 2) + "px";
+    });
+    holder.dataset.doodleCount = small ? "5" : "7";
+  }
+  const asset = new Image();
+  asset.onload = () => { holder.dataset.doodleState = "ready"; };
+  asset.onerror = () => { holder.dataset.doodleState = "unavailable"; };
+  asset.src = "assets/floating-doodles.png";
+  const observer = new ResizeObserver(layout);
+  [hero, document.getElementById('works'), document.getElementById('gallery'), document.getElementById('about')].filter(Boolean).forEach(section => observer.observe(section));
+  window.addEventListener("book-layout", layout);
+  window.addEventListener("site-rendered", layout);
+  window.addEventListener("works-rendered", layout);
+  window.addEventListener("resize", layout);
+  layout();
+  setTimeout(layout, 700);
 })();

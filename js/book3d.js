@@ -5,12 +5,45 @@
   const wrap = document.getElementById("book3d-wrap");
   const canvas = document.getElementById("book3d");
   if (!wrap || !canvas) return;
+  if (wrap.dataset.bookInitialized) return;
+  wrap.dataset.bookInitialized = "true";
 
   const DATA = window.PAGE_DATA || { site: {}, works: [], postcards: [] };
   const RED = "#E6392B", INK = "#221D15", SOFT = "#5C5343", PAPER = "#FFFDF6";
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const recovery = document.createElement("div");
+  recovery.className = "book-recovery";
+  recovery.hidden = true;
+  const recoveryCover = document.createElement("img");
+  recoveryCover.alt = "笔记本封面";
+  const coverSource = DATA.site.book && DATA.site.book.cover;
+  if (coverSource) recoveryCover.src = location.protocol === "file:" && coverSource.startsWith("/") ? `.${coverSource}` : coverSource;
+  else recoveryCover.hidden = true;
+  const recoveryText = document.createElement("p");
+  recoveryText.setAttribute("role", "status");
+  const retry = document.createElement("button");
+  retry.className = "chip-btn";
+  retry.textContent = "重新载入笔记本";
+  retry.hidden = true;
+  retry.addEventListener("click", () => location.reload());
+  recovery.append(recoveryCover, recoveryText, retry);
+  wrap.appendChild(recovery);
+  let contextLost = false, recoveryTimer;
+  function showRecovery(message) {
+    recoveryText.textContent = message;
+    recovery.hidden = false;
+    wrap.dataset.renderState = "recovering";
+  }
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" });
+  } catch (error) {
+    showRecovery("笔记本暂时无法显示，请重新载入。");
+    retry.hidden = false;
+    console.warn("笔记本渲染初始化失败", error);
+    return;
+  }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -29,7 +62,7 @@
   const sun = new THREE.DirectionalLight(0xffffff, 1.1);
   sun.position.set(3.5, 6, 4);
   sun.castShadow = true;
-  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.mapSize.set(512, 512);
   sun.shadow.camera.left = -5; sun.shadow.camera.right = 5;
   sun.shadow.camera.top = 5; sun.shadow.camera.bottom = -5;
   sun.shadow.camera.near = 1; sun.shadow.camera.far = 20;
@@ -50,6 +83,65 @@
 
   const PW = 2.3, PH = 3.3;
   const FW = 640, FH = Math.round(FW * PH / PW);
+  // 3D 笔记本：封面与非涂鸦页完全由后台的“索引标签 → 页面图片”驱动。
+  const bookConfig = (DATA.site && DATA.site.book) || {};
+  const ticketColors = ["#dfcba4", "#dfb0a5", "#adc3b6", "#d9bc78", "#c4b1c9"];
+  const tabColor = (color, fallback = ticketColors[0]) => /^#[0-9a-f]{6}$/i.test(String(color || "")) ? String(color) : fallback;
+  const tabInk = tabColor(bookConfig.tabTextColor, "#4d413a");
+  const legacyPages = Array.isArray(bookConfig.pages)
+    ? bookConfig.pages.map(page => typeof page === "string" ? page : (page && page.image)).filter(Boolean)
+    : [];
+  const rawTabs = Array.isArray(bookConfig.tabs) && bookConfig.tabs.length
+    ? bookConfig.tabs
+    : [{ label: "AE动画", color: ticketColors[0], pages: legacyPages }];
+  let pageCursor = 0;
+  const TAB_DEFS = rawTabs.map((tab, index) => {
+    const pages = Array.isArray(tab.pages) ? tab.pages.map(page => typeof page === "string" ? page : (page && page.image)).filter(Boolean) : [];
+    const def = {
+      name: String(tab.label || tab.name || `标签 ${index + 1}`).slice(0, 12),
+      color: tabColor(tab.color, ticketColors[index % ticketColors.length]),
+      pages,
+      start: pageCursor,
+      isDoodle: false
+    };
+    pageCursor += pages.length;
+    return def;
+  });
+  const uploadedPages = TAB_DEFS.flatMap(tab => tab.pages);
+  const pageFaceKeys = uploadedPages.map((_, index) => `page-${index}`);
+  // 让最后一张内容页后面始终接涂鸦页，维持“涂鸦＋贴纸墙”的最后一跨布局。
+  const pageSlots = pageFaceKeys.length ? pageFaceKeys.slice() : ["blank"];
+  if (pageSlots.length % 2) pageSlots.push("blank");
+  const faceOfSheet = [["cover", pageSlots[0]]];
+  for (let i = 1; i < pageSlots.length; i += 2) {
+    faceOfSheet.push(i + 1 < pageSlots.length ? [pageSlots[i], pageSlots[i + 1]] : [pageSlots[i], "doodle"]);
+  }
+  faceOfSheet.push(["wall", "blank"]);
+  const DOODLE_FLIP_COUNT = faceOfSheet.length - 1;
+  const DOODLE_TAB = bookConfig.doodleTab || {};
+  TAB_DEFS.push({
+    name: String(DOODLE_TAB.label || "涂鸦").slice(0, 12),
+    color: tabColor(DOODLE_TAB.color, ticketColors[rawTabs.length % ticketColors.length]),
+    start: uploadedPages.length,
+    flipCount: DOODLE_FLIP_COUNT,
+    isDoodle: true
+  });
+  TAB_DEFS.forEach(tab => { if (!tab.isDoodle) tab.flipCount = Math.floor(tab.start / 2) + 1; });
+  const uploadFaceKeys = ["cover", ...pageFaceKeys];
+  const localAssetPath = path => location.protocol === "file:" && String(path || "").startsWith("/") ? `.${path}` : path;
+  const uploadSources = { cover: bookConfig.cover || "" };
+  pageFaceKeys.forEach((key, index) => { uploadSources[key] = uploadedPages[index] || ""; });
+  const uploadImages = {};
+  const uploadImageLoaders = uploadFaceKeys.map(key => new Promise(done => {
+    const src = uploadSources[key];
+    if (!src) { uploadImages[key] = null; done(); return; }
+    const image = new Image();
+    const timeout = setTimeout(done, 10000);
+    image.onload = () => { clearTimeout(timeout); done(); if (faces[key]) redrawFace(key); };
+    image.onerror = () => { clearTimeout(timeout); done(); };
+    image.src = localAssetPath(src);
+    uploadImages[key] = image;
+  }));
 
   function makeFaceCanvas() {
     const cv = document.createElement("canvas");
@@ -211,25 +303,34 @@
   const wallImages = [];
   const WALL_API = "/.netlify/functions/stickers";
   let wallOnline = false;
+  const wallOwner = (() => {
+    try {
+      let key = localStorage.getItem("pf_doodle_owner");
+      if (!key) {
+        key = (crypto.randomUUID ? crypto.randomUUID() : "d" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+        localStorage.setItem("pf_doodle_owner", key);
+      }
+      return key;
+    } catch (e) { return ""; }
+  })();
   const loadWallCache = () => { try { return JSON.parse(localStorage.getItem("pf_doodles") || "[]"); } catch (e) { return []; } };
   const saveWallCache = arr => { try { localStorage.setItem("pf_doodles", JSON.stringify(arr.slice(0, 12))); } catch (e) {} };
   const loadMineIds = () => { try { return JSON.parse(localStorage.getItem("pf_doodle_mine") || "[]"); } catch (e) { return []; } };
   const saveMineIds = ids => { try { localStorage.setItem("pf_doodle_mine", JSON.stringify(ids.slice(0, 30))); } catch (e) {} };
   function setWallItems(arr) {
-    const mineIds = wallOnline ? loadMineIds() : null;
     wallImages.length = 0;
     arr.slice(0, 12).forEach(d => {
       const img = new Image();
-      img.onload = () => redrawFace("s3r");
+      img.onload = () => redrawFace("wall");
       img.src = d.img;
-      wallImages.push({ img, rot: d.rot ?? 0, id: d.id || null, mine: wallOnline ? !!(d.id && mineIds.includes(d.id)) : true });
+      wallImages.push({ img, rot: d.rot ?? 0, id: d.id || null, mine: wallOnline ? d.mine === true : true });
     });
-    redrawFace("s3r");
+    redrawFace("wall");
   }
   function loadWall() { setWallItems(loadWallCache()); }
   async function syncWall() {
     try {
-      const r = await fetch(WALL_API);
+      const r = await fetch(WALL_API, { headers: { "x-doodle-owner": wallOwner } });
       if (!r.ok) throw 0;
       const d = await r.json();
       if (!Array.isArray(d.items)) throw 0;
@@ -241,7 +342,7 @@
   async function postWall(body) {
     if (!wallOnline) return null;
     try {
-      const r = await fetch(WALL_API, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const r = await fetch(WALL_API, { method: "POST", headers: { "Content-Type": "application/json", "x-doodle-owner": wallOwner }, body: JSON.stringify(body) });
       if (!r.ok) return null;
       return await r.json();
     } catch (e) { return null; }
@@ -321,7 +422,7 @@
       if (!d.img.complete || !d.img.naturalWidth) return;
       drawSticker(ctx, d, i, x + w / 2, y + h / 2, 1);
     });
-    if (wallState.dragIdx >= 0) {
+    if (wallState.dragIdx >= 0 && !wallState.crumple) {
       const d = wallImages[wallState.dragIdx];
       if (d && d.img.complete && d.img.naturalWidth) drawSticker(ctx, d, wallState.dragIdx, wallState.px, wallState.py, 1.08);
     }
@@ -333,26 +434,14 @@
       const cy = cp.y0 + (tcy - cp.y0) * t - Math.sin(t * Math.PI) * 46;
       ctx.save();
       ctx.translate(cx, cy);
-      ctx.rotate(t * 5.2);
-      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - 0.68) / 0.32);
-      if (t < 0.45 && cp.img) {
-        const sc = 1 - t;
-        ctx.scale(sc, sc);
-        ctx.fillStyle = "#fff";
-        ctx.fillRect(-85, -56, 170, 112);
-        ctx.drawImage(cp.img, -85, -56, 170, 112);
-      } else {
-        const rr = Math.max(8, 36 * (1 - t * 0.6));
-        ctx.fillStyle = "#F3ECDA";
-        ctx.strokeStyle = "rgba(34,29,21,0.55)";
-        ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.arc(0, 0, rr, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-        ctx.lineWidth = 2;
-        for (let k = 0; k < 5; k++) {
-          ctx.beginPath();
-          ctx.arc(Math.cos(k * 2.2) * rr * 0.28, Math.sin(k * 1.8) * rr * 0.28, rr * (0.35 + 0.09 * k), k, k + 3.4);
-          ctx.stroke();
-        }
+      ctx.rotate(t * 2.4);
+      ctx.globalAlpha = Math.max(0, 1 - Math.max(0, t - 0.65) / 0.35);
+      const scale = 1 - t * 0.65;
+      ctx.scale(scale, scale);
+      if (cp.surface) {
+        ctx.drawImage(cp.surface, -145, -220, 290, 440);
+      } else if (cp.img) {
+        ctx.drawImage(cp.img, -126, -85, 252, 170);
       }
       ctx.restore();
     }
@@ -368,7 +457,7 @@
     if (wallOnline && target && target.id) {
       saveMineIds(loadMineIds().filter(x => x !== target.id));
       wallImages.splice(i, 1);
-      redrawFace("s3r");
+      redrawFace("wall");
       postWall({ op: "del", id: target.id }).then(d => {
         if (d && Array.isArray(d.items)) { setWallItems(d.items); saveWallCache(d.items); }
       });
@@ -378,6 +467,65 @@
     arr.splice(i, 1);
     saveWallCache(arr);
     loadWall();
+  }
+
+  function grabWallPaper(i) {
+    const d = wallImages[i];
+    const cp = { idx: i, img: d ? d.img : null, x0: wallState.px, y0: wallState.py, originX: wallState.px, originY: wallState.py, t: 0, surface: null, phase: "held", effect: null, started: 0 };
+    wallState.crumple = cp;
+    redrawFace("wall");
+    if (typeof sfx === "function") sfx("page");
+    cp.ready = (async () => {
+      try {
+        if (d && window.portfolioPaperCrumple) {
+          cp.effect = await window.portfolioPaperCrumple(d.img, source => {
+            if (wallState.crumple !== cp) return;
+            if (!cp.surface) cp.surface = document.createElement("canvas");
+            if (cp.surface.width !== source.width || cp.surface.height !== source.height) {
+              cp.surface.width = source.width;
+              cp.surface.height = source.height;
+            }
+            const ctx = cp.surface.getContext("2d");
+            ctx.clearRect(0, 0, source.width, source.height);
+            ctx.drawImage(source, 0, 0);
+            redrawFace("wall");
+          });
+          cp.started = performance.now();
+        }
+      } catch (error) {
+        console.warn("揉纸效果未能加载，保留贴纸拖动", error);
+      }
+    })();
+  }
+
+  async function releaseWallPaper(intoTrash) {
+    const cp = wallState.crumple;
+    if (!cp || cp.phase !== "held") return;
+    cp.phase = intoTrash ? "trash" : "return";
+    await cp.ready;
+    if (wallState.crumple !== cp) { cp.effect?.dispose(); return; }
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!intoTrash) {
+      cp.effect?.release();
+      gsap.to(cp, {
+        x0: cp.originX, y0: cp.originY, duration: reduced ? 0 : 0.4, ease: "power2.out",
+        onUpdate: () => redrawFace("wall"),
+        onComplete: () => { cp.effect?.dispose(); wallState.crumple = null; redrawFace("wall"); }
+      });
+      return;
+    }
+    // A fast drop still finishes closing the folds before entering the bin.
+    const remaining = cp.effect && !reduced ? Math.max(0, 550 - (performance.now() - cp.started)) : 0;
+    if (remaining) await new Promise(resolve => setTimeout(resolve, remaining));
+    gsap.to(cp, {
+      t: 1, duration: reduced ? 0 : 0.4, ease: "power2.in",
+      onUpdate: () => redrawFace("wall"),
+      onComplete: () => {
+        cp.effect?.dispose();
+        wallState.crumple = null;
+        removeWallItem(cp.idx);
+      }
+    });
   }
 
   function facePdf(ctx, mirror) {
@@ -487,99 +635,66 @@
     pdfBusy = false;
     redrawFace("s2f");
   }
-  if (typeof pdfjsLib !== "undefined") {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/vendor/pdf.worker.min.js";
-    pdfjsLib.getDocument("assets/portfolio.pdf").promise.then(doc => {
-      pdfDoc = doc;
-      pdfPageCount = doc.numPages;
-      renderPdfPage(1);
-    }).catch(() => {});
-  }
+  // Notebook pages now use uploaded images, so no legacy PDF worker is needed.
 
   const faces = {};
   function makeTex(key) {
     const cv = makeFaceCanvas();
     const tex = new THREE.CanvasTexture(cv);
-    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    tex.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+    if (key === "wall" || key === "doodle") {
+      tex.generateMipmaps = false;
+      tex.minFilter = THREE.LinearFilter;
+    }
     if ("colorSpace" in tex && THREE.SRGBColorSpace) tex.colorSpace = THREE.SRGBColorSpace;
     else if ("encoding" in tex && THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
     faces[key] = { cv, ctx: cv.getContext("2d"), tex };
     return faces[key];
   }
-  const faceKeys = ["cover", "s0l", "s0r", "s1l", "s1r", "s2l", "s2f", "s3l", "s3r", "s3b", "end", "endb"];
+  const faceKeys = [...new Set([...uploadFaceKeys, "doodle", "wall", "blank"])];
   faceKeys.forEach(makeTex);
 
-  const works = DATA.works || [];
-  const aeWorks = works.filter(w => w.cat === "动效");
-  const ipWorks = works.filter(w => w.cat === "动画");
+  function drawUploadedFace(ctx, key) {
+    ctx.clearRect(0, 0, FW, FH);
+    ctx.fillStyle = key === "cover" ? "#161413" : PAPER;
+    ctx.fillRect(0, 0, FW, FH);
+    const image = uploadImages[key];
+    if (!image || !image.naturalWidth || !image.naturalHeight) return;
+    // 不裁切上传素材：完整放入书页，让内容原样呈现。
+    const scale = Math.min(FW / image.naturalWidth, FH / image.naturalHeight);
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+    ctx.drawImage(image, (FW - width) / 2, (FH - height) / 2, width, height);
+  }
 
   function drawAllFaces() {
-    let f = faces.cover; faceCover(f.ctx); f.tex.needsUpdate = true;
+    uploadFaceKeys.forEach(key => {
+      const f = faces[key];
+      drawUploadedFace(f.ctx, key);
+      f.tex.needsUpdate = true;
+    });
 
-    f = faces.s0l;
-    gridBg(f.ctx, true);
-    faceTitle(f.ctx, "AE 动画", "MOTION WORKS");
-    faceWorksList(f.ctx, aeWorks);
-    f.tex.needsUpdate = true;
+    const blank = faces.blank;
+    blank.ctx.fillStyle = PAPER;
+    blank.ctx.fillRect(0, 0, FW, FH);
+    blank.tex.needsUpdate = true;
 
-    f = faces.s0r;
-    gridBg(f.ctx, false);
-    faceTitle(f.ctx, "代表作品", "SELECTED · MOTION");
-    faceMinis(f.ctx, aeWorks);
-    f.tex.needsUpdate = true;
-
-    f = faces.s1l;
-    gridBg(f.ctx, true);
-    faceTitle(f.ctx, "角色 IP", "CHARACTER");
-    faceWorksList(f.ctx, ipWorks);
-    f.tex.needsUpdate = true;
-
-    f = faces.s1r;
-    gridBg(f.ctx, false);
-    faceTitle(f.ctx, "代表作品", "SELECTED · CHARACTER");
-    faceMinis(f.ctx, ipWorks);
-    f.tex.needsUpdate = true;
-
-    f = faces.s2l;
-    gridBg(f.ctx, true);
-    faceTitle(f.ctx, "毕业设计", "THESIS");
-    faceNote(f.ctx, ["整册作品集 PDF 装订在右页。", "点击右页即可翻页。", "往下滑到作品放映厅还能", "看单支作品的详情和评论。"], 260);
-    f.tex.needsUpdate = true;
-
-    redrawFace("s2f");
-
-    f = faces.s3l;
     doodleRedraw();
-    f.tex.needsUpdate = true;
 
-    redrawFace("s3r");
-
-    f = faces.s3b;
-    gridBg(f.ctx, true);
-    faceTitle(f.ctx, "写在最后", "ONE LAST THING");
-    faceNote(f.ctx, ["贴纸墙可以先玩起来，", "画一张贴在墙上送给我。", "联系方式在网页最底部，", "欢迎来聊创意、聊工作。"], 300);
-    f.tex.needsUpdate = true;
-
-    f = faces.end;
-    faceBackCover(f.ctx);
-    f.tex.needsUpdate = true;
-
-    f = faces.endb;
-    faceBackCover(f.ctx);
-    f.tex.needsUpdate = true;
+    redrawFace("wall");
   }
 
   function redrawFace(key) {
-    if (key === "s2f") {
-      const f = faces.s2f;
-      facePdf(f.ctx, false);
+    if (uploadFaceKeys.includes(key)) {
+      const f = faces[key];
+      drawUploadedFace(f.ctx, key);
       f.tex.needsUpdate = true;
-    } else if (key === "s3r") {
-      const f = faces.s3r;
+    } else if (key === "wall") {
+      const f = faces.wall;
       faceWall(f.ctx, false);
       f.tex.needsUpdate = true;
-    } else if (key === "s3l") {
-      const f = faces.s3l;
+    } else if (key === "doodle") {
+      const f = faces.doodle;
       f.tex.needsUpdate = true;
     }
   }
@@ -588,7 +703,7 @@
   const strokes = [];
   let doodleColor = RED;
   function doodleRedraw() {
-    const f = faces.s3l;
+    const f = faces.doodle;
     const ctx = f.ctx;
     faceDoodlePad(ctx);
     ctx.lineCap = "round";
@@ -680,14 +795,6 @@
   }
 
   const sheets = [];
-  const faceOfSheet = [
-    ["cover", "s0l"],
-    ["s0r", "s1l"],
-    ["s1r", "s2l"],
-    ["s2f", "s3l"],
-    ["s3r", "s3b"],
-    ["end", "endb"]
-  ];
   const SHEET_EPS = 0.008;
   function flipUvs(geo) {
     const uv = geo.attributes.uv;
@@ -743,65 +850,105 @@
     sheets.push({ pivot, geo, orig, geoB: backGeo, origB, meshes: [frontMesh, backMesh], frontMesh, backMesh, angle: 0, flipped: false, idx: k });
   }
 
-  const TAB_DEFS = [
-    { name: "AE动画", en: "MOTION" },
-    { name: "角色IP", en: "CHARACTER" },
-    { name: "毕业设计", en: "THESIS" },
-    { name: "涂鸦", en: "DOODLE" }
-  ];
   const tabMeshes = [];
-  function tabTexture(def, active) {
+  // Ticket-shaped paper tabs have an alpha silhouette, not a rectangular backing.
+  function tabTexture(def, active, index) {
     const cv = document.createElement("canvas");
-    cv.width = 176; cv.height = 232;
+    cv.width = 384; cv.height = 216;
     const c = cv.getContext("2d");
-    c.fillStyle = active ? RED : "#F3ECDA";
-    c.fillRect(0, 0, 176, 232);
-    c.strokeStyle = active ? "rgba(255,253,246,0.85)" : "rgba(34,29,21,0.5)";
-    c.lineWidth = 4;
-    c.setLineDash([11, 8]);
-    c.strokeRect(11, 11, 154, 210);
-    c.setLineDash([]);
-    c.fillStyle = active ? "#FFFDF6" : INK;
-    c.font = (def.name.length >= 4 ? 34 : 40) + 'px "ZCOOL KuaiLe", sans-serif';
-    c.textAlign = "center";
-    c.textBaseline = "middle";
-    c.fillText(def.name, 88, 100);
-    c.fillStyle = active ? "rgba(255,253,246,0.8)" : SOFT;
-    c.font = '17px ui-monospace, monospace';
-    c.fillText(def.en, 88, 152);
+    const shape = index % 4;
+    c.clearRect(0, 0, 384, 216);
+    c.beginPath();
+    if (shape === 0) {
+      c.moveTo(30, 12); c.lineTo(354, 12); c.quadraticCurveTo(352, 30, 372, 34);
+      c.lineTo(372, 182); c.quadraticCurveTo(352, 184, 354, 204);
+      c.lineTo(30, 204); c.quadraticCurveTo(32, 184, 12, 182);
+      c.lineTo(12, 34); c.quadraticCurveTo(32, 30, 30, 12);
+    } else if (shape === 1) {
+      c.moveTo(28, 12); c.lineTo(356, 12);
+      for (let y = 12; y < 204; y += 24) c.quadraticCurveTo(339, y + 12, 356, y + 24);
+      c.lineTo(28, 204);
+      for (let y = 204; y > 12; y -= 24) c.quadraticCurveTo(45, y - 12, 28, y - 24);
+    } else if (shape === 2) {
+      c.moveTo(36, 12); c.lineTo(348, 12); c.lineTo(372, 36); c.lineTo(372, 180);
+      c.lineTo(348, 204); c.lineTo(36, 204); c.lineTo(12, 180); c.lineTo(12, 36);
+    } else {
+      c.moveTo(20, 12); c.lineTo(364, 12); c.lineTo(364, 76);
+      c.bezierCurveTo(327, 78, 327, 138, 364, 140); c.lineTo(364, 204);
+      c.lineTo(20, 204); c.lineTo(20, 140); c.bezierCurveTo(57, 138, 57, 78, 20, 76);
+    }
+    c.closePath();
+    c.save(); c.clip();
+    const base = new THREE.Color(def.color).lerp(new THREE.Color("#f8efd8"), active ? 0.02 : 0.24);
+    c.fillStyle = base.getStyle(); c.fillRect(0, 0, 384, 216);
+    let seed = 147 + index;
+    const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    for (let k = 0; k < 1400; k++) {
+      c.fillStyle = k % 2 ? "rgba(255,253,238,0.13)" : "rgba(110,82,53,0.045)";
+      c.fillRect(random() * 384, random() * 216, 1 + random() * 2, 1 + random() * 2);
+    }
+    c.restore();
+    // Tiny perforations and ink strokes echo the reference's old paper tickets.
+    c.strokeStyle = "rgba(110,89,64,0.3)"; c.lineWidth = 1.3; c.setLineDash([3, 6]);
+    c.beginPath(); c.moveTo(66, 32); c.lineTo(66, 184); c.stroke(); c.setLineDash([]);
+    c.fillStyle = "rgba(110,89,64,0.4)";
+    [0, 6, 14, 19, 25].forEach((x, i) => c.fillRect(82 + x, 164, i % 2 ? 2 : 3, 17));
+    c.fillStyle = tabInk;
+    const letters = Array.from(def.name);
+    const fontSize = letters.length > 6 ? 48 : 66;
+    const lines = letters.length > 6
+      ? [letters.slice(0, Math.ceil(letters.length / 2)).join(""), letters.slice(Math.ceil(letters.length / 2)).join("")]
+      : [def.name];
+    c.font = '700 ' + fontSize + 'px "ZCOOL KuaiLe", sans-serif';
+    c.textAlign = "center"; c.textBaseline = "middle";
+    c.strokeStyle = tabInk; c.lineWidth = 0.9; c.lineJoin = "round";
+    lines.forEach((line, lineIndex) => {
+      const y = lines.length === 1 ? 106 : 82 + lineIndex * 60;
+      c.strokeText(line, 234, y, 244);
+      c.fillText(line, 234, y, 244);
+    });
+    cv.dataset.labelFontSize = String(fontSize);
+    cv.dataset.labelWeight = "700";
+    cv.dataset.labelTextColor = tabInk;
     const t = new THREE.CanvasTexture(cv);
+    t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     if ("colorSpace" in t && THREE.SRGBColorSpace) t.colorSpace = THREE.SRGBColorSpace;
+    else if ("encoding" in t && THREE.sRGBEncoding) t.encoding = THREE.sRGBEncoding;
     return t;
   }
+  const tabCount = Math.max(TAB_DEFS.length, 1);
+  const tabBandHeight = PH / 2 - 0.1;
+  const tabHeight = Math.min(0.30, (tabBandHeight - 0.035 * (tabCount - 1)) / tabCount);
+  const tabWidth = tabHeight * (384 / 216);
+  const tabStep = tabCount > 1 ? (tabBandHeight - tabHeight) / (tabCount - 1) : 0;
   TAB_DEFS.forEach((def, i) => {
     const g = new THREE.Group();
-    const box = new THREE.Mesh(
-      new THREE.BoxGeometry(0.44, 0.05, 0.62),
-      new THREE.MeshStandardMaterial({ color: 0xE7DFC9, roughness: 0.9 })
-    );
-    box.castShadow = true;
-    g.add(box);
     const label = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.4, 0.56),
-      new THREE.MeshBasicMaterial({ toneMapped: false })
+      new THREE.PlaneGeometry(tabWidth, tabHeight),
+      new THREE.MeshBasicMaterial({ toneMapped: false, transparent: true, alphaTest: 0.06, depthWrite: false, side: THREE.DoubleSide })
     );
     label.rotation.x = -Math.PI / 2;
-    label.position.y = 0.027;
+    label.position.y = 0.02;
     g.add(label);
-    g.position.set(PW + 0.19, 0.128, -PH / 2 + 0.62 + i * 0.72);
+    g.position.set(PW + tabWidth * 0.32, 0.128, -PH / 2 + 0.1 + tabHeight / 2 + i * tabStep);
     book.add(g);
-    tabMeshes.push({ g, label, def, texN: null, texA: null });
+    tabMeshes.push({ g, label, def, index: i, z: g.position.z, texN: null, texA: null });
   });
   function tabIndexAt(z) {
-    for (let i = 0; i < 4; i++) {
-      if (Math.abs(z - (-PH / 2 + 0.62 + i * 0.72)) < 0.36) return i;
+    let closest = -1, distance = Infinity;
+    for (let i = 0; i < tabMeshes.length; i++) {
+      const delta = Math.abs(z - tabMeshes[i].z);
+      if (delta < distance) { closest = i; distance = delta; }
     }
-    return -1;
+    const tolerance = Math.max(tabHeight * 0.6, tabStep * 0.48);
+    return distance <= tolerance ? closest : -1;
   }
   function redrawTabs() {
     tabMeshes.forEach(t => {
-      t.texN = tabTexture(t.def, false);
-      t.texA = tabTexture(t.def, true);
+      if (t.texN) t.texN.dispose();
+      if (t.texA) t.texA.dispose();
+      t.texN = tabTexture(t.def, false, t.index);
+      t.texA = tabTexture(t.def, true, t.index);
     });
     syncTabs();
   }
@@ -877,6 +1024,7 @@
       t: toAngle,
       duration: dur,
       ease: "power2.inOut",
+      onStart: () => { if (typeof sfx === "function") sfx("page"); },
       onUpdate: () => { sheet.angle = proxy.t; bendGeo(sheet, proxy.t); },
       onComplete: () => {
         sheet.angle = toAngle;
@@ -888,11 +1036,11 @@
         if (done) done();
       }
     });
-    if (typeof sfx === "function") sfx("page");
   }
 
   function flipNext() {
-    if (flipping) return;
+    // 涂鸦贴纸墙是笔记本的最后一跨，不能翻进空白尾页。
+    if (contextLost || flipping || wallState.crumple || flippedCount >= DOODLE_FLIP_COUNT) return;
     const s = rightTopSheet();
     if (!s) return;
     camZoom(true);
@@ -903,7 +1051,7 @@
     animateSheet(s, Math.PI, flippedCount === 0 ? 1.25 : 0.9, () => { stackYs(flippedCount); syncTabs(); });
   }
   function flipPrev() {
-    if (flipping) return;
+    if (contextLost || flipping || wallState.crumple) return;
     const s = leftTopSheet();
     if (!s) return;
     camZoom(true);
@@ -913,9 +1061,9 @@
     s.pivot.position.y = blockTop + (s.idx === 0 ? 0.12 : 0.08);
     animateSheet(s, 0, 0.9, () => { stackYs(flippedCount); syncTabs(); });
   }
-  function flipTo(i) {
+  function flipTo(flipCount) {
     if (flipping) return;
-    const target = i + 1;
+    const target = Math.max(0, Math.min(DOODLE_FLIP_COUNT, flipCount));
     if (target === flippedCount) return;
     const step = () => {
       if (flippedCount < target) { flipNext(); setTimeout(step, 120); }
@@ -925,13 +1073,19 @@
   }
 
   function syncTabs() {
-    const idx = Math.max(0, flippedCount - 1);
+    const visiblePage = Math.max(0, Math.min(uploadedPages.length - 1, flippedCount * 2 - 1));
+    let idx = TAB_DEFS.findIndex(tab => tab.isDoodle);
+    if (flippedCount < DOODLE_FLIP_COUNT) {
+      idx = 0;
+      TAB_DEFS.forEach((tab, index) => { if (!tab.isDoodle && tab.start <= visiblePage) idx = index; });
+    }
     tabMeshes.forEach((t, bi) => {
       const tex = (bi === idx && flippedCount >= 1) ? t.texA : t.texN;
       if (tex && t.label.material.map !== tex) { t.label.material.map = tex; t.label.material.needsUpdate = true; }
     });
     const nb = document.getElementById("notebook");
     if (nb) nb.classList.toggle("opened", flippedCount >= 1);
+    window.dispatchEvent(new Event("book-layout"));
   }
 
   addEventListener("keydown", e => {
@@ -961,11 +1115,11 @@
     const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -topY - 0.01);
     const hit = localRay.intersectPlane(plane, _pt);
     if (!hit) return null;
-    if (_pt.x > PW + 0.55 || _pt.x < -PW - 0.06 || Math.abs(_pt.z) > PH / 2 + 0.06) return null;
+    if (_pt.x > PW + 0.76 || _pt.x < -PW - 0.06 || Math.abs(_pt.z) > PH / 2 + 0.06) return null;
     return _pt;
   }
 
-  let dragSheet = null, dragDir = 0, dragStartX = 0, dragMoved = false, drawStroke = null;
+  let dragSheet = null, dragDir = 0, dragStartX = 0, dragMoved = false, dragFlipSoundPlayed = false, drawStroke = null;
 
   function padXY(pt) {
     return [(pt.x + PW) / PW * FW, (pt.z + PH / 2) / PH * FH];
@@ -981,7 +1135,7 @@
     x = Math.min(PAD.x1, Math.max(PAD.x0, x));
     y = Math.min(PAD.y1, Math.max(PAD.y0, y));
     const pts = drawStroke.points;
-    const f = faces.s3l;
+    const f = faces.doodle;
     crayonSeg(f.ctx, doodleColor, pts[pts.length - 2], pts[pts.length - 1], x, y);
     f.tex.needsUpdate = true;
     pts.push(x, y);
@@ -990,7 +1144,7 @@
   canvas.addEventListener("pointerdown", e => {
     e.preventDefault();
     
-    if (flipping) return;
+    if (contextLost || flipping || wallState.crumple) return;
     const pt = pickPoint(e);
 
     if (!pt) return;
@@ -998,13 +1152,13 @@
     if (pt.x > PW + 0.04) {
       const ti = tabIndexAt(pt.z);
       if (ti >= 0) {
-        flipTo(ti);
+        flipTo(tabMeshes[ti].def.flipCount);
         if (typeof sfx === "function") sfx("click");
       }
       return;
     }
 
-    if (flippedCount === 4 && pt.x < 0) {
+    if (flippedCount === DOODLE_FLIP_COUNT && pt.x < 0) {
       const [px0, py0] = padXY(pt);
       for (let i = 0; i < DOODLE_COLORS.length; i++) {
         const ddx = px0 - (COLOR_X0 + i * COLOR_DX), ddy = py0 - COLOR_Y;
@@ -1025,15 +1179,16 @@
         drawStroke = { color: doodleColor, points: [] };
         window.__pencilDown = true;
         drawStroke.points.push(px0, py0);
-        const c0 = faces.s3l.ctx;
+        const c0 = faces.doodle.ctx;
         crayonSeg(c0, doodleColor, px0, py0, px0 + 0.1, py0 + 0.1);
-        faces.s3l.tex.needsUpdate = true;
+        faces.doodle.tex.needsUpdate = true;
         try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
         return;
       }
     }
 
-    if (flippedCount === 4 && pt.x > 0) {
+    if (flippedCount === DOODLE_FLIP_COUNT && pt.x > 0) {
+      if (wallState.crumple) return;
       const [wx, wy] = wallXY(pt);
       for (let i = wallLayout.length - 1; i >= 0; i--) {
         const L = wallLayout[i];
@@ -1045,6 +1200,7 @@
           wallState.dy = wy - L.cy;
           wallState.px = L.cx;
           wallState.py = L.cy;
+          grabWallPaper(i);
           try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
           if (typeof sfx === "function") sfx("click");
           return;
@@ -1053,7 +1209,7 @@
     }
 
     const rt = rightTopSheet(), lt = leftTopSheet();
-    if (pt.x > 0 && rt) {
+    if (pt.x > 0 && rt && flippedCount < DOODLE_FLIP_COUNT) {
       dragSheet = rt; dragDir = 1;
     } else if (pt.x < 0 && lt) {
       dragSheet = lt; dragDir = -1;
@@ -1061,6 +1217,7 @@
     turningSheet = dragSheet;
     dragStartX = e.clientX;
     dragMoved = false;
+    dragFlipSoundPlayed = false;
     camZoom(true);
     syncBookX(1.1);
     try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
@@ -1073,9 +1230,13 @@
         const [wx, wy] = wallXY(pt);
         wallState.px = Math.min(FW - 30, Math.max(30, wx - wallState.dx));
         wallState.py = Math.min(FH - 30, Math.max(30, wy - wallState.dy));
+        if (wallState.crumple) {
+          wallState.crumple.x0 = wallState.px;
+          wallState.crumple.y0 = wallState.py;
+        }
         const target = overTrash(wx, wy) ? 1.16 : 1;
         wallState.trashScale += (target - wallState.trashScale) * 0.35;
-        redrawFace("s3r");
+        redrawFace("wall");
       }
       return;
     }
@@ -1091,7 +1252,7 @@
     }
     if (!dragSheet) {
       let pencil = false;
-      if (flippedCount === 4) {
+      if (flippedCount === DOODLE_FLIP_COUNT) {
         const pt = pickPoint(e);
         if (pt && pt.x < 0) {
           const [hx, hy] = padXY(pt);
@@ -1111,6 +1272,10 @@
       dragSheet.angle = Math.max(0, Math.min(Math.PI, Math.PI - dx / (w * 0.32) * Math.PI));
     }
     bendGeo(dragSheet, dragSheet.angle);
+    if (!dragFlipSoundPlayed && dragMoved) {
+      dragFlipSoundPlayed = true;
+      if (typeof sfx === "function") sfx("page");
+    }
   });
 
   canvas.addEventListener("pointerleave", () => { window.__pencilZone = false; window.__pencilDown = false; });
@@ -1122,21 +1287,12 @@
       const pt = pickPoint(e);
       const [wx, wy] = pt ? wallXY(pt) : [-999, -999];
       if (overTrash(wx, wy)) {
-        const d = wallImages[i];
-        wallState.crumple = { idx: i, img: d ? d.img : null, x0: wallState.px, y0: wallState.py, t: 0 };
-        if (typeof sfx === "function") sfx("page");
-        gsap.to(wallState.crumple, {
-          t: 1, duration: 0.55, ease: "power2.in",
-          onUpdate: () => redrawFace("s3r"),
-          onComplete: () => {
-            wallState.crumple = null;
-            removeWallItem(i);
-          }
-        });
-        gsap.fromTo(wallState, { trashScale: 1.22 }, { trashScale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", onUpdate: () => redrawFace("s3r") });
+        releaseWallPaper(true);
+        gsap.fromTo(wallState, { trashScale: 1.22 }, { trashScale: 1, duration: 0.5, ease: "elastic.out(1, 0.5)", onUpdate: () => redrawFace("wall") });
       } else {
+        releaseWallPaper(false);
         wallState.trashScale = 1;
-        redrawFace("s3r");
+        redrawFace("wall");
       }
       return;
     }
@@ -1155,10 +1311,6 @@
     camZoom(false);
     if (!dragMoved) {
       if (flippedCount === 0 && dragDir === 1) { flipNext(); return; }
-      if (flippedCount === 3 && dragDir === 1 && pdfDoc) {
-        renderPdfPage(pdfPageNum % pdfPageCount + 1);
-        return;
-      }
       bendGeo(s, s.angle);
       return;
     }
@@ -1169,12 +1321,12 @@
         s.flipped = true;
         flippedCount++;
         const proxy = { t: s.angle };
+        if (!dragFlipSoundPlayed && typeof sfx === "function") sfx("page");
         gsap.to(proxy, {
           t: Math.PI, duration: 0.55, ease: "power2.out",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
           onComplete: () => { s.angle = Math.PI; bendGeo(s, Math.PI); flipping = false; turningSheet = null; stackYs(flippedCount); syncTabs(); }
         });
-        if (typeof sfx === "function") sfx("page");
       } else {
         const proxy = { t: s.angle };
         gsap.to(proxy, {
@@ -1190,12 +1342,12 @@
         s.flipped = false;
         flippedCount--;
         const proxy = { t: s.angle };
+        if (!dragFlipSoundPlayed && typeof sfx === "function") sfx("page");
         gsap.to(proxy, {
           t: 0, duration: 0.55, ease: "power2.out",
           onUpdate: () => { s.angle = proxy.t; bendGeo(s, proxy.t); },
           onComplete: () => { s.angle = 0; bendGeo(s, 0); flipping = false; turningSheet = null; stackYs(flippedCount); syncTabs(); }
         });
-        if (typeof sfx === "function") sfx("page");
       } else {
         const proxy = { t: s.angle };
         gsap.to(proxy, {
@@ -1207,13 +1359,23 @@
     }
   });
 
+  function cancelWallGrab() {
+    if (wallState.dragIdx < 0) return;
+    wallState.dragIdx = -1;
+    wallState.trashScale = 1;
+    releaseWallPaper(false);
+  }
+  canvas.addEventListener("pointercancel", cancelWallGrab);
+  canvas.addEventListener("lostpointercapture", cancelWallGrab);
+  window.addEventListener("blur", cancelWallGrab);
+
   function doodleAction(id) {
     if (id === "undo") { strokes.pop(); doodleRedraw(); if (typeof sfx === "function") sfx("click"); }
     else if (id === "clear") { strokes.length = 0; doodleRedraw(); if (typeof sfx === "function") sfx("click"); }
     else if (id === "save") { saveDoodle(); }
   }
   function saveDoodle() {
-    const f = faces.s3l;
+    const f = faces.doodle;
     const out = document.createElement("canvas");
     const pw = PAD.x1 - PAD.x0, ph = PAD.y1 - PAD.y0;
     const sc = Math.min(1, 360 / pw);
@@ -1235,7 +1397,7 @@
     if (!wallOnline) setWallItems(arr);
     strokes.length = 0;
     doodleRedraw();
-    redrawFace("s3r");
+    redrawFace("wall");
     if (typeof sfx === "function") sfx("open");
     if (wallOnline) {
       postWall({ op: "add", img: item.img, rot: item.rot, dx: item.dx, dy: item.dy }).then(d => {
@@ -1260,7 +1422,8 @@
 
   let baseZ = 5.1;
   function resize() {
-    const w = wrap.clientWidth, h = wrap.clientHeight;
+    const w = Math.max(1, wrap.clientWidth), h = Math.max(1, wrap.clientHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.25, Math.sqrt(1200000 / (w * h))));
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -1272,24 +1435,74 @@
     if (!flipping && !dragSheet) camState.z = baseZ;
   }
   addEventListener("resize", resize);
+  new ResizeObserver(resize).observe(wrap);
   resize();
 
   const clock = new THREE.Clock();
   let visible = true;
   new IntersectionObserver(en => { visible = en[0].isIntersecting; }).observe(wrap);
 
-  function loop() {
+  let lastFrame = performance.now();
+  let lastRender = 0;
+  // Project the visible book into page coordinates so decorations stay outside it.
+  window.getPortfolioBookRect = () => {
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return null;
+    book.updateMatrixWorld(true);
+    camera.updateMatrixWorld(true);
+    const minX = flippedCount > 0 ? -PW : 0;
+    const points = [];
+    [minX, PW + tabWidth].forEach(x => [-PH / 2, PH / 2].forEach(z => {
+      const p = new THREE.Vector3(x, blockTop + .08, z).applyMatrix4(book.matrixWorld).project(camera);
+      points.push({ x: rect.left + (p.x + 1) * rect.width / 2, y: rect.top + (1 - p.y) * rect.height / 2 });
+    }));
+    return { left: Math.min(...points.map(p => p.x)), right: Math.max(...points.map(p => p.x)), top: Math.min(...points.map(p => p.y)), bottom: Math.max(...points.map(p => p.y)) };
+  };
+  canvas.addEventListener("webglcontextlost", event => {
+    event.preventDefault();
+    contextLost = true;
+    cancelWallGrab();
+    showRecovery("笔记本正在恢复显示…");
+    clearTimeout(recoveryTimer);
+    recoveryTimer = setTimeout(() => { retry.hidden = false; recoveryText.textContent = "显示暂时中断，可以重新载入恢复。"; }, 8000);
+  });
+  canvas.addEventListener("webglcontextrestored", () => {
+    contextLost = false;
+    clearTimeout(recoveryTimer);
+    retry.hidden = true;
+    drawAllFaces();
+    scene.traverse(object => {
+      const materials = Array.isArray(object.material) ? object.material : [object.material];
+      materials.filter(Boolean).forEach(material => {
+        if (material.map) material.map.needsUpdate = true;
+        material.needsUpdate = true;
+      });
+    });
+    resize();
+    lastFrame = performance.now();
+    lastRender = 0;
+  });
+  function loop(now = performance.now()) {
     requestAnimationFrame(loop);
-    if (!visible || document.hidden) return;
+    if (!visible || document.hidden || contextLost) return;
+    const active = flipping || dragSheet || drawStroke || wallState.crumple;
+    if (now - lastRender < (active ? 16 : 33)) return;
+    lastRender = now;
+    const delta = Math.min(0.05, Math.max(0.001, (now - lastFrame) / 1000));
+    lastFrame = now;
     const t = clock.getElapsedTime();
-    camRY += ((mx * 0.09) - camRY) * 0.05;
-    camRX += ((my * 0.04) - camRX) * 0.05;
+    // 按真实帧间隔做阻尼，避免不同电脑刷新率下拖动与视角晃动忽快忽慢。
+    const damping = 1 - Math.exp(-8 * delta);
+    camRY += ((mx * 0.09) - camRY) * damping;
+    camRX += ((my * 0.04) - camRX) * damping;
     book.rotation.y = camRY + Math.sin(t * 0.4) * 0.012;
     book.rotation.x = BASE_TILT + camRX * 0.35;
     book.position.y = BOOK_Y + Math.sin(t * 0.8) * 0.03;
     camera.position.z = camState.z;
     camera.lookAt(0, camState.ly, 0);
     renderer.render(scene, camera);
+    if (recovery.hidden === false) recovery.hidden = true;
+    wrap.dataset.renderState = "ready";
   }
 
 
@@ -1298,17 +1511,19 @@
   syncTabs();
   const boot = () => {
     drawAllFaces();
+    // Refresh label textures once the actual hand-drawn font has loaded.
+    redrawTabs();
   
     loadWall();
     syncWall();
-    redrawFace("s3r");
+    redrawFace("wall");
   };
   if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => Promise.all(imgLoaders).then(boot));
+    document.fonts.ready.then(() => Promise.all([...imgLoaders, ...uploadImageLoaders]).then(boot));
   } else {
-    Promise.all(imgLoaders).then(boot);
+    Promise.all([...imgLoaders, ...uploadImageLoaders]).then(boot);
   }
-  loop();
+  requestAnimationFrame(loop);
   };
   if (window.PAGE_DATA_READY) { window.PAGE_DATA_READY.then(bootBook); } else { bootBook(); }
 })();

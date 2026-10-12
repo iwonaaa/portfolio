@@ -3,6 +3,11 @@
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+// 后台上传路径以 /assets/ 开头；直接打开本地文件时改成同目录相对路径。
+const assetPath = path => {
+  const value = String(path ?? "");
+  return location.protocol === "file:" && value.startsWith("/") ? `.${value}` : value;
+};
 
 const CATS = ["全部", "动效", "特效", "动画", "其他"];
 const CAT_COLOR = { "动效": "red", "特效": "yellow", "动画": "blue", "其他": "green" };
@@ -13,7 +18,8 @@ const state = {
   site: null,
   works: [],
   filter: "全部",
-  sound: localStorage.getItem("snd") === "1",
+  // 每次进入作品集时默认开启；访客仍可在当前浏览中手动关闭。
+  sound: true,
   grain: localStorage.getItem("grain") !== "0"
 };
 
@@ -25,6 +31,29 @@ window.addEventListener("error", e => {
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+const AUDIO_DEFAULTS = { bgm: 30, sfx: 95, video: 30 };
+function defaultAudioVolume(kind) {
+  const raw = state.site?.audioVolumes?.[kind];
+  const percent = raw === null || raw === undefined || raw === "" ? AUDIO_DEFAULTS[kind] : Number(raw);
+  return Math.min(100, Math.max(0, Number.isFinite(percent) ? percent : AUDIO_DEFAULTS[kind])) / 100;
+}
+// Preserve a visitor's choice only while the administrator's default is unchanged.
+function preferredMediaVolume(kind) {
+  const fallback = defaultAudioVolume(kind);
+  const key = kind === "bgm" ? "bgm-volume" : "video-volume";
+  const signature = String(fallback);
+  const saved = localStorage.getItem(key);
+  const chosen = localStorage.getItem(key + "-set") === "1";
+  const sameDefault = localStorage.getItem(key + "-default") === signature;
+  const value = saved !== null && chosen && sameDefault ? Number(saved) : fallback;
+  if (!sameDefault) {
+    localStorage.setItem(key, signature);
+    localStorage.removeItem(key + "-set");
+  }
+  localStorage.setItem(key + "-default", signature);
+  return Math.min(1, Math.max(0, Number.isFinite(value) ? value : fallback));
+}
+
 // 音效：只保留两个 —— 翻书 + 明信片堆悬停。其他音效以后找到合适的再加。
 const SFX_FILES = {
   page: "assets/sfx-flip.mp3",
@@ -32,9 +61,19 @@ const SFX_FILES = {
   click: "assets/sfx-click.mp3",
   open: "assets/sfx-open.mp3"
 };
-const SFX_DELAY = { page: 0.09, hover: 0, click: 0, open: 0.25 }; // page: 峰值(0.36s)对齐翻页高潮(0.45s)；open: 峰值(0.15s)对齐弹窗展开(0.4s)
+// Original paper recording, unchanged. Start with the gesture instead of after the flip.
+const SFX_DELAY = { page: 0, hover: 0, click: 0, open: 0.25 };
 let sfxCtx = null;
 const sfxBufs = {};
+// 直接双击本地网页时，浏览器会拦截 Web Audio 的 fetch；保留原有音效并用 HTML Audio 作为可靠后备。
+function playSfxFallback(name) {
+  const src = SFX_FILES[name];
+  if (!src) return;
+  // 立即调用 play，才能保留浏览器当前这次点击的音频授权。
+  const audio = new Audio(src);
+  audio.volume = Math.min(1, (name === "hover" ? .38 : .68) * defaultAudioVolume("sfx") / .9);
+  audio.play().catch(() => {});
+}
 async function loadSfxBuf(name) {
   try {
     const buf = await (await fetch(SFX_FILES[name])).arrayBuffer();
@@ -54,20 +93,22 @@ function sfx(name) {
   if (!state.sound) return;
   if (!sfxCtx) initSfx();
   const buf = sfxBufs[name];
-  if (!buf || !sfxCtx) return;
-  if (sfxCtx.state === "suspended") sfxCtx.resume().catch(() => {});
-  const d = SFX_DELAY[name] || 0;
+  if (!buf || !sfxCtx) { playSfxFallback(name); return; }
   const play = () => {
+    if (!state.sound) return;
     try {
       const src = sfxCtx.createBufferSource();
       src.buffer = buf;
       const g = sfxCtx.createGain();
-      g.gain.value = 0.9;
-      src.connect(g); g.connect(sfxCtx.destination);
-      src.start();
+      src.connect(g);
+      g.gain.value = defaultAudioVolume("sfx");
+      g.connect(sfxCtx.destination);
+      src.start(sfxCtx.currentTime + (SFX_DELAY[name] || 0));
+      src.onended = () => { src.disconnect(); g.disconnect(); };
     } catch (e) {}
   };
-  if (d > 0) setTimeout(play, d * 1000); else play();
+  if (sfxCtx.state === "suspended") sfxCtx.resume().then(play).catch(() => {});
+  else play();
 }
 
 const io = new IntersectionObserver(entries => {
@@ -84,17 +125,31 @@ function watchReveals(root = document) {
 }
 
 function fillSite(s) {
-  document.title = s.name + " · 作品集";
+  const copy = s.copy || {};
+  document.title = copy.siteTitle || (s.name + " · 作品集");
+  $$('[data-copy]').forEach(el => {
+    const value = copy[el.dataset.copy];
+    if (typeof value !== "string" || !value) return;
+    const textNode = [...el.childNodes].find(node => node.nodeType === Node.TEXT_NODE && node.nodeValue.trim());
+    if (textNode) textNode.nodeValue = value;
+    else el.textContent = value;
+  });
   $$("[data-name]").forEach(el => el.textContent = s.name);
   $$("[data-name-en]").forEach(el => el.textContent = s.nameEn);
   $("[data-role]").textContent = s.role;
   $("[data-tagline]").textContent = s.tagline;
   $("[data-location]").textContent = s.location;
   const hn = $("[data-hero-note]"); if (hn) hn.textContent = s.heroNote;
+  const gallery = s.gallery || {};
+  const galleryLabel = $("#gallery-label"); if (galleryLabel) galleryLabel.textContent = gallery.sectionLabel || "02 · PHOTO WORKS";
+  const galleryTitle = $("#stacks-title"); if (galleryTitle) galleryTitle.childNodes[0].nodeValue = gallery.title || "图片作品 · 明信片堆";
+  const gallerySubtitle = $("#stacks-subtitle"); if (gallerySubtitle) gallerySubtitle.textContent = gallery.subtitle || "POSTCARD STACKS — 点击牌堆，逐张翻看";
+  const galleryHint = $("#pc-hint"); if (galleryHint) galleryHint.textContent = gallery.viewerHint || "点击卡片 或 左右拖动 翻看";
+  const bookHint = $(".nb-hint"); if (bookHint) bookHint.textContent = (s.book && s.book.hint) || "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙";
   $("#foot-year").textContent = new Date().getFullYear();
 
   $("#about-text").innerHTML = s.about.map(p => `<p>${esc(p)}</p>`).join("");
-  const aboutPhoto = $("#about-photo"); if (aboutPhoto && s.photo) aboutPhoto.src = s.photo;
+  const aboutPhoto = $("#about-photo"); if (aboutPhoto && s.photo) aboutPhoto.src = assetPath(s.photo);
   $("#skills").innerHTML = s.skills.map(sk => `
     <div class="skill">
       <div class="skill-head"><b>${esc(sk.name)}</b><span class="lv">LV.${esc(sk.level)}</span></div>
@@ -127,7 +182,7 @@ function fillSite(s) {
 
   const resumeBtn = $("#btn-resume");
   if (c.resumeUrl) {
-    resumeBtn.href = c.resumeUrl;
+    resumeBtn.href = assetPath(c.resumeUrl);
   } else {
     resumeBtn.textContent = "简历 PDF 整理中…";
     resumeBtn.classList.add("disabled");
@@ -166,8 +221,8 @@ function renderWorks() {
   grid.innerHTML = list.map((w, i) => `
     <article class="work ticket" data-id="${esc(w.id)}" data-cursor="play" tabindex="0" role="button" aria-label="查看作品：${esc(w.title)}" style="--tilt:${TILTS[i % TILTS.length]}deg">
       <div class="thumb">
-        <img src="${esc(w.poster)}" alt="${esc(w.title)} 封面" loading="lazy">
-        ${w.video ? `<video muted loop playsinline preload="none" src="${esc(w.video)}"></video>` : ""}
+        <img src="${esc(assetPath(w.poster))}" alt="${esc(w.title)} 封面" loading="lazy">
+        ${w.video ? `<video muted loop playsinline preload="none" src="${esc(assetPath(w.video))}"></video>` : ""}
         <span class="stamp ${CAT_COLOR[w.cat] || "red"}">${esc(w.cat)}</span>
       </div>
       <h3>${esc(w.title)}</h3>
@@ -215,13 +270,14 @@ function openCinema(w) {
   if (w.video) {
     if (vplayer.simStop) vplayer.simStop();
     cv.classList.add("has-video");
-    cv.src = w.video;
-    cv.poster = w.poster;
+    cv.src = assetPath(w.video);
+    cv.poster = assetPath(w.poster);
     poster.style.display = "none";
     empty.style.display = "none";
-    cv.muted = true;
+    cv.muted = false;
+    cv.volume = 0;
     if (vplayer.syncMute) vplayer.syncMute();
-    cv.play().catch(() => {});
+    if (vplayer.playWithFade) vplayer.playWithFade(); else cv.play().catch(() => {});
     vplayer.controls.classList.add("on");
     vplayer.sync();
   } else {
@@ -229,7 +285,7 @@ function openCinema(w) {
     cv.pause();
     cv.removeAttribute("src");
     cv.load();
-    poster.src = w.poster;
+    poster.src = assetPath(w.poster);
     poster.style.display = "block";
     empty.style.display = "block";
     empty.textContent = "预览模式 · 上传视频后自动替换成片";
@@ -336,22 +392,31 @@ function initTimecode() {
 let bgm = null, bgmOn = false;
 function initMusic(src) {
   const btn = $("#btn-music");
+  const volumeControl = $("#bgm-control");
+  const volumeSlider = $("#bgm-volume");
   if (!btn) return;
   btn.style.display = "";
+  if (volumeControl) volumeControl.style.display = "";
   bgm = new Audio(src);
   bgm.loop = true;
   bgm.volume = 0;
-  const TARGET = 0.45;
+  let target = preferredMediaVolume("bgm");
+  if (volumeSlider) volumeSlider.value = String(Math.round(target * 100));
   const sync = () => { btn.textContent = bgmOn ? "音乐 ON" : "音乐 OFF"; btn.classList.toggle("on", bgmOn); btn.setAttribute("aria-pressed", String(bgmOn)); };
   const fadeTo = (v, after) => {
     if (typeof gsap !== "undefined") gsap.to(bgm, { volume: v, duration: 0.8, ease: "power1.inOut", onComplete: after });
     else { bgm.volume = v; if (after) after(); }
   };
-  const playWithFade = () => { bgm.volume = 0; bgm.play().then(() => fadeTo(TARGET)).catch(() => {}); };
-  // 默认开：尊重用户上次的手动选择，否则默认播放
-  const stored = localStorage.getItem("bgm");
-  bgmOn = stored === null ? true : stored === "1";
+  const playWithFade = () => { bgm.volume = 0; bgm.play().then(() => fadeTo(target)).catch(() => {}); };
+  // 每次进入作品集时默认开启。
+  bgmOn = true;
   sync();
+  if (volumeSlider) volumeSlider.addEventListener("input", () => {
+    target = Number(volumeSlider.value) / 100;
+    localStorage.setItem("bgm-volume", String(target));
+    localStorage.setItem("bgm-volume-set", "1");
+    if (bgmOn && !bgm.paused) fadeTo(target);
+  });
   if (bgmOn) playWithFade();
   // 浏览器拦截自动播放时，第一次点击/按键/触摸时补播
   const unlock = e => {
@@ -510,6 +575,7 @@ function nbFlipTo(i, dir) {
   const flip = nbSetupFlip(dir > 0 ? "bottom" : "top", nbIdx, i);
   flip.dataset.swapped = "";
   const target = dir > 0 ? 180 : -180;
+  sfx("page");
   gsap.to(flip, {
     rotationX: target, duration: 0.72, ease: "power1.inOut",
     onUpdate: function () {
@@ -524,7 +590,6 @@ function nbFlipTo(i, dir) {
       nbBusy = false;
     }
   });
-  sfx("page");
 }
 
 function nbOpen(thenIdx) {
@@ -631,7 +696,7 @@ function fillNotebook(s) {
   const fillMini = (sel, list) => {
     const el = $(sel);
     if (!el) return;
-    el.innerHTML = list.slice(0, 3).map(w => `<div class="nb-mini" data-id="${esc(w.id)}" data-cursor="play"><img src="${esc(w.poster)}" alt="${esc(w.title)}"></div>`).join("");
+    el.innerHTML = list.slice(0, 3).map(w => `<div class="nb-mini" data-id="${esc(w.id)}" data-cursor="play"><img src="${esc(assetPath(w.poster))}" alt="${esc(w.title)}"></div>`).join("");
     $$(".nb-mini", el).forEach(m => {
       const w = state.works.find(x => x.id === m.dataset.id);
       if (w) m.addEventListener("click", () => openCinema(w));
@@ -865,9 +930,26 @@ function initPlayer() {
   cv.addEventListener("play", syncState);
   cv.addEventListener("pause", syncState);
   const muteBtn = $("#v-mute");
+  const volumeSlider = $("#v-volume");
+  // CMS content loads asynchronously; apply its default once init() has the site.
+  let videoTarget = AUDIO_DEFAULTS.video / 100;
+  if (volumeSlider) volumeSlider.value = String(Math.round(videoTarget * 100));
+  vplayer.applyDefaultVolume = () => {
+    videoTarget = preferredMediaVolume("video");
+    cv.volume = videoTarget;
+    if (volumeSlider) volumeSlider.value = String(Math.round(videoTarget * 100));
+  };
   function syncMute() { muteBtn.textContent = cv.muted ? "🔇" : "🔊"; }
   syncMute();
   muteBtn.addEventListener("click", () => { cv.muted = !cv.muted; syncMute(); sfx("click"); });
+  if (volumeSlider) volumeSlider.addEventListener("input", () => {
+    videoTarget = Number(volumeSlider.value) / 100;
+    localStorage.setItem("video-volume", String(videoTarget));
+    localStorage.setItem("video-volume-set", "1");
+    cv.muted = videoTarget === 0;
+    cv.volume = videoTarget;
+    syncMute();
+  });
   playBtn.addEventListener("click", () => {
     if (sim.active) { simToggle(); return; }
     if (cv.paused) { cv.muted = false; syncMute(); cv.play().catch(() => {}); } else cv.pause();
@@ -913,6 +995,15 @@ function initPlayer() {
   vplayer.syncMute = syncMute;
   vplayer.sync = sync;
   vplayer.syncState = syncState;
+  vplayer.playWithFade = () => {
+    cv.muted = false;
+    cv.volume = 0;
+    cv.play().then(() => {
+      if (typeof gsap !== "undefined") gsap.to(cv, { volume: videoTarget, duration: 0.8, ease: "power1.inOut" });
+      else cv.volume = videoTarget;
+      syncMute();
+    }).catch(() => {});
+  };
   vplayer.simStart = durStr => {
     const m = /(\d+):(\d+)/.exec(durStr || "");
     sim.dur = m ? (+m[1]) * 60 + (+m[2]) : 30;
@@ -1093,9 +1184,10 @@ function initComments() {
 function renderStacks() {
   const grid = $("#stacks-grid");
   const stacks = state.postcards || [];
-  grid.innerHTML = stacks.map(s => {
-    const imgs = s.cards.slice(0, 3).map(c => `<img src="${esc(c.img)}" alt="${esc(s.title)}" loading="lazy">`).join("");
-    return `<div class="pstack" data-id="${esc(s.id)}" data-cursor="play" tabindex="0" role="button" aria-label="翻看明信片堆：${esc(s.title)}">
+  grid.innerHTML = stacks.map((s, index) => {
+    // CSS 的最后一张在最上层，因此倒序渲染后，后台排在第一张的图片就是预览封面。
+    const imgs = s.cards.slice(0, 3).reverse().map(c => `<img src="${esc(assetPath(c.img))}" alt="${esc(s.title)}" loading="lazy">`).join("");
+    return `<div class="pstack" style="--stack-i:${index}" data-id="${esc(s.id)}" data-cursor="play" tabindex="0" role="button" aria-label="翻看明信片堆：${esc(s.title)}">
       <div class="pstack-pile">${imgs}</div>
       <p class="pstack-title">${esc(s.title)}</p>
       <p class="pstack-count mono">${esc(s.en)} · ${s.cards.length} 张</p>
@@ -1106,6 +1198,17 @@ function renderStacks() {
     el.addEventListener("pointerenter", () => sfx("hover"));
     el.addEventListener("click", () => openPcViewer(s));
     el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPcViewer(s); } });
+  });
+  // 预览最上层就是后台第一张图片；卡片外框随它的真实比例变化，不会留下白边。
+  $$(".pstack-pile", grid).forEach(pile => {
+    const cover = pile.querySelector("img:last-child");
+    const applyRatio = () => {
+      if (cover && cover.naturalWidth && cover.naturalHeight) {
+        pile.style.setProperty("--pile-ratio", `${cover.naturalWidth} / ${cover.naturalHeight}`);
+      }
+    };
+    if (cover?.complete) applyRatio();
+    else cover?.addEventListener("load", applyRatio, { once: true });
   });
   watchReveals(grid);
 }
@@ -1144,9 +1247,28 @@ function openPcViewer(s) {
   pcv.order = s.cards.map((_, i) => i);
   $("#pc-stage").innerHTML = s.cards.map((c, i) => `
     <div class="pc-card" data-idx="${i}">
-      <img src="${esc(c.img)}" alt="${esc(c.note)}">
+      <img src="${esc(assetPath(c.img))}" alt="${esc(c.note)}">
       <div class="pc-note">${esc(c.note)}</div>
     </div>`).join("");
+  // 每张大图使用自身比例，在统一最大显示范围内等比缩放。
+  // 标题白条占用图片下方的独立空间，不覆盖原图。
+  $$(".pc-card img", $("#pc-stage")).forEach(img => {
+    const fitToImage = () => {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const maxW = Math.min(720, window.innerWidth * 0.82);
+      const noteH = 44;
+      const maxH = Math.min(540, window.innerHeight * 0.70) - noteH;
+      const ratio = img.naturalWidth / img.naturalHeight;
+      const width = Math.min(maxW, maxH * ratio);
+      const height = width / ratio;
+      const card = img.closest(".pc-card");
+      card.style.setProperty("--card-w", `${Math.round(width)}px`);
+      card.style.setProperty("--image-h", `${Math.round(height)}px`);
+      card.style.setProperty("--card-h", `${Math.round(height + noteH)}px`);
+    };
+    if (img.complete) fitToImage();
+    else img.addEventListener("load", fitToImage, { once: true });
+  });
   applyPcLayout(false);
   if (typeof gsap !== "undefined") {
     gsap.from(".pc-card", { y: "+=70", autoAlpha: 0, stagger: 0.06, duration: 0.5, ease: "power3.out" });
@@ -1174,14 +1296,16 @@ function pcFling(dx, dy) {
   const topEl = stage.querySelector(`.pc-card[data-idx="${pcv.order[0]}"]`);
   pcv.order.push(pcv.order.shift());
   $("#pc-counter").textContent = (pcv.order[0] + 1) + " / " + n;
-  if (typeof gsap === "undefined" || !topEl) { applyPcLayout(false); return; }
+  if (typeof gsap === "undefined" || !topEl) { applyPcLayout(false); sfx("page"); return; }
   const dirX = dx < 0 ? -1 : 1;
   const flyX = dirX * Math.max(innerWidth * 0.6, 520);
   const flyY = (dy || 0) * 1.2 - 40;
   topEl.style.zIndex = n + 5;
+  // Schedule from the gesture itself, even if a busy frame delays GSAP's callback.
+  sfx("page");
   gsap.timeline()
     .to(topEl, { x: flyX, y: flyY, rotation: dirX * 22, autoAlpha: 0, duration: 0.42, ease: "power2.out" })
-    .add(() => { applyPcLayout(true); sfx("page"); })
+    .add(() => { applyPcLayout(true); })
     .fromTo(topEl,
       { x: 60 * dirX, y: 70, rotation: dirX * 14, autoAlpha: 0 },
       { x: (n - 1) * 12, y: (n - 1) * 9, rotation: ((n - 1) % 2 === 0 ? -1 : 1) * (1.6 + (n - 1) * 1.1), scale: 1 - (n - 1) * 0.025, autoAlpha: 1, duration: 0.45, ease: "power3.out" });
@@ -1202,11 +1326,12 @@ function pcFlip(dir) {
       lastEl.style.zIndex = n + 1;
       applyPcLayout(true);
       lastEl.style.zIndex = n + 1;
+      sfx("page");
       gsap.fromTo(lastEl,
         { x: 430, y: -36, rotation: 16, autoAlpha: 0 },
-        { x: 0, y: 0, rotation: -1.6, scale: 1, autoAlpha: 1, duration: 0.45, ease: "power3.out", onComplete: () => applyPcLayout(false) });
-      sfx("page");
-    } else applyPcLayout(false);
+        { x: 0, y: 0, rotation: -1.6, scale: 1, autoAlpha: 1, duration: 0.45, ease: "power3.out",
+          onComplete: () => applyPcLayout(false) });
+    } else { applyPcLayout(false); sfx("page"); }
   }
 }
 
@@ -1307,6 +1432,16 @@ function initClipModal() {
 function initTimeline() {
   const nle = $(".nle");
   const ph = $(".playhead");
+  const ruler = $(".nle-ruler");
+  const track = $("#nle-track");
+  if (!nle || !ph || !ruler || !track) return;
+  // 卡尺与实际内容轨道使用同一宽度，避免长时间线后半段没有刻度。
+  const syncRulerWidth = () => {
+    const width = Math.max(track.scrollWidth, nle.clientWidth - 36, 1400);
+    nle.style.setProperty("--timeline-width", `${Math.ceil(width)}px`);
+  };
+  window.__syncTimelineRuler = syncRulerWidth;
+  new ResizeObserver(syncRulerWidth).observe(nle);
   let draggingPh = false;
   const fromEvent = e => {
     const r = nle.getBoundingClientRect();
@@ -1338,6 +1473,18 @@ function initTimeline() {
     setPlayhead(fromEvent(e));
     sfx("click");
   });
+  // 页面滚动就是剪辑推进：向下推进时间线、向上则倒回。
+  // 手动拖过时间线后保留访客的当前位置，不再强行抢回控制权。
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined" && !reducedMotion) {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.create({
+      trigger: "#exp",
+      start: "top 72%",
+      end: "bottom 28%",
+      onUpdate: self => window.__nleSync(self.progress),
+      onRefresh: syncRulerWidth
+    });
+  }
 }
 function observeSections() {
   $$("[data-delay]").forEach(el => el.style.setProperty("--d", el.dataset.delay + "s"));
@@ -1353,8 +1500,11 @@ function observeSections() {
 // 用户标注的定点星星：[x 比例, y 比例（画布高度）, 半径] —— 平时透明，鼠标划过点亮
 const PINNED_STARS = [
   [0.30, 0.157, 11], [0.06, 0.186, 6.5],
-  [0.56, 0.343, 6.5], [0.82, 0.114, 6.5], [0.89, 0.214, 6.5],
-  [0.586, 0.297, 11], [0.361, 0.164, 6.5], [0.305, 0.516, 6.5], [0.62, 0.767, 10]
+  [0.82, 0.114, 6.5], [0.89, 0.214, 6.5],
+  [0.361, 0.164, 6.5], [0.305, 0.516, 6.5], [0.62, 0.767, 10],
+  [0.4264, 0.1700, 13], [0.9278, 0.5005, 11], [0.5322, 0.8137, 7],
+  [0.5831, 0.2710, 9], [0.6148, 0.9656, 9], [0.0464, 0.8219, 9],
+  [0.8639, 0.8170, 11]
 ];
 function initStars() {
   const cv = document.getElementById("star-canvas");
@@ -1381,6 +1531,7 @@ function initStars() {
     for (const [px, py, pr] of PINNED_STARS) {
       stars.push({ x: px, y: py, r: pr, ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random() * 0.9, glow: 0 });
     }
+    cv.dataset.pinnedStarCount = String(PINNED_STARS.length);
   }
   function drawStar(x, y, r, alpha) {
     ctx.save();
@@ -1446,6 +1597,7 @@ async function init() {
     let site = pd.site, works = pd.works;
     state.site = site;
     state.works = works;
+    if (vplayer.applyDefaultVolume) vplayer.applyDefaultVolume();
     if (site && site.soundOn && localStorage.getItem("snd") === null) {
       state.sound = true;
       const sb = $("#btn-sound");
@@ -1455,6 +1607,8 @@ async function init() {
     initSfx();
     state.postcards = (window.PAGE_DATA && window.PAGE_DATA.postcards) || [];
     fillSite(site);
+    if (window.__syncTimelineRuler) window.__syncTimelineRuler();
+    if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
     fillNotebook(site);
     renderTabs();
     renderWorks();
