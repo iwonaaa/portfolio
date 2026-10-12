@@ -1,0 +1,806 @@
+{
+  "site": {
+    "contact": {
+      "email": "xyy030827@163.com",
+      "phone": "17799240827（微信同号） / +82 01098179936",
+      "wechat": "virrrrrr-OvO-",
+      "resumeUrl": "/assets/uploads/resume.pdf",
+      "bilibili": ""
+    },
+    "timeline": [
+      {
+        "period": "2022.09-2027.0",
+        "title": "影视动画专业 · 本科",
+        "org": "韩国弘益大学",
+        "desc": "主修课程：  MG动画，故事板 & 构图，融合影像制作 ，剧本。\n跨修游戏图形艺术专业课程：角色绑定动画，游戏动画，角色设计。",
+        "detail": "系统学习动画十二法则、分镜叙事与影视后期全流程。\n在校期间跨修游戏图形艺术专业课程：角色绑定动画，游戏动画，角色设计。\n独立完成2D短篇毕业设计，奇幻动画《我的理想国》。\n韩语能力 TOPIK 4级，取得韩国 SW/ DATA 技能认证，成绩优异，累计获得“校全球奖学金”约 18万 rmb。",
+        "tags": [
+          "动画原理",
+          "分镜叙事",
+          "后期合成",
+          "毕业设计"
+        ]
+      },
+      {
+        "period": "2026.7-至今",
+        "title": "动效设计实习生",
+        "org": "网易互娱",
+        "desc": "主要负责游戏AI产品的动效设计，深度参与UX设计。",
+        "detail": "      负责游戏AI产品动效设计，深入参与UX设计，从用户体验与需求出发进行UI动效分析与设计。分析多种类型游戏UI动效，深度洞察游戏用户体验和需求。对20+多品类AI产品进行多维度竞品调研分析并落地应用。将AI agent融入工作流，利用AI使用，编写skill，插件。并将codex接入AE，根据需求设计编写表达式，插件，脚本等。提升动效制作效率约40%。",
+        "tags": [
+          "游戏UI动效",
+          "界面动效",
+          "AI工作流",
+          "用户体验设计"
+        ]
+      },
+      {
+        "period": "2026.6-至今",
+        "title": "中国设计智造大奖（DIA）",
+        "org": "已晋级复赛并提名",
+        "desc": "从0-1负责UI动效设计和参赛视频制作。并深度参与UX设计。",
+        "detail": "因大赛进行中，目前处于保密项目保密期，具体项目内容暂时不便透露。\n从0-1负责UI动效设计和参赛视频制作。并深度参与UX设计。\n目前项目已晋级复赛并提名",
+        "tags": [
+          "UI界面动效设计",
+          "团队协作",
+          "获奖"
+        ]
+      },
+      {
+        "period": "2026.4-2026.6",
+        "title": "视频设计实习生",
+        "org": "搜狐畅游",
+        "desc": "艺术设计中心视效部，负责公司多品类游戏视频设计。",
+        "detail": "       艺术设计中心视效部，负责公司多品类游戏视频设计，了解SLG、RPG、MOBA、FPS等多种玩法类型。并独立搭建了AI游戏视频制作全流程链路，从文案脚本到角色场景再到完整视频合成。大大提高AI产出准确率，有效减少抽卡次数，显著提高工作和实际产出效率。",
+        "tags": [
+          "游戏视频",
+          "品宣视频",
+          "AI视频设计",
+          "脚本设计"
+        ]
+      },
+      {
+        "period": "2025.12-2026.3",
+        "title": "动效设计实习生",
+        "org": "武汉微派网络",
+        "desc": "负责社交游戏软件《会玩》/<weplay>海内外版本的动效，特效设计。",
+        "detail": "      负责社交游戏软件《会玩》/<weplay>海内外版本的动效，特效设计，高效完成排期需求的交付，涵盖多种类型。独立对接上下游需求，高效沟通对接，将创意转化为高质量、低性能开销文件，并规范交付，确保100%还原上线。主动优化工作流程，建立动效素材库，将相似需求的制作效率提升约30%。",
+        "tags": [
+          "H5动效",
+          "道具动效",
+          "礼物特效",
+          "前端交付"
+        ]
+      },
+      {
+        "period": "2024.11-2024.12",
+        "title": "《脸盲症就业指导》创意公益广告动画",
+        "org": "全流程",
+        "detail": "     以“脸盲症人群眼中的世界”为切入点，将抽象认知体验转化为独特的视觉语言，增强观众代入感与内容记忆点。\n    从脸盲症有趣奇异的视角在幽默形象的剧情中带观众真正感受困扰脸盲症人群眼中的世界。\n    使用 AE 完成角色动画、转场衔接与节奏卡点。让手绘元素与动态设计自然融合，提升叙事流畅度和视觉表现力。",
+        "desc": "从创意构思、角色设计、分镜脚本到动画落地全流程独立完成的2D创意动画，总时长1分53秒。"
+      },
+      {
+        "period": "2024.05-2024.06",
+        "detail": "以字体 HELVETICA 的特点为中心，画面突出简洁的可读性。利用经典醒目的红白配色表现其在字体界的地位。简单介绍字体作者，故事及其特点。",
+        "desc": "字体宣传广告 MG动画设计  时长37秒",
+        "org": "全流程",
+        "title": "《HELVETICA》"
+      },
+      {
+        "period": "2025.6",
+        "title": "《无巧不成婚》预告片",
+        "org": "剪辑，包装设计",
+        "detail": "以热情的橙色和冷静的蓝色撞色配色设计表现故事的温情又荒诞的冲突感。\n灵活运用电影语法和配乐音效把控节奏，突出电影亮点的同时保留悬念。",
+        "desc": "电影《无巧不成婚》韩国版预告片，时长50秒。"
+      }
+    ],
+    "skills": [
+      {
+        "name": "创意技能点：别的不说，脑洞多到根本用不完！",
+        "level": 90
+      },
+      {
+        "name": "学习技能点：小时候三分钟热度多了，长大发现学啥上手都挺快？",
+        "level": 85
+      },
+      {
+        "name": "沟通技能点：纠纷处理达人！我有专属人类沟通秘籍！",
+        "level": 80
+      },
+      {
+        "name": "耐心技能点：什么? 改回第一版？没问题~",
+        "level": 90
+      },
+      {
+        "name": "抗压技能点：高压环境长大的小孩抗压能力拉满！",
+        "level": 75
+      }
+    ],
+    "music": "assets/bgm.mp3",
+    "audioVolumes": { "bgm": 30, "sfx": 95, "video": 30 },
+    "software": [
+      "AE",
+      "Spine",
+      "Figma",
+      "Final Cut Pro",
+      "C4D",
+      "unity",
+      "PS",
+      "AI",
+      "PR"
+    ],
+    "name": "许怡媛",
+    "heroNote": "我的作品集 · PORTFOLIO",
+    "copy": {
+      "siteTitle": "许怡媛 · 作品集",
+      "navWorks": "作品",
+      "navAbout": "关于",
+      "navExperience": "经历",
+      "navContact": "联系",
+      "heroKicker": "PORTFOLIO 2026 — DIRECTOR'S CUT",
+      "scrollHint": "往下翻!",
+      "worksLabel": "01 · WORKS",
+      "worksTitle": "作品放映厅",
+      "aboutLabel": "03 · CHARACTER",
+      "aboutTitle": "角色面板",
+      "photoCaption": "本人比照片可爱 →",
+      "experienceLabel": "04 · TIMELINE",
+      "experienceTitle": "剪辑时间线",
+      "timelineHint": "← 拖动查看整条时间线 →",
+      "contactLabel": "05 · END CREDITS",
+      "contactTitle": "保持联系!",
+      "contactSubtitle": "实习 / 全职 / 项目合作都欢迎聊聊",
+      "resumeLabel": "下载简历 PDF ↓",
+      "backToTop": "回到片头 ↑"
+    },
+    "about": [
+      "       Hello~我叫许怡媛，很高兴认识你！\n       简历在最下面可以下载哦~那我们现在来聊点简历里没有的吧！\n       回想起来，我从认字握笔起就完全爱上了创作。无论是文字类创作还是视觉类创作，几乎占据了我过往的大部分时间。我用真诚展示我的世界，也很喜欢从不同视角感受不同的世界。真诚是创作的灵魂，也是我的灵魂！",
+      "   在我二十多年的人生工龄中，收获了好评无数~ \n在家人眼里，我的目标清晰，从来不用为我担心。在朋友眼里，我是心态超好的乐天派。在队友眼里我是靠谱可以兜底的合格队友。在带教导师眼里，我是可以协同性超强的好搭档~"
+    ],
+    "tagline": "人生的每一帧都是彩蛋！",
+    "soundOn": true,
+    "photo": "/assets/uploads/许怡媛-副本-1-.png",
+    "nameEn": "iwona",
+    "location": "求职中",
+    "role": "动效设计 · 影视动画专业应届本科毕业生",
+    "notebook": {
+      "ae": "动效设计：角色展示动画，logo动效，礼物特效，道具动效，H5页面动效...",
+      "ip": "视频动画：创意公益广告动画，MG动画，电影预告片...",
+      "thesis": "AI工作流探索：AI × 动效工作流，AI × 视频工作流，个人作品集网站..."
+    },
+    "book": {
+      "cover": "",
+      "tabTextColor": "#4d413a",
+      "hint": "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙",
+      "tabs": [
+        { "label": "AE动画", "color": "#dfcba4", "pages": [] },
+        { "label": "角色IP", "color": "#dfb0a5", "pages": [] },
+        { "label": "毕业设计", "color": "#adc3b6", "pages": [] }
+      ],
+      "doodleTab": { "label": "涂鸦", "color": "#d9bc78" }
+    },
+    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE",
+    "gallery": {
+      "sectionLabel": "02 · PHOTO WORKS",
+      "sectionTitle": "图片作品",
+      "title": "图片作品 · 明信片堆",
+      "subtitle": "POSTCARD STACKS — 点击牌堆，逐张翻看",
+      "viewerHint": "点击卡片 或 左右拖动 翻看"
+    }
+  },
+  "works": [
+    {
+      "dur": "00:05",
+      "en": "Aesthetics Dream Festival — Meteor Team logo animation effect",
+      "poster": "/assets/uploads/snipaste_2026-09-04_02-05-04.png",
+      "desc": "占位介绍：一组 App 界面交互动效合集，涵盖转场、加载、微交互反馈等场景，重点展示节奏感与缓动曲线的把控。",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "偶像梦幻祭——流星队logo动效",
+      "video": "/assets/uploads/新媒体后期制作实习生_许怡媛_测试1_17799240827.mp4",
+      "id": "w1",
+      "tools": "AE，AI",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00:40",
+      "en": "ICON MICRO-INTERACTIONS",
+      "poster": "/assets/uploads/5月18日-1-1-封面.jpg",
+      "desc": "占位介绍：以一组手绘风格图标为素材制作的微交互动效，探索弹性、惯性与变形动画的表现力。",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "明日方舟角色活动展示",
+      "video": "/assets/uploads/明日方舟单角色展示.mp4",
+      "id": "w2",
+      "tools": "AE",
+      "likes": 18,
+      "year": "2026"
+    },
+    {
+      "dur": "01:10",
+      "en": "PARTICLE & LIGHT STUDY",
+      "poster": "assets/poster-texiao.svg",
+      "desc": "占位介绍：粒子与光效专题练习，包含能量汇聚、拖尾光轨与冲击波等游戏技能特效常见镜头。",
+      "role": "特效制作",
+      "cat": "特效",
+      "title": "粒子光效练习",
+      "video": "",
+      "id": "w3",
+      "tools": "AE · Particular",
+      "likes": 47,
+      "year": "2025"
+    },
+    {
+      "dur": "00:58",
+      "en": "COMPOSITING BREAKDOWN",
+      "poster": "assets/poster-texiao.svg",
+      "desc": "占位介绍：实拍素材与 CG 元素的合成流程拆解，展示抠像、调色与光影匹配的完整过程。",
+      "role": "抠像 / 合成",
+      "cat": "特效",
+      "title": "合成镜头拆解",
+      "video": "",
+      "id": "w4",
+      "tools": "AE · PR",
+      "likes": 25,
+      "year": "2025"
+    },
+    {
+      "dur": "01:32",
+      "en": "CHARACTER SHORT",
+      "poster": "assets/poster-donghua.svg",
+      "desc": "占位介绍：一段 90 秒的角色表演短动画，讲了一个关于等待的小故事，全片手绘完成。",
+      "role": "分镜 / 原动画",
+      "cat": "动画",
+      "title": "角色短动画《占位》",
+      "video": "",
+      "id": "w5",
+      "tools": "TVPaint · AE",
+      "likes": 52,
+      "year": "2026"
+    },
+    {
+      "dur": "00:12",
+      "en": "WALK CYCLE STUDY",
+      "poster": "assets/poster-donghua.svg",
+      "desc": "占位介绍：不同性格角色的走路循环练习，用步伐节奏表现角色之间的情绪差异。",
+      "role": "动画",
+      "cat": "动画",
+      "title": "走路循环练习",
+      "video": "",
+      "id": "w6",
+      "tools": "Animate · AE",
+      "likes": 12,
+      "year": "2024"
+    },
+    {
+      "dur": "02:05",
+      "en": "COLLAGE EXPERIMENT",
+      "poster": "assets/poster-qita.svg",
+      "desc": "占位介绍：以旧杂志扫描件与手绘涂鸦为素材的拼贴风格实验短片，探索材质混搭的视觉张力。",
+      "role": "导演 / 剪辑",
+      "cat": "其他",
+      "title": "拼贴实验影像",
+      "video": "",
+      "id": "w7",
+      "tools": "PR · AE",
+      "likes": 29,
+      "year": "2025"
+    },
+    {
+      "dur": "03:20",
+      "en": "THESIS BEHIND THE SCENES",
+      "poster": "assets/poster-qita.svg",
+      "desc": "占位介绍：毕业设计创作过程纪录，从分镜到成片的全流程回顾。",
+      "role": "剪辑 / 包装",
+      "cat": "其他",
+      "title": "毕业设计幕后花絮",
+      "video": "",
+      "id": "w8",
+      "tools": "PR · DaVinci",
+      "likes": 33,
+      "year": "2026"
+    }
+  ],
+  "postcards": [
+    {
+      "id": "毕业设计《我的理想国》",
+      "title": "毕业设计《我的理想国》",
+      "en": "《My Utopia》",
+      "cards": [
+        {
+          "img": "/assets/uploads/c510e3c2daffbe8140cc1a3f172343f7.png",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/2.png",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/11e942d181cb8ee5131fbc6f0c1e4355.jpg",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/1.png",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/869bcfa89717af9f9ff9ac0fc96d64d1.jpg",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/ebfdd6dfddfb2834e229457a3f576d91.png",
+          "note": "《My Utopia》"
+        },
+        {
+          "img": "/assets/uploads/467159f72086c91965d899f84a2a5b5c.png",
+          "note": "《My Utopia》"
+        }
+      ]
+    },
+    {
+      "id": "脸盲症就业指导",
+      "title": "《脸盲症就业指导》视觉",
+      "en": "《Employment Guidance for Faceblindness》",
+      "cards": [
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_05.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_01.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_02.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_06.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_07.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_脸盲症就业指导_04.png",
+          "note": "《Employment Guidance for Faceblindness》"
+        }
+      ]
+    },
+    {
+      "id": "《想要成为树懒的理由》",
+      "title": "《想要成为树懒的理由》视觉",
+      "en": "《Reasons I Want to Be a Sloth》",
+      "cards": [
+        {
+          "img": "/assets/uploads/树懒3.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/树懒5.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/树懒4.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        },
+        {
+          "img": "/assets/uploads/32.png",
+          "note": "《Reasons I Want to Be a Sloth》"
+        }
+      ]
+    },
+    {
+      "id": "创意插画",
+      "title": "创意插画",
+      "en": "Creative Illustration",
+      "cards": [
+        {
+          "img": "/assets/uploads/cad5ee53c5c648f69683179f3e8d004c.jpg",
+          "note": "《游乐园在世界下班后开启》"
+        },
+        {
+          "img": "/assets/uploads/2f906ccbb7ea8677814b357dc57aabce.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/db44100917d539431a95b612331bf314.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/ab781c55e5db6f0ac2fde2fc83a144cf.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/84effb5b4886ac0caefacdfae341ac2f.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/8c86d773c9d50b5b67e17c8a1bf62e03.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/0d5a7e95526af23237bf3dc0c756adbf.jpg",
+          "note": "《Face Blindness》"
+        },
+        {
+          "img": "/assets/uploads/0adf0bc45fe62eb587bed3511cbb9826.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/259038ede3cae8206a57f1fee3fc2840.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/16bab3873652383e353015e121757090.jpg",
+          "note": "《聆听》"
+        },
+        {
+          "img": "/assets/uploads/22cd5fd493f919e63b81f04d20ee8799.jpg",
+          "note": "《聆听》"
+        }
+      ]
+    },
+    {
+      "id": "《闪光的秘密》",
+      "title": "《闪光的秘密》视觉",
+      "en": "《The Shining Secret》",
+      "cards": [
+        {
+          "img": "/assets/uploads/侦探原画2.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画4.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画3.png",
+          "note": "《The Shining Secret》"
+        },
+        {
+          "img": "/assets/uploads/侦探原画1.png",
+          "note": "《The Shining Secret》"
+        }
+      ]
+    },
+    {
+      "id": "《HELVETICA》",
+      "title": "《HELVETICA》视觉",
+      "en": "Helvetica",
+      "cards": [
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_05.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_01.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体2.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_02.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/许怡媛_hevletica_04.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体5.png",
+          "note": "《HELVETICA》"
+        },
+        {
+          "img": "/assets/uploads/字体8.png",
+          "note": "《HELVETICA》"
+        }
+      ]
+    },
+    {
+      "id": "AI分镜1",
+      "title": "AI分镜1",
+      "en": "AI Storyboard1",
+      "cards": [
+        {
+          "img": "/assets/uploads/0c5fd6bade3dc95c188440b370e83ffa.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/38d287b9fbd142760ab3f68cf3d11d5b.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/2d699c334034f8a58662f714fdf7f076.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/f3af4409acbe927cac046b6e848eda6e.jpg",
+          "note": "AI Storyboard1 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/80f38d4e184e444a6fd93c5082d19818.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/d93a7be78a8ec5d573a67cd7a4fdb953.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/12bdd7fc92b9870dc7c1792734cd3acc.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/3c722099974332718997b8b61858cd28.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/2663f07e49215271b22b5139ffc205f4.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/5ced76a72b10b09af51ca0117f44ff4d.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/da4473689053c1db11d316930d1c0c32.jpg",
+          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "id": "AI分镜 2",
+      "title": "AI分镜 2",
+      "en": "AI Storyboard 2",
+      "cards": [
+        {
+          "img": "/assets/uploads/2ee5cc852e1ed3493b5b7b36855852ac.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/84e6126ad2c1a20444e2bc666116e0d0.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/e6ca8af77a6cee04da2f7782f7a56d0a.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/59a173eda09447251c64ba521234993b.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/86ac99b8260cce88d2a225812a8ec39c.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/ee8c7fb5902e95d540ccb720077db3c0.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/3ee0c5e5be191a61f34635de92325094.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/5edb965b24220f537c835b3a849b19eb.png",
+          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "title": "AI道具资产",
+      "id": "AI道具资产",
+      "en": "AI Tool Assets",
+      "cards": [
+        {
+          "img": "/assets/uploads/cd556d88b1cf74ffe006f362bea5538d.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/368ce2d8d5ed16a96b9b6d214577b02e.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/56b7d5c75a3764e36a517edbf4adf954.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/d22b8ceb1330e0a1bc8d10546b05abe6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/11f80392fef70197b3ea88336bac1ce6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/6f80c874b426fdfdbc1097384144dde6.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/9b849afe7eaf5ea5e1afd122bc94a9cb.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/a89e89ad4d13d6ebe23f1e97cf830e16.jpg",
+          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/b38ae5640a56004d8def67760236377a.jpg",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/cb84edcfc811315f1258fed31fb4f1bc.jpg",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/4cf643547da8234ea9dc9d7f7763aa07.png",
+          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
+        }
+      ]
+    },
+    {
+      "id": "角色设计",
+      "title": "角色设计",
+      "en": "Character Design",
+      "cards": [
+        {
+          "img": "/assets/uploads/a952a9035cec375529ba0df2947102bb.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/15.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/11.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/12.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/13.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/16.png",
+          "note": "Character Design"
+        },
+        {
+          "img": "/assets/uploads/17.png",
+          "note": "Character Design"
+        }
+      ]
+    },
+    {
+      "id": "手绘技能",
+      "title": "手绘技能",
+      "en": "Hand-drawing skills",
+      "cards": [
+        {
+          "img": "/assets/uploads/18.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/19.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/20.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/21.png",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/ada4403b4ff813de4aebf57b967faeec.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/6402d9fe0601e4f5952439e3a6db3462.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/620a04b52475252ec47c609141353611.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/46a77de3207c2a4521be653c26daf3c2.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/f1ff2753434cf34fb2d8702d25dac412.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/c3804594ccd165df4dc4c36015ed4fdb.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/ae648bf312183040db7d0130973ca6c0.jpg",
+          "note": "Hand-drawing skills"
+        },
+        {
+          "img": "/assets/uploads/6ac6c200d8e6b83dbb6916ec5e0f2db8.jpg",
+          "note": "Hand-drawing skills"
+        }
+      ]
+    },
+    {
+      "id": "3D作品",
+      "title": "3D作品",
+      "en": "3D work",
+      "cards": [
+        {
+          "img": "/assets/uploads/7.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/9.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/4.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/5.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/6.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/8.png",
+          "note": "3D work"
+        },
+        {
+          "img": "/assets/uploads/许怡媛-副本-2-.png",
+          "note": "3D work"
+        }
+      ]
+    },
+    {
+      "id": "《无巧不成婚》预告片视觉",
+      "title": "《无巧不成婚》预告片视觉",
+      "en": "\"Le sens de la fête\" Trailer Visuals ",
+      "cards": [
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-00-48.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_13-59-35.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-00-22.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-01-14.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-01-34.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_14-02-04.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-09-29_13-58-53.png",
+          "note": "\"Le sens de la fête\" Trailer Visuals "
+        }
+      ]
+    }
+  ]
+}
