@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>涂鸦与评论管理</title>
+  <style>
+    :root { --ink:#221d15; --paper:#f6f0e4; --red:#e94335; --line:#c8bdab; }
+    * { box-sizing:border-box; } body { margin:0; color:var(--ink); background:var(--paper); font-family:"PingFang SC","Microsoft YaHei",sans-serif; }
+    main { max-width:1180px; margin:0 auto; padding:34px 24px 70px; } header { display:flex; gap:16px; justify-content:space-between; align-items:start; border-bottom:2px solid var(--ink); padding-bottom:20px; }
+    h1 { margin:0; font-size:28px; } .sub { margin:8px 0 0; color:#665c4e; } a,button { font:inherit; } .back { border:1px solid var(--ink); color:var(--ink); text-decoration:none; padding:9px 12px; border-radius:6px; white-space:nowrap; }
+    .notice { margin:22px 0; padding:12px 14px; border:1px dashed var(--line); background:#fff9ee; color:#665c4e; } .error { color:#a4251b; }
+    section { margin-top:36px; } h2 { margin:0 0 14px; font-size:20px; } .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:16px; }
+    .sticker, .comment { background:#fffdf8; border:1px solid var(--line); border-radius:10px; overflow:hidden; } .sticker img { width:100%; aspect-ratio:1.4; display:block; object-fit:contain; background:#eee7d9; }
+    .meta { color:#766b5e; font-size:12px; } .card-body { padding:11px; } .comment { padding:16px; margin-bottom:12px; display:grid; gap:8px; } .comment-text { white-space:pre-wrap; line-height:1.55; }
+    button { cursor:pointer; border:0; border-radius:6px; background:var(--red); color:white; padding:8px 11px; justify-self:start; } button:hover { filter:brightness(.92); } .empty { color:#766b5e; padding:16px 0; }
+    @media (max-width:600px) { main { padding:24px 16px 50px; } header { display:block; } .back { display:inline-block; margin-top:16px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header><div><h1>涂鸦与评论管理</h1><p class="sub">删除操作立即生效，不会触发网站重新发布。</p></div><a class="back" href="./">← 返回内容后台</a></header>
+    <p id="status" class="notice">正在读取公开互动内容…</p>
+    <section><h2>涂鸦贴纸墙</h2><div id="stickers" class="grid"></div></section>
+    <section><h2>视频评论</h2><div id="comments"></div></section>
+  </main>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    const endpoint = "/.netlify/functions/moderation";
+    const status = document.querySelector("#status"), stickers = document.querySelector("#stickers"), comments = document.querySelector("#comments");
+    const escapeHtml = value => String(value || "").replace(/[&<>'\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;","\"":"&quot;"}[c]));
+    const dateText = ts => ts ? new Date(ts).toLocaleString("zh-CN", { hour12:false }) : "未记录时间";
+    async function authHeaders(json) { const headers = json ? {"Content-Type":"application/json"} : {}; const user = window.netlifyIdentity && window.netlifyIdentity.currentUser && window.netlifyIdentity.currentUser(); if (user) { try { headers.Authorization = "Bearer " + await user.jwt(); } catch (e) {} } return headers; }
+    async function remove(body) { if (!confirm("确定要删除这条内容吗？此操作不能撤销。")) return; const r = await fetch(endpoint, { method:"POST", headers:await authHeaders(true), body:JSON.stringify(body) }); if (!r.ok) { alert("删除失败，请确认已登录后台后重试。"); return; } load(); }
+    function render(data) {
+      const list = data.stickers || [], notes = data.comments || [];
+      stickers.innerHTML = list.length ? list.map(item => `<article class="sticker"><img src="${item.img}" alt="访客涂鸦"><div class="card-body"><div class="meta">${dateText(item.ts)}</div><button data-sticker="${item.id}">删除涂鸦</button></div></article>`).join("") : '<p class="empty">还没有公开涂鸦。</p>';
+      comments.innerHTML = notes.length ? notes.map(item => `<article class="comment"><div><strong>${escapeHtml(item.name || "匿名观众")}</strong> <span class="meta">· ${escapeHtml(item.work)} · ${dateText(item.ts)}</span></div><div class="comment-text">${escapeHtml(item.text)}</div><button data-comment="${item.id}" data-work="${escapeHtml(item.work)}">删除评论</button></article>`).join("") : '<p class="empty">还没有视频评论。</p>';
+      document.querySelectorAll("[data-sticker]").forEach(button => button.onclick = () => remove({ op:"delete-sticker", id:button.dataset.sticker }));
+      document.querySelectorAll("[data-comment]").forEach(button => button.onclick = () => remove({ op:"delete-comment", id:button.dataset.comment, work:button.dataset.work }));
+    }
+    async function load() { status.textContent = "正在读取公开互动内容…"; status.classList.remove("error"); try { const r = await fetch(endpoint, { cache:"no-store", headers:await authHeaders(false) }); if (r.status === 401) { status.textContent = "请先登录内容后台，再回到本页管理。"; status.classList.add("error"); if (window.netlifyIdentity) window.netlifyIdentity.open(); return; } if (!r.ok) throw new Error(); render(await r.json()); status.textContent = "已同步。这里的删除会立即从公开页面移除，无需重新发布网站。"; } catch (e) { status.textContent = "暂时无法读取管理数据，请确认已通过 Netlify 发布并登录后台。"; status.classList.add("error"); } }
+    if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); window.netlifyIdentity.on("login", () => { window.netlifyIdentity.close(); load(); }); }
+    load();
+  </script>
+</body>
+</html>

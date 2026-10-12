@@ -9,9 +9,11 @@
     body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #F1EAD9; }
     #nc-root { min-height: 100vh; }
     .admin-tip { position: fixed; left: 12px; bottom: 12px; z-index: 9999; background: #221D15; color: #F6F0E4; font-size: 12px; padding: 8px 14px; border-radius: 8px; opacity: .85; pointer-events: none; }
+    .moderation-link { position: fixed; right: 16px; top: 14px; z-index: 9999; padding: 10px 14px; border-radius: 8px; background: #E94335; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; box-shadow: 0 3px 12px #0003; }
   </style>
 </head>
 <body>
+  <a class="moderation-link" href="./moderation.html">管理涂鸦与评论</a>
   <div class="admin-tip">作品集后台 · 改动后等 1~2 分钟自动上线</div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>

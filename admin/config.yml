@@ -4,119 +4,167 @@ backend:
 
 media_folder: "assets/uploads"
 public_path: "/assets/uploads"
-
 locale: "zh"
 
 collections:
-  - name: "site"
-    label: "站点文字与设置"
+  - name: "portfolio"
+    label: "作品集全部内容"
     files:
-      - name: "site"
-        label: "全局内容"
-        file: "content/site.json"
+      - name: "portfolio"
+        label: "全部内容（一次保存）"
+        file: "content/portfolio.json"
         format: "json"
         fields:
-          - { label: "名字（中文）", name: "name", widget: "string" }
-          - { label: "名字（英文装饰）", name: "nameEn", widget: "string" }
-          - { label: "职业一句话", name: "role", widget: "string" }
-          - { label: "职业（英文装饰）", name: "roleEn", widget: "string" }
-          - { label: "签名语", name: "tagline", widget: "string" }
-          - { label: "所在地 · 状态", name: "location", widget: "string" }
-          - { label: "封皮下方小字", name: "heroNote", widget: "string" }
-          - label: "手账页签介绍"
-            name: "notebook"
+          - label: "站点信息"
+            name: "site"
             widget: "object"
             fields:
-              - { label: "AE动画页", name: "ae", widget: "text" }
-              - { label: "角色IP页", name: "ip", widget: "text" }
-              - { label: "毕业设计页", name: "thesis", widget: "text" }
-          - { label: "个人照片（角色面板拍立得）", name: "photo", widget: "image", required: false, hint: "不传就用占位图；建议竖版 3:4" }
-          - label: "关于我（每段一条）"
-            name: "about"
-            widget: "list"
-            field: { label: "段落", name: "p", widget: "text" }
-          - label: "技能条"
-            name: "skills"
-            widget: "list"
-            fields:
-              - { label: "软件名", name: "name", widget: "string" }
-              - { label: "等级（0-100）", name: "level", widget: "number", min: 0, max: 100, value_type: "int" }
-          - label: "软件徽章（每枚一条）"
-            name: "software"
-            widget: "list"
-            field: { label: "徽章", name: "s", widget: "string" }
-          - label: "经历时间线"
-            name: "timeline"
-            widget: "list"
-            fields:
-              - { label: "时间段", name: "period", widget: "string", hint: "如 2025.06 — 2025.12" }
-              - { label: "标题", name: "title", widget: "string" }
-              - { label: "公司/学校", name: "org", widget: "string" }
-              - { label: "简介（时间线卡片上显示）", name: "desc", widget: "text" }
-              - { label: "详情（点开后弹窗里显示，可写多行）", name: "detail", widget: "text", required: false }
-              - label: "标签（弹窗里的小徽章，每枚一条）"
-                name: "tags"
+              - { label: "名字（中文）", name: "name", widget: "string" }
+              - { label: "名字（英文装饰）", name: "nameEn", widget: "string" }
+              - { label: "职业一句话", name: "role", widget: "string" }
+              - { label: "职业（英文装饰）", name: "roleEn", widget: "string" }
+              - { label: "签名语", name: "tagline", widget: "string" }
+              - { label: "所在地 · 状态", name: "location", widget: "string" }
+              - { label: "封皮下方小字", name: "heroNote", widget: "string" }
+              - label: "页面固定文字（导航、标题、提示）"
+                name: "copy"
+                widget: "object"
+                fields:
+                  - { label: "浏览器标题", name: "siteTitle", widget: "string", default: "作品集" }
+                  - { label: "导航：作品", name: "navWorks", widget: "string", default: "作品" }
+                  - { label: "导航：关于", name: "navAbout", widget: "string", default: "关于" }
+                  - { label: "导航：经历", name: "navExperience", widget: "string", default: "经历" }
+                  - { label: "导航：联系", name: "navContact", widget: "string", default: "联系" }
+                  - { label: "首页英文眉题", name: "heroKicker", widget: "string", default: "PORTFOLIO 2026 — DIRECTOR'S CUT" }
+                  - { label: "首页滚动提示", name: "scrollHint", widget: "string", default: "往下翻!" }
+                  - { label: "视频模块编号", name: "worksLabel", widget: "string", default: "01 · WORKS" }
+                  - { label: "视频模块标题", name: "worksTitle", widget: "string", default: "作品放映厅" }
+                  - { label: "角色模块编号", name: "aboutLabel", widget: "string", default: "03 · CHARACTER" }
+                  - { label: "角色模块标题", name: "aboutTitle", widget: "string", default: "角色面板" }
+                  - { label: "照片下方文字", name: "photoCaption", widget: "string", default: "本人比照片可爱 →" }
+                  - { label: "经历模块编号", name: "experienceLabel", widget: "string", default: "04 · TIMELINE" }
+                  - { label: "经历模块标题", name: "experienceTitle", widget: "string", default: "剪辑时间线" }
+                  - { label: "时间线提示", name: "timelineHint", widget: "string", default: "← 拖动查看整条时间线 →" }
+                  - { label: "联系模块编号", name: "contactLabel", widget: "string", default: "05 · END CREDITS" }
+                  - { label: "联系模块标题", name: "contactTitle", widget: "string", default: "保持联系!" }
+                  - { label: "联系副标题", name: "contactSubtitle", widget: "string", default: "实习 / 全职 / 项目合作都欢迎聊聊" }
+                  - { label: "简历按钮文字", name: "resumeLabel", widget: "string", default: "下载简历 PDF ↓" }
+                  - { label: "回到顶部按钮文字", name: "backToTop", widget: "string", default: "回到片头 ↑" }
+              - label: "首页 3D 笔记本（封面、索引标签与页面）"
+                name: "book"
+                widget: "object"
+                fields:
+                  - { label: "笔记本封面图片", name: "cover", widget: "image", required: false, hint: "不上传时显示黑色封面；上传后完整替换。推荐比例 23:33。" }
+                  - { label: "笔记本下方提示文字", name: "hint", widget: "string", default: "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙" }
+                  - { label: "索引文字颜色", name: "tabTextColor", widget: "string", required: false, default: "#4d413a", hint: "默认是低饱和深棕色。请使用较深的颜色，以保持票根上的文字清晰。" }
+                  - label: "右侧索引标签（可增减、可拖动排序）"
+                    name: "tabs"
+                    widget: "list"
+                    required: false
+                    max: 7
+                    hint: "每个标签是一组笔记本页面。可新增、删除并拖动调整标签与页面顺序；每张页面图片推荐比例 23:33。"
+                    fields:
+                      - { label: "标签文字", name: "label", widget: "string", hint: "这里修改票根上显示的标题；该标签打开后的内容在下方页面图片中修改。" }
+                      - { label: "标签颜色（如 #dfcba4）", name: "color", widget: "string", default: "#dfcba4" }
+                      - label: "这一标签的笔记本页面"
+                        name: "pages"
+                        widget: "list"
+                        required: false
+                        fields:
+                          - { label: "页面图片", name: "image", widget: "image" }
+                  - label: "固定涂鸦页索引"
+                    name: "doodleTab"
+                    widget: "object"
+                    fields:
+                      - { label: "标签文字", name: "label", widget: "string", default: "涂鸦" }
+                      - { label: "标签颜色（如 #d9bc78）", name: "color", widget: "string", default: "#d9bc78" }
+              - label: "图片作品模块标题"
+                name: "gallery"
+                widget: "object"
+                fields:
+                  - { label: "模块编号 / 英文装饰", name: "sectionLabel", widget: "string", default: "02 · PHOTO WORKS" }
+                  - { label: "模块大标题", name: "title", widget: "string", default: "图片作品 · 明信片堆" }
+                  - { label: "副标题", name: "subtitle", widget: "string", default: "POSTCARD STACKS — 点击牌堆，逐张翻看" }
+                  - { label: "查看提示", name: "viewerHint", widget: "string", default: "点击卡片 或 左右拖动 翻看" }
+              - { label: "个人照片", name: "photo", widget: "image", required: false }
+              - label: "关于我"
+                name: "about"
                 widget: "list"
+                field: { label: "段落", name: "p", widget: "text" }
+              - label: "技能条"
+                name: "skills"
+                widget: "list"
+                fields:
+                  - { label: "名称", name: "name", widget: "string" }
+                  - { label: "等级（0-100）", name: "level", widget: "number", min: 0, max: 100, value_type: "int" }
+              - label: "软件徽章"
+                name: "software"
+                widget: "list"
+                field: { label: "徽章", name: "s", widget: "string" }
+              - label: "经历时间线"
+                name: "timeline"
+                widget: "list"
+                fields:
+                  - { label: "时间段", name: "period", widget: "string" }
+                  - { label: "标题", name: "title", widget: "string" }
+                  - { label: "公司/学校", name: "org", widget: "string" }
+                  - { label: "简介", name: "desc", widget: "text" }
+                  - { label: "详情", name: "detail", widget: "text", required: false }
+                  - label: "标签"
+                    name: "tags"
+                    widget: "list"
+                    required: false
+                    field: { label: "标签", name: "tag", widget: "string" }
+              - label: "联系方式"
+                name: "contact"
+                widget: "object"
+                fields:
+                  - { label: "邮箱", name: "email", widget: "string" }
+                  - { label: "电话", name: "phone", widget: "string" }
+                  - { label: "微信", name: "wechat", widget: "string" }
+                  - { label: "简历 PDF 链接", name: "resumeUrl", widget: "string", required: false }
+                  - { label: "B站主页", name: "bilibili", widget: "string", required: false }
+              - { label: "背景音乐链接", name: "music", widget: "string", required: false }
+              - label: "默认音量（百分比）"
+                name: "audioVolumes"
+                widget: "object"
                 required: false
-                field: { label: "标签", name: "tag", widget: "string" }
-          - label: "联系方式"
-            name: "contact"
-            widget: "object"
-            fields:
-              - { label: "邮箱", name: "email", widget: "string" }
-              - { label: "电话", name: "phone", widget: "string" }
-              - { label: "微信", name: "wechat", widget: "string" }
-              - { label: "简历 PDF 链接", name: "resumeUrl", widget: "string", required: false, hint: "把 resume.pdf 传到素材库后填 /assets/uploads/resume.pdf" }
-              - { label: "B站主页", name: "bilibili", widget: "string", required: false }
-          - { label: "背景音乐 mp3 链接", name: "music", widget: "string", required: false, hint: "素材库上传 mp3 后填它的地址，留空则无背景音乐" }
-          - { label: "音效默认开启", name: "soundOn", widget: "boolean", default: false }
-
-  - name: "works"
-    label: "作品（视频卡）"
-    files:
-      - name: "works"
-        label: "作品列表"
-        file: "content/works.json"
-        format: "json"
-        fields:
-          - label: "作品"
+                hint: "填写 0–100，0 为静音。修改默认值后会更新访客的初始音量；访客仍可自行调整音乐和视频滑条。音效只调整音量，不改变原声和播放速度。"
+                fields:
+                  - { label: "BGM 默认音量（%）", name: "bgm", widget: "number", value_type: "int", min: 0, max: 100, step: 1, default: 30 }
+                  - { label: "音效默认音量（%）", name: "sfx", widget: "number", value_type: "int", min: 0, max: 100, step: 1, default: 95 }
+                  - { label: "作品视频默认音量（%）", name: "video", widget: "number", value_type: "int", min: 0, max: 100, step: 1, default: 30 }
+              - { label: "音效默认开启", name: "soundOn", widget: "boolean", default: true }
+          - label: "视频作品"
             name: "works"
-            label_singular: "作品"
             widget: "list"
+            label_singular: "作品"
             fields:
-              - { label: "ID（唯一英文）", name: "id", widget: "string", hint: "如 w9，别和别的作品重复" }
+              - { label: "ID", name: "id", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
-              - { label: "英文名（装饰小字）", name: "en", widget: "string" }
+              - { label: "英文名", name: "en", widget: "string" }
               - { label: "分类", name: "cat", widget: "select", options: ["动效", "特效", "动画", "其他"] }
               - { label: "年份", name: "year", widget: "string" }
-              - { label: "时长", name: "dur", widget: "string", hint: "格式如 00:45" }
+              - { label: "时长", name: "dur", widget: "string" }
               - { label: "我的职责", name: "role", widget: "string" }
               - { label: "使用软件", name: "tools", widget: "string" }
               - { label: "介绍", name: "desc", widget: "text" }
               - { label: "封面图", name: "poster", widget: "image" }
-              - { label: "视频文件（mp4）", name: "video", widget: "file", required: false }
+              - { label: "视频文件", name: "video", widget: "file", required: false }
               - { label: "初始点赞数", name: "likes", widget: "number", value_type: "int", default: 0 }
-
-  - name: "postcards"
-    label: "明信片堆（图片作品）"
-    files:
-      - name: "postcards"
-        label: "明信片堆列表"
-        file: "content/postcards.json"
-        format: "json"
-        fields:
-          - label: "明信片堆"
+          - label: "图片作品"
             name: "postcards"
-            label_singular: "明信片堆"
             widget: "list"
+            label_singular: "图片作品"
             fields:
-              - { label: "ID（唯一英文）", name: "id", widget: "string", hint: "如 pc3" }
+              - { label: "ID", name: "id", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
-              - { label: "英文名（装饰小字）", name: "en", widget: "string" }
-              - label: "卡片"
+              - { label: "英文名", name: "en", widget: "string" }
+              - label: "图片卡片"
                 name: "cards"
-                label_singular: "卡片"
                 widget: "list"
+                label_singular: "卡片"
+                hint: "后台列表第一张会作为这一叠的预览封面；拖动卡片可调整显示顺序。"
                 fields:
                   - { label: "图片", name: "img", widget: "image" }
                   - { label: "图注", name: "note", widget: "string" }
