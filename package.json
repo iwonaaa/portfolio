@@ -1,7 +1,25 @@
 {
   "name": "portfolio",
   "private": true,
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "build:dream": "node src/dream/build.mjs",
+    "build:paper-crumple": "node src/paper-crumple/build.mjs"
+  },
   "dependencies": {
-    "@netlify/blobs": "^8.0.0"
+    "@netlify/blobs": "^8.0.0",
+    "@netlify/identity": "^2.0.0",
+    "@radix-ui/colors": "^3.0.0",
+    "@radix-ui/react-slot": "^1.4.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "roughjs": "^4.6.6",
+    "tailwind-merge": "^3.7.0",
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
   }
 }

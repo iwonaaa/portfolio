@@ -14,8 +14,9 @@
   })();
 </script>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>
-<link rel="stylesheet" href="css/style.css?v=16">
+<script>document.addEventListener("DOMContentLoaded", function () { if (window.netlifyIdentity) window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); });</script>
+  <link rel="stylesheet" href="css/style.css?v=32">
+  <link rel="stylesheet" href="css/floating-doodles.css?v=8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='38' fill='%23E6392B'/%3E%3C/svg%3E">
 </head>
 <body class="grain-on">
@@ -28,12 +29,13 @@
 <header id="top">
   <a class="brand" href="#hero" data-cursor="link"><span data-name>你的名字</span><i class="rec-dot" aria-hidden="true"></i><span class="brand-en mono">PORTFOLIO</span></a>
   <nav>
-    <a href="#works" data-cursor="link">作品</a>
-    <a href="#about" data-cursor="link">关于</a>
-    <a href="#exp" data-cursor="link">经历</a>
-    <a href="#contact" data-cursor="link">联系</a>
+    <a href="#works" data-cursor="link" data-copy="navWorks">作品</a>
+    <a href="#about" data-cursor="link" data-copy="navAbout">关于</a>
+    <a href="#exp" data-cursor="link" data-copy="navExperience">经历</a>
+    <a href="#contact" data-cursor="link" data-copy="navContact">联系</a>
   </nav>
   <button id="btn-music" class="chip-btn" data-cursor="link" style="display:none" aria-pressed="false">音乐 OFF</button>
+  <label class="top-volume" id="bgm-control" style="display:none">BGM <input id="bgm-volume" type="range" min="0" max="100" value="30" aria-label="背景音乐音量"></label>
   <button id="btn-sound" class="chip-btn" data-cursor="link" aria-pressed="false">音效 OFF</button>
 </header>
 
@@ -42,7 +44,7 @@
     <div id="hero-3d" aria-hidden="true"></div>
     <div class="hero-inner">
       <div class="hero-text">
-      <p class="kicker mono rv">PORTFOLIO 2026 &mdash; DIRECTOR&rsquo;S CUT <i class="rec-dot" aria-hidden="true"></i> REC</p>
+      <p class="kicker mono rv"><span data-copy="heroKicker">PORTFOLIO 2026 — DIRECTOR'S CUT</span> <i class="rec-dot" aria-hidden="true"></i> REC</p>
       <h1 class="rv"><span class="hero-name" data-name>你的名字</span><span class="hero-name-en" data-name-en>YOUR NAME</span></h1>
       <p class="hero-role rv" data-role>动效设计师 · 影视动画专业应届本科毕业生</p>
       <p class="hero-tag rv" data-tagline>把每一帧，都当成彩蛋来做。</p>
@@ -55,39 +57,61 @@
         <div class="book3d-wrap" id="book3d-wrap" data-cursor="drag" data-lenis-prevent>
           <canvas id="book3d"></canvas>
         </div>
-        <p class="nb-hint mono">拖页面左右翻书 &middot; 点书侧页签直达 &middot; 毕业设计点右页翻 PDF &middot; 涂鸦页在框内作画</p>
+        <p class="nb-hint mono" data-copy="bookHint">拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙</p>
       </div>      <div class="scroll-hint" aria-hidden="true">
         <svg viewBox="0 0 60 90" class="doodle-arrow"><path d="M30 6 C 28 30, 34 52, 30 74 M 18 58 L 30 76 L 42 58" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>往下翻!</span>
+        <span data-copy="scrollHint">往下翻!</span>
       </div>
     </div>
   </section>
 
   <section id="works" data-dir="right">
-    <i class="para-star" data-speed="0.16" style="top:9%;right:6%" aria-hidden="true">✦</i>
-    <i class="para-star blue" data-speed="-0.1" style="top:58%;left:3%" aria-hidden="true">✦</i>
-    <p class="sec-label mono" data-animate="left">01 &middot; WORKS</p>
-    <h2 data-animate="up">作品放映厅<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <i class="para-star reference-doodle cat" data-speed="0.04" style="--doodle-size:106px;top:35px;right:6%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle star" data-speed="-0.025" style="--doodle-size:53px;bottom:42px;left:8%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle trumpeter" data-speed="0.03" style="--doodle-size:82px;bottom:38px;right:10%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle five-star" data-speed="-0.025" style="--doodle-size:47px;top:94px;right:22%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle five-star" data-speed="0.03" style="--doodle-size:69px;bottom:34px;left:28%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle blue-outline-star" data-added-doodle="2" data-doodle-anchor="#works-grid .work:nth-child(7)" data-doodle-side="left" data-doodle-align="start" style="--doodle-size:28px;top:68%;left:2%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle yellow-solid-star" data-added-doodle="3" data-doodle-anchor="#tabs" data-doodle-side="above" style="--doodle-size:48px;top:230px;left:46%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle yellow-solid-star" data-refinement-doodle="3" data-doodle-anchor="#works-grid .work:nth-child(6)" data-doodle-side="right" data-doodle-y="0.06" style="--doodle-size:36px;top:45%;right:2%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle blue-solid-star" data-refinement-doodle="5" data-doodle-anchor="#works-grid .work:first-child" data-doodle-side="left" data-doodle-y="0.05" data-doodle-gutter="0.8" style="--doodle-size:28px;top:350px;left:6%" aria-hidden="true"></i>
+    <p class="sec-label mono" data-animate="left" data-copy="worksLabel">01 · WORKS</p>
+    <h2 data-animate="up" data-copy="worksTitle">作品放映厅<i class="u-squiggle" aria-hidden="true"></i></h2>
     <div class="tabs" id="tabs" role="tablist" aria-label="作品分类" data-animate="up" data-delay="0.15"></div>
     <div id="works-grid"></div>
-    <div class="stacks-head" data-animate="right">
-      <h3>图片作品 · 明信片堆<i class="u-squiggle" aria-hidden="true"></i></h3>
-      <p class="mono stacks-sub">POSTCARD STACKS — 点击牌堆，逐张翻看</p>
+  </section>
+
+  <section id="gallery" data-dir="left">
+    <i class="para-star reference-doodle strawberry" data-speed="0.03" style="--doodle-size:96px;top:38px;right:7%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle five-star" data-speed="-0.025" style="--doodle-size:52px;top:115px;right:23%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle drummer" data-speed="0.04" style="--doodle-size:89px;bottom:30px;left:12%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle cat" data-added-doodle="4" data-doodle-anchor="#stacks-grid .pstack:nth-child(9) .pstack-pile" data-doodle-side="right" data-doodle-y="0.72" style="--doodle-size:68px;top:56%;right:2%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle blue-outline-star" data-followup-doodle="3" data-doodle-anchor="#stacks-grid .pstack:first-child .pstack-pile" data-doodle-side="left" data-doodle-y="0.08" data-doodle-gutter="0.25" style="--doodle-size:28px;top:350px;left:2%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle flowers" data-added-doodle="5" data-doodle-anchor="#stacks-grid .pstack:first-child .pstack-pile" data-doodle-side="left" style="--doodle-size:68px;top:350px;left:2%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle yellow-solid-star" data-refinement-doodle="2" data-doodle-anchor="#stacks-grid .pstack:nth-child(10) .pstack-pile" data-doodle-side="left" data-doodle-y="0.25" style="--doodle-size:46px;top:72%;left:3%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle blue-outline-star" data-refinement-doodle="6" data-doodle-anchor="#stacks-grid .pstack:nth-child(9) .pstack-pile" data-doodle-side="right" data-doodle-y="0.10" data-doodle-gutter="0.45" style="--doodle-size:28px;top:52%;right:6%" aria-hidden="true"></i>
+    <p class="sec-label mono" data-animate="left" id="gallery-label">02 · PHOTO WORKS</p>
+    <div class="stacks-head" data-animate="up">
+      <h2 id="stacks-title">图片作品 · 明信片堆<i class="u-squiggle" aria-hidden="true"></i></h2>
+      <p class="mono stacks-sub" id="stacks-subtitle">POSTCARD STACKS — 点击牌堆，逐张翻看</p>
     </div>
-    <div id="stacks-grid" data-animate="up" data-delay="0.2"></div>
+    <div id="stacks-grid"></div>
   </section>
 
   <section id="about" data-dir="left">
-    <i class="para-star yellow" data-speed="0.2" style="top:14%;right:10%" aria-hidden="true">✦</i>
-    <i class="para-star" data-speed="-0.08" style="bottom:12%;left:5%" aria-hidden="true">✦</i>
-    <p class="sec-label mono" data-animate="left">02 &middot; CHARACTER</p>
-    <h2 data-animate="up">角色面板<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <i class="para-star reference-doodle flowers" data-speed="0.04" style="--doodle-size:122px;top:28px;right:7%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle cat" data-speed="-0.02" style="--doodle-size:78px;bottom:34px;left:7%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle five-star" data-speed="0.025" style="--doodle-size:55px;top:75px;right:25%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle strawberry" data-speed="-0.03" style="--doodle-size:68px;bottom:26px;right:12%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle star-pair" data-refinement-doodle="1" data-doodle-anchor="#about .photo-frame" data-doodle-side="left" data-doodle-y="0.15" style="--doodle-size:86px;top:350px;left:3%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle yellow-solid-star" data-refinement-doodle="7" data-doodle-anchor="#skills .skill:first-child" data-doodle-side="right" data-doodle-y="0.20" style="--doodle-size:44px;top:50%;right:3%" aria-hidden="true"></i>
+    <p class="sec-label mono" data-animate="left" data-copy="aboutLabel">03 · CHARACTER</p>
+    <h2 data-animate="up" data-copy="aboutTitle">角色面板<i class="u-squiggle" aria-hidden="true"></i></h2>
     <div class="about-grid">
       <figure class="photo-frame polaroid" data-animate="left" data-delay="0.1">
         <span class="tape" aria-hidden="true"></span>
         <img id="about-photo" src="assets/photo.svg" alt="个人照片">
-        <svg class="doodle-circle" viewBox="0 0 220 280" aria-hidden="true"><path d="M112 14 C 40 16, 12 84, 16 146 C 20 218, 76 268, 128 264 C 188 260, 210 196, 206 128 C 202 66, 168 12, 96 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg>
-        <figcaption>本人比照片可爱 &rarr;</figcaption>
+        <figcaption data-copy="photoCaption">本人比照片可爱 →</figcaption>
       </figure>
       <div class="about-body">
         <div class="about-text" id="about-text" data-animate="right" data-delay="0.15"></div>
@@ -98,28 +122,32 @@
   </section>
 
   <section id="exp" data-dir="up">
-    <i class="para-star green" data-speed="0.13" style="top:10%;right:14%" aria-hidden="true">✦</i>
-    <p class="sec-label mono" data-animate="left">03 &middot; TIMELINE</p>
-    <h2 data-animate="up">剪辑时间线<i class="u-squiggle" aria-hidden="true"></i></h2>
+    <i class="para-star reference-doodle yellow-outline-star" data-followup-doodle="2" style="--doodle-size:32px;left:21%;bottom:55px" aria-hidden="true"></i>
+    <i class="para-star reference-doodle drummer" data-speed="0.04" style="--doodle-size:112px;top:35px;right:8%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle trumpeter" data-speed="-0.025" style="--doodle-size:77px;bottom:32px;left:11%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle five-star" data-speed="0.035" style="--doodle-size:57px;top:90px;right:27%" aria-hidden="true"></i>
+    <i class="para-star reference-doodle blue-solid-star" data-added-doodle="6" style="--doodle-size:42px;bottom:96px;right:14%" aria-hidden="true"></i>
+    <p class="sec-label mono" data-animate="left" data-copy="experienceLabel">04 · TIMELINE</p>
+    <h2 data-animate="up" data-copy="experienceTitle">剪辑时间线<i class="u-squiggle" aria-hidden="true"></i></h2>
     <div class="nle" data-lenis-prevent data-animate="up" data-delay="0.15">
       <div class="nle-ruler" aria-hidden="true"></div>
       <div class="nle-track" id="nle-track"></div>
       <div class="playhead" aria-hidden="true"></div>
     </div>
-    <p class="nle-hint mono" data-animate="up" data-delay="0.3">&larr; 拖动查看整条时间线 &rarr;</p>
+    <p class="nle-hint mono" data-animate="up" data-delay="0.3" data-copy="timelineHint">← 拖动查看整条时间线 →</p>
   </section>
 
   <section id="contact" data-dir="down">
     <div class="contact-bg" aria-hidden="true"></div>
     <canvas id="star-canvas" aria-hidden="true"></canvas>
     <div class="contact-inner">
-      <p class="sec-label mono light" data-animate="left">04 &middot; END CREDITS</p>
+      <p class="sec-label mono light" data-animate="left" data-copy="contactLabel">05 · END CREDITS</p>
       <div class="contact-grid">
         <div class="contact-body">
-          <h2 data-animate="up">保持联系!</h2>
-          <p class="contact-sub" data-animate="up" data-delay="0.1">实习 / 全职 / 项目合作都欢迎聊聊</p>
+          <h2 data-animate="up" data-copy="contactTitle">保持联系!</h2>
+          <p class="contact-sub" data-animate="up" data-delay="0.1" data-copy="contactSubtitle">实习 / 全职 / 项目合作都欢迎聊聊</p>
           <div class="contact-chips" id="contact-chips" data-animate="left" data-delay="0.2"></div>
-          <a id="btn-resume" class="btn-wobble" data-cursor="link" href="#" target="_blank" rel="noopener" data-animate="up" data-delay="0.35">下载简历 PDF &darr;</a>
+          <a id="btn-resume" class="btn-wobble" data-cursor="link" href="#" target="_blank" rel="noopener" data-animate="up" data-delay="0.35" data-copy="resumeLabel">下载简历 PDF ↓</a>
         </div>
         <div class="credits-mask" aria-hidden="true" data-animate="right" data-delay="0.2">
           <div class="credits-roll" id="credits-roll"></div>
@@ -134,7 +162,7 @@
   <span class="mono">TC <b data-tc>00:00:00:00</b></span>
   <span class="foot-btns">
     <button id="btn-grain" class="chip-btn sm" data-cursor="link">颗粒 ON</button>
-    <a class="chip-btn sm" href="#top" data-cursor="link">回到片头 &uarr;</a>
+    <a class="chip-btn sm" href="#top" data-cursor="link" data-copy="backToTop">回到片头 ↑</a>
   </span>
 </footer>
 
@@ -167,6 +195,7 @@
       <div class="vcontrols paused" id="vcontrols">
         <button id="v-play" class="vplay" data-cursor="link" aria-label="播放或暂停">&#9654;</button>
         <button id="v-mute" class="vplay" data-cursor="link" aria-label="静音或取消静音" title="声音">&#128263;</button>
+        <label class="vvolume" title="视频音量">音量 <input id="v-volume" type="range" min="0" max="100" value="30" aria-label="视频音量"></label>
         <div class="vbar" id="v-bar">
           <div class="vbar-track"><div class="vbar-fill" id="v-fill"></div></div>
           <div class="vthumb" id="v-thumb">
@@ -228,20 +257,22 @@
 <div id="pc-viewer" aria-hidden="true">
   <div class="pc-backdrop" data-pc-close></div>
   <div class="pc-stage" id="pc-stage"></div>
-  <p class="pc-hint mono">点击卡片 或 左右拖动 翻看</p>
+  <p class="pc-hint mono" id="pc-hint">点击卡片 或 左右拖动 翻看</p>
   <div class="pc-counter mono" id="pc-counter">1 / 4</div>
   <button id="pc-close" data-cursor="link" data-pc-close>&#10005; 收起</button>
 </div>
-<script src="content/data.js?v=3"></script>
+<script src="content/data.js?v=9"></script>
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
 <script src="assets/vendor/three.min.js"></script>
 <script src="assets/vendor/pdf.min.js"></script>
 
-<script src="js/book3d.js?v=18"></script>
-<script src="js/main.js?v=18"></script>
-<script src="js/effects.js?v=3"></script>
-<script src="js/hero3d.js?v=3"></script>
+<link rel="stylesheet" href="assets/vendor/paper-crumple.css?v=1">
+<script src="assets/vendor/paper-crumple.js?v=3"></script>
+<script src="js/book3d.js?v=37"></script>
+<script src="js/main.js?v=38"></script>
+<script src="js/effects.js?v=5"></script>
+<script src="js/hero3d.js?v=11"></script>
 </body>
 </html>
