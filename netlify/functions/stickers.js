@@ -4,15 +4,21 @@ import { getStore } from "@netlify/blobs";
 const CORS = { "Access-Control-Allow-Origin": "*", "Content-Type": "application/json" };
 const MAX_ITEMS = 24;        // 墙上最多保留 24 张（新的把旧的挤掉）
 const MAX_IMG_LEN = 260000;  // dataURL 长度上限，约 190KB 图片
+const ownerFrom = req => String(req.headers.get("x-doodle-owner") || "").slice(0, 100);
+const safeItems = (items, owner) => items.slice(0, MAX_ITEMS).map(({ owner: itemOwner, ...item }) => ({
+  ...item,
+  mine: Boolean(owner && itemOwner && itemOwner === owner)
+}));
 
 export default async (req) => {
   const store = getStore("stickers");
   let items = [];
   try { items = (await store.get("wall", { type: "json" })) || []; } catch (e) { items = []; }
   if (!Array.isArray(items)) items = [];
+  const owner = ownerFrom(req);
 
   if (req.method === "GET") {
-    return Response.json({ items: items.slice(0, MAX_ITEMS) }, { headers: CORS });
+    return Response.json({ items: safeItems(items, owner) }, { headers: CORS });
   }
 
   if (req.method === "POST") {
@@ -20,6 +26,9 @@ export default async (req) => {
     if (!body) return Response.json({ error: "bad request" }, { status: 400, headers: CORS });
 
     if (body.op === "add") {
+      if (!owner || owner.length < 20) {
+        return Response.json({ error: "missing owner" }, { status: 400, headers: CORS });
+      }
       const img = String(body.img || "");
       if (!img.startsWith("data:image/png") && !img.startsWith("data:image/jpeg")) {
         return Response.json({ error: "bad image" }, { status: 400, headers: CORS });
@@ -34,19 +43,25 @@ export default async (req) => {
         rot: Math.max(-12, Math.min(12, num(body.rot, 0))),
         dx: Math.max(-30, Math.min(30, num(body.dx, 0))),
         dy: Math.max(-30, Math.min(30, num(body.dy, 0))),
-        ts: Date.now()
+        ts: Date.now(),
+        // 只用于确认作者身份，不会返回给其他访客。
+        owner
       };
       items.unshift(item);
       items = items.slice(0, MAX_ITEMS);
       await store.setJSON("wall", items);
-      return Response.json({ items, id: item.id }, { headers: CORS });
+      return Response.json({ items: safeItems(items, owner), id: item.id }, { headers: CORS });
     }
 
     if (body.op === "del") {
       const id = String(body.id || "").slice(0, 30);
+      const target = items.find(it => it.id === id);
+      if (!target || !owner || target.owner !== owner) {
+        return Response.json({ error: "not allowed" }, { status: 403, headers: CORS });
+      }
       items = items.filter(it => it.id !== id);
       await store.setJSON("wall", items);
-      return Response.json({ items }, { headers: CORS });
+      return Response.json({ items: safeItems(items, owner) }, { headers: CORS });
     }
 
     return Response.json({ error: "bad op" }, { status: 400, headers: CORS });

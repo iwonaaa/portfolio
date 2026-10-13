@@ -32,7 +32,10 @@ export default async (req) => {
       const name = String(body.name || "匿名观众").slice(0, 20);
       const text = String(body.text || "").slice(0, 300);
       if (!text.trim()) return Response.json({ error: "empty" }, { status: 400, headers: CORS });
-      (data.comments[w] = data.comments[w] || []).unshift({ name, text, ts: Date.now() });
+      (data.comments[w] = data.comments[w] || []).unshift({
+        id: "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+        name, text, ts: Date.now()
+      });
       data.comments[w] = data.comments[w].slice(0, 50);
     } else {
       return Response.json({ error: "bad op" }, { status: 400, headers: CORS });
