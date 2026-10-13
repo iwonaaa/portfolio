@@ -1,0 +1,25 @@
+/* Decorative sprites only. Layout, colors and controls come from style.css. */
+#hero > #hero-3d { max-width: none; margin: 0; width: auto; }
+.para-star.reference-doodle { width: var(--doodle-size, 92px) !important; height: var(--doodle-size, 92px); font-size: 0; opacity: .84; background: none; }
+.hero-doodle { position: absolute; display: block; width: var(--doodle-size); height: var(--doodle-size); pointer-events: none; }
+.hero-doodle[hidden] { display: none; }
+.doodle-art { display: block; width: 100%; height: 100%; background: url('../assets/floating-doodles.png') 0 0 / 300% 200% no-repeat; animation: doodle-drift var(--float-duration, 8s) ease-in-out var(--float-delay, 0s) infinite; }
+.doodle-art.cat { background-position: 0 0; }
+.doodle-art.strawberry { background-position: 50% 0; }
+.doodle-art.trumpeter { background-position: 100% 0; }
+.doodle-art.drummer { background-position: 0 100%; }
+.doodle-art.flowers { background-position: 50% 100%; }
+.doodle-art.star { background-position: 100% 100%; }
+.doodle-art.five-star { background-image: url('../assets/doodle-five-star.svg'); background-size: contain; background-position: center; }
+.doodle-art.blue-outline-star { background-image: url('../assets/doodle-blue-outline-star.svg'); background-size: contain; background-position: center; }
+.doodle-art.yellow-solid-star { background-image: url('../assets/doodle-yellow-solid-star.svg'); background-size: contain; background-position: center; }
+.doodle-art.blue-solid-star { background-image: url('../assets/doodle-blue-solid-star.svg'); background-size: contain; background-position: center; }
+.doodle-art.star-pair { background-image: url('../assets/doodle-star-pair.svg'); background-size: contain; background-position: center; }
+.doodle-art.yellow-outline-star { background-image: url('../assets/doodle-yellow-outline-star.svg'); background-size: contain; background-position: center; }
+.para-star.reference-doodle[data-doodle-anchor] { width: var(--anchor-size, var(--doodle-size)) !important; height: var(--anchor-size, var(--doodle-size)); }
+@keyframes doodle-drift { 0%,100% { transform: translate3d(0,0,0) rotate(var(--doodle-tilt, -5deg)); } 50% { transform: translate3d(5px,-12px,0) rotate(calc(var(--doodle-tilt, -5deg) + 5deg)); } }
+@media (max-width: 640px) {
+  [data-followup-doodle="2"] { left: 29% !important; }
+  .para-star.reference-doodle { width: clamp(34px, calc(var(--doodle-size, 92px) * .55), 65px) !important; height: clamp(34px, calc(var(--doodle-size, 92px) * .55), 65px); opacity: .7; }
+}
+@media (prefers-reduced-motion: reduce) { .doodle-art { animation: none; } }
