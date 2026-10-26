@@ -21,7 +21,7 @@
       ]
     },
     {
-      "period": "2026.7-至今",
+      "period": "2026.7-2026.10",
       "title": "动效设计实习生",
       "org": "网易互娱",
       "desc": "主要负责游戏AI产品的动效设计，深度参与UX设计。",
@@ -91,6 +91,13 @@
       "org": "剪辑，包装设计",
       "detail": "以热情的橙色和冷静的蓝色撞色配色设计表现故事的温情又荒诞的冲突感。\n灵活运用电影语法和配乐音效把控节奏，突出电影亮点的同时保留悬念。",
       "desc": "电影《无巧不成婚》韩国版预告片，时长50秒。"
+    },
+    {
+      "period": "2026.10.1-2026.10.21",
+      "title": "独立游戏《不关我柿！》",
+      "org": "T a p T a p 聚光灯21天游戏开发挑战赛",
+      "desc": "围绕“涌现”主题，带领三人团队开发以新闻传播为核心的策略推理游戏《不关我柿！》",
+      "detail": "在「T a p T a p 聚光灯21天游戏开发挑战赛」中，围绕“涌现”主题，带领三人团队开发以新闻传播为核心的策略推理游戏《不关我柿！》。面对开发周期短、没有开发经验的挑战，统筹项目进度与团队分工，设计采访取证、新闻编辑及舆论反馈机制。\n针对抽象数值变化难以直观呈现，视觉美术风格统一等的问题，设计游戏UI、交互引导动效，尤其将引导和反馈转化为清晰、生动的动态视觉体验。"
     }
   ],
   "skills": [
@@ -115,6 +122,11 @@
       "level": 75
     }
   ],
+  "audioVolumes": {
+    "bgm": 30,
+    "sfx": 95,
+    "video": 30
+  },
   "music": "assets/bgm.mp3",
   "software": [
     "AE",
@@ -127,6 +139,32 @@
     "AI",
     "PR"
   ],
+  "book": {
+    "cover": "",
+    "tabTextColor": "#4d413a",
+    "hint": "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙",
+    "tabs": [
+      {
+        "label": "AE动画",
+        "color": "#dfcba4",
+        "pages": []
+      },
+      {
+        "label": "角色IP",
+        "color": "#dfb0a5",
+        "pages": []
+      },
+      {
+        "label": "毕业设计",
+        "color": "#adc3b6",
+        "pages": []
+      }
+    ],
+    "doodleTab": {
+      "label": "涂鸦",
+      "color": "#d9bc78"
+    }
+  },
   "name": "许怡媛",
   "heroNote": "我的作品集 · PORTFOLIO",
   "about": [
@@ -136,7 +174,36 @@
   "tagline": "人生的每一帧都是彩蛋！",
   "soundOn": true,
   "photo": "/assets/uploads/许怡媛-副本-1-.png",
+  "gallery": {
+    "sectionLabel": "02 · PHOTO WORKS",
+    "sectionTitle": "图片作品",
+    "title": "图片作品 · 明信片堆",
+    "subtitle": "POSTCARD STACKS — 点击牌堆，逐张翻看",
+    "viewerHint": "点击卡片 或 左右拖动 翻看"
+  },
   "nameEn": "iwona",
+  "copy": {
+    "resumeLabel": "下载简历 PDF ↓",
+    "aboutLabel": "03 · CHARACTER",
+    "timelineHint": "← 拖动查看整条时间线 →",
+    "navAbout": "关于",
+    "experienceLabel": "04 · TIMELINE",
+    "aboutTitle": "角色面板",
+    "heroKicker": "PORTFOLIO 2026 — DIRECTOR'S CUT",
+    "navExperience": "经历",
+    "experienceTitle": "剪辑时间线",
+    "siteTitle": "许怡媛 · 作品集",
+    "worksLabel": "01 · WORKS",
+    "backToTop": "回到片头 ↑",
+    "contactLabel": "05 · END CREDITS",
+    "scrollHint": "往下翻!",
+    "photoCaption": "本人比照片可爱 →",
+    "worksTitle": "作品放映厅",
+    "contactSubtitle": "实习 / 全职 / 项目合作都欢迎聊聊",
+    "contactTitle": "保持联系!",
+    "navContact": "联系",
+    "navWorks": "作品"
+  },
   "location": "求职中",
   "role": "动效设计 · 影视动画专业应届本科毕业生",
   "notebook": {

@@ -22,7 +22,7 @@
         ]
       },
       {
-        "period": "2026.7-至今",
+        "period": "2026.7-2026.10",
         "title": "动效设计实习生",
         "org": "网易互娱",
         "desc": "主要负责游戏AI产品的动效设计，深度参与UX设计。",
@@ -92,6 +92,13 @@
         "org": "剪辑，包装设计",
         "detail": "以热情的橙色和冷静的蓝色撞色配色设计表现故事的温情又荒诞的冲突感。\n灵活运用电影语法和配乐音效把控节奏，突出电影亮点的同时保留悬念。",
         "desc": "电影《无巧不成婚》韩国版预告片，时长50秒。"
+      },
+      {
+        "period": "2026.10.1-2026.10.21",
+        "title": "独立游戏《不关我柿！》",
+        "org": "T a p T a p 聚光灯21天游戏开发挑战赛",
+        "desc": "围绕“涌现”主题，带领三人团队开发以新闻传播为核心的策略推理游戏《不关我柿！》",
+        "detail": "在「T a p T a p 聚光灯21天游戏开发挑战赛」中，围绕“涌现”主题，带领三人团队开发以新闻传播为核心的策略推理游戏《不关我柿！》。面对开发周期短、没有开发经验的挑战，统筹项目进度与团队分工，设计采访取证、新闻编辑及舆论反馈机制。\n针对抽象数值变化难以直观呈现，视觉美术风格统一等的问题，设计游戏UI、交互引导动效，尤其将引导和反馈转化为清晰、生动的动态视觉体验。"
       }
     ],
     "skills": [
@@ -116,8 +123,12 @@
         "level": 75
       }
     ],
+    "audioVolumes": {
+      "bgm": 30,
+      "sfx": 95,
+      "video": 30
+    },
     "music": "assets/bgm.mp3",
-    "audioVolumes": { "bgm": 30, "sfx": 95, "video": 30 },
     "software": [
       "AE",
       "Spine",
@@ -129,30 +140,34 @@
       "AI",
       "PR"
     ],
+    "book": {
+      "cover": "",
+      "tabTextColor": "#4d413a",
+      "hint": "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙",
+      "tabs": [
+        {
+          "label": "AE动画",
+          "color": "#dfcba4",
+          "pages": []
+        },
+        {
+          "label": "角色IP",
+          "color": "#dfb0a5",
+          "pages": []
+        },
+        {
+          "label": "毕业设计",
+          "color": "#adc3b6",
+          "pages": []
+        }
+      ],
+      "doodleTab": {
+        "label": "涂鸦",
+        "color": "#d9bc78"
+      }
+    },
     "name": "许怡媛",
     "heroNote": "我的作品集 · PORTFOLIO",
-    "copy": {
-      "siteTitle": "许怡媛 · 作品集",
-      "navWorks": "作品",
-      "navAbout": "关于",
-      "navExperience": "经历",
-      "navContact": "联系",
-      "heroKicker": "PORTFOLIO 2026 — DIRECTOR'S CUT",
-      "scrollHint": "往下翻!",
-      "worksLabel": "01 · WORKS",
-      "worksTitle": "作品放映厅",
-      "aboutLabel": "03 · CHARACTER",
-      "aboutTitle": "角色面板",
-      "photoCaption": "本人比照片可爱 →",
-      "experienceLabel": "04 · TIMELINE",
-      "experienceTitle": "剪辑时间线",
-      "timelineHint": "← 拖动查看整条时间线 →",
-      "contactLabel": "05 · END CREDITS",
-      "contactTitle": "保持联系!",
-      "contactSubtitle": "实习 / 全职 / 项目合作都欢迎聊聊",
-      "resumeLabel": "下载简历 PDF ↓",
-      "backToTop": "回到片头 ↑"
-    },
     "about": [
       "       Hello~我叫许怡媛，很高兴认识你！\n       简历在最下面可以下载哦~那我们现在来聊点简历里没有的吧！\n       回想起来，我从认字握笔起就完全爱上了创作。无论是文字类创作还是视觉类创作，几乎占据了我过往的大部分时间。我用真诚展示我的世界，也很喜欢从不同视角感受不同的世界。真诚是创作的灵魂，也是我的灵魂！",
       "   在我二十多年的人生工龄中，收获了好评无数~ \n在家人眼里，我的目标清晰，从来不用为我担心。在朋友眼里，我是心态超好的乐天派。在队友眼里我是靠谱可以兜底的合格队友。在带教导师眼里，我是可以协同性超强的好搭档~"
@@ -160,7 +175,36 @@
     "tagline": "人生的每一帧都是彩蛋！",
     "soundOn": true,
     "photo": "/assets/uploads/许怡媛-副本-1-.png",
+    "gallery": {
+      "sectionLabel": "02 · PHOTO WORKS",
+      "sectionTitle": "图片作品",
+      "title": "图片作品 · 明信片堆",
+      "subtitle": "POSTCARD STACKS — 点击牌堆，逐张翻看",
+      "viewerHint": "点击卡片 或 左右拖动 翻看"
+    },
     "nameEn": "iwona",
+    "copy": {
+      "resumeLabel": "下载简历 PDF ↓",
+      "aboutLabel": "03 · CHARACTER",
+      "timelineHint": "← 拖动查看整条时间线 →",
+      "navAbout": "关于",
+      "experienceLabel": "04 · TIMELINE",
+      "aboutTitle": "角色面板",
+      "heroKicker": "PORTFOLIO 2026 — DIRECTOR'S CUT",
+      "navExperience": "经历",
+      "experienceTitle": "剪辑时间线",
+      "siteTitle": "许怡媛 · 作品集",
+      "worksLabel": "01 · WORKS",
+      "backToTop": "回到片头 ↑",
+      "contactLabel": "05 · END CREDITS",
+      "scrollHint": "往下翻!",
+      "photoCaption": "本人比照片可爱 →",
+      "worksTitle": "作品放映厅",
+      "contactSubtitle": "实习 / 全职 / 项目合作都欢迎聊聊",
+      "contactTitle": "保持联系!",
+      "navContact": "联系",
+      "navWorks": "作品"
+    },
     "location": "求职中",
     "role": "动效设计 · 影视动画专业应届本科毕业生",
     "notebook": {
@@ -168,33 +212,15 @@
       "ip": "视频动画：创意公益广告动画，MG动画，电影预告片...",
       "thesis": "AI工作流探索：AI × 动效工作流，AI × 视频工作流，个人作品集网站..."
     },
-    "book": {
-      "cover": "",
-      "tabTextColor": "#4d413a",
-      "hint": "拖动书页左右翻看 · 最后一页可以涂鸦并贴上墙",
-      "tabs": [
-        { "label": "AE动画", "color": "#dfcba4", "pages": [] },
-        { "label": "角色IP", "color": "#dfb0a5", "pages": [] },
-        { "label": "毕业设计", "color": "#adc3b6", "pages": [] }
-      ],
-      "doodleTab": { "label": "涂鸦", "color": "#d9bc78" }
-    },
-    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE",
-    "gallery": {
-      "sectionLabel": "02 · PHOTO WORKS",
-      "sectionTitle": "图片作品",
-      "title": "图片作品 · 明信片堆",
-      "subtitle": "POSTCARD STACKS — 点击牌堆，逐张翻看",
-      "viewerHint": "点击卡片 或 左右拖动 翻看"
-    }
+    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE"
   },
   "works": [
     {
       "dur": "00:05",
       "en": "Aesthetics Dream Festival — Meteor Team logo animation effect",
       "poster": "/assets/uploads/snipaste_2026-09-04_02-05-04.png",
-      "desc": "占位介绍：一组 App 界面交互动效合集，涵盖转场、加载、微交互反馈等场景，重点展示节奏感与缓动曲线的把控。",
-      "role": "动效设计",
+      "desc": "         结合原作「正义战队」的团队设定，将“五色流星”作为主要视觉符号，并通过星体运动、能量聚合与故障感强化其游戏世界观。\n         通过 流星聚合、布局节奏、色彩特效、数据故障，震荡影响建立完整的视觉叙事，使 Logo 不只是视觉图像，而是将队伍的概念，精神和影响投映在logo中，形成有生命感的logo动态演绎。",
+      "role": "脚本设计，动效设计",
       "cat": "动效",
       "title": "偶像梦幻祭——流星队logo动效",
       "video": "/assets/uploads/新媒体后期制作实习生_许怡媛_测试1_17799240827.mp4",
@@ -207,8 +233,8 @@
       "dur": "00:40",
       "en": "ICON MICRO-INTERACTIONS",
       "poster": "/assets/uploads/5月18日-1-1-封面.jpg",
-      "desc": "占位介绍：以一组手绘风格图标为素材制作的微交互动效，探索弹性、惯性与变形动画的表现力。",
-      "role": "动效设计",
+      "desc": "      在1.5天内完成从不熟悉 IP 调研→ 视觉语言提炼 → 动态脚本 → 完整成片的快速闭环。      \n      通过具有明确视觉识别度的活动风格强化角色展示，并兼顾角色信息传达、活动氛围营造与 PV 视觉统一性。\n       结合已有活动主题提取视觉语言，以 苏联构成主义 × 复古报纸拼贴 × 粗粝工业建筑质感 为主要视觉方向。通过旧报纸、几何构成、建筑结构与人物影像的拼贴组合，营造具有历史感、叙事感与视觉冲击力的活动氛围。",
+      "role": "脚本设计，素材制作，动效设计",
       "cat": "动效",
       "title": "明日方舟角色活动展示",
       "video": "/assets/uploads/明日方舟单角色展示.mp4",
@@ -218,88 +244,303 @@
       "year": "2026"
     },
     {
-      "dur": "01:10",
+      "dur": "00:04",
       "en": "PARTICLE & LIGHT STUDY",
-      "poster": "assets/poster-texiao.svg",
-      "desc": "占位介绍：粒子与光效专题练习，包含能量汇聚、拖尾光轨与冲击波等游戏技能特效常见镜头。",
-      "role": "特效制作",
-      "cat": "特效",
-      "title": "粒子光效练习",
-      "video": "",
-      "id": "w3",
-      "tools": "AE · Particular",
-      "likes": 47,
-      "year": "2025"
-    },
-    {
-      "dur": "00:58",
-      "en": "COMPOSITING BREAKDOWN",
-      "poster": "assets/poster-texiao.svg",
-      "desc": "占位介绍：实拍素材与 CG 元素的合成流程拆解，展示抠像、调色与光影匹配的完整过程。",
-      "role": "抠像 / 合成",
-      "cat": "特效",
-      "title": "合成镜头拆解",
-      "video": "",
-      "id": "w4",
-      "tools": "AE · PR",
-      "likes": 25,
-      "year": "2025"
-    },
-    {
-      "dur": "01:32",
-      "en": "CHARACTER SHORT",
-      "poster": "assets/poster-donghua.svg",
-      "desc": "占位介绍：一段 90 秒的角色表演短动画，讲了一个关于等待的小故事，全片手绘完成。",
-      "role": "分镜 / 原动画",
+      "poster": "/assets/uploads/snipaste_2026-10-26_14-18-01.png",
+      "desc": "字母变化的创意动画",
+      "role": "动画设计",
       "cat": "动画",
-      "title": "角色短动画《占位》",
-      "video": "",
-      "id": "w5",
-      "tools": "TVPaint · AE",
+      "title": "字母创意变化",
+      "video": "/assets/uploads/d-e__c276090__xu_yiyuan.mp4",
+      "id": "w3字母创意变化",
+      "tools": "AE ",
+      "likes": 7,
+      "year": "2024"
+    },
+    {
+      "dur": "00:20",
+      "en": "COMPOSITING BREAKDOWN",
+      "poster": "/assets/uploads/树懒5.png",
+      "desc": "        以主题为“如果再活一世，不做人类的话要做什么？”为主题的采访创意动画。\n        使用两种类型的素材将人物和动画故事结合，制作有创意有内涵的创意动画。",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "《想成为树懒的理由》",
+      "video": "/assets/uploads/想成为树懒.mp4",
+      "id": "w4《想成为树懒的理由》",
+      "tools": "AE ",
+      "likes": 15,
+      "year": "2025"
+    },
+    {
+      "dur": "01:53",
+      "en": "CHARACTER SHORT",
+      "poster": "/assets/uploads/许怡媛_脸盲症就业指导_05.png",
+      "desc": "        从创意构思、角色设计、分镜脚本到动画落地全流程独立完成的公益广告创意动画。\n        以“脸盲症人群眼中的世界”为切入点，将抽象认知体验转化为独特的视觉语言，增强观众代入感与内容记忆点。从脸盲症有趣奇异的视角在幽默形象的剧情中带观众真正感受困扰脸盲症人群眼中的世界。",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "公益广告创意动画《脸盲症就业指导》",
+      "video": "/assets/uploads/脸盲.mp4",
+      "id": "w5《脸盲症就业指导》",
+      "tools": "AE",
       "likes": 52,
       "year": "2026"
     },
     {
-      "dur": "00:12",
+      "dur": "00:50",
       "en": "WALK CYCLE STUDY",
-      "poster": "assets/poster-donghua.svg",
-      "desc": "占位介绍：不同性格角色的走路循环练习，用步伐节奏表现角色之间的情绪差异。",
-      "role": "动画",
-      "cat": "动画",
-      "title": "走路循环练习",
-      "video": "",
-      "id": "w6",
-      "tools": "Animate · AE",
+      "poster": "/assets/uploads/snipaste_2026-09-29_14-00-48.png",
+      "desc": "  以热情的橙色和冷静的蓝色撞色配色设计表现故事的温情又荒诞的冲突感。\n   灵活运用电影语法和配乐音效把控节奏，突出电影亮点的同时保留悬念。\n",
+      "role": "视频包装设计",
+      "cat": "其他",
+      "title": "《无巧不成婚》预告片",
+      "video": "/assets/uploads/9月28日.mp4",
+      "id": "w6《无巧不成婚》",
+      "tools": "Final Cut Pro",
       "likes": 12,
       "year": "2024"
     },
     {
-      "dur": "02:05",
+      "dur": "00:10",
       "en": "COLLAGE EXPERIMENT",
-      "poster": "assets/poster-qita.svg",
-      "desc": "占位介绍：以旧杂志扫描件与手绘涂鸦为素材的拼贴风格实验短片，探索材质混搭的视觉张力。",
-      "role": "导演 / 剪辑",
-      "cat": "其他",
-      "title": "拼贴实验影像",
-      "video": "",
-      "id": "w7",
-      "tools": "PR · AE",
-      "likes": 29,
+      "poster": "/assets/uploads/许怡媛-副本-2-.png",
+      "desc": "使用MAYA进行建模，材质贴图，环境渲染等。并制作短动画《秋日午后》。",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "3D动画《秋日午后》",
+      "video": "/assets/uploads/maya.mp4",
+      "id": "w73D动画",
+      "tools": "AE",
+      "likes": 3,
       "year": "2025"
     },
     {
-      "dur": "03:20",
-      "en": "THESIS BEHIND THE SCENES",
-      "poster": "assets/poster-qita.svg",
-      "desc": "占位介绍：毕业设计创作过程纪录，从分镜到成片的全流程回顾。",
+      "dur": "00.37",
+      "en": "《HELVETICA》",
+      "poster": "/assets/uploads/许怡媛_hevletica_04.png",
+      "desc": "       HELVETICA作为最经典的无衬线字体在全球应用广泛。其特点是简洁大方，有极强的可读性。\n  \n      根据其特点选择了对比较为强烈醒目的红白配色。用简洁的画面凸显可读性。配合背景音乐鼓点运动。简单介绍该字体的创作背景，作者，以及其特点。",
       "role": "剪辑 / 包装",
-      "cat": "其他",
-      "title": "毕业设计幕后花絮",
-      "video": "",
-      "id": "w8",
-      "tools": "PR · DaVinci",
-      "likes": 33,
+      "cat": "动画",
+      "title": "《HELVETICA》",
+      "video": "/assets/uploads/c276090_xu-yiyuan_helvetica.mp4",
+      "id": "w8《HELVETICA》",
+      "tools": "AE",
+      "likes": 13,
       "year": "2026"
+    },
+    {
+      "dur": "00：42",
+      "en": "Tony‘s chocolonly  品牌L形3D大屏宣传片",
+      "poster": "/assets/uploads/snipaste_2026-10-26_14-45-10.png",
+      "desc": "Tony's Chocolonely是荷兰的巧克力品牌，是为了抵制可可行业中的不公现象，实现100%无奴隶制的品牌。\n\n\n在一个不为人知的小岛上，很多人正在采摘树上的可可果。一艘艘大船搭载着他们采摘下来的果实远离这个孤独的小岛。小岛附近的海域已经被染成了巧克力色。这个岛就像是关押这群奴隶的牢笼一样。此时为了改变这个现状，完全透明化的Tony's Chocolonely工厂横空出世。以无法均分的巧克力形象宣传可可行业的不公现象。并被更多人记住。",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "Tony‘s chocolonly  品牌L形3D大屏宣传片",
+      "video": "/assets/uploads/홍익_영상-애니메이션_c276090_xu-yiyuan_기말과제.mp4",
+      "id": "W9 Tony‘s chocolonly  品牌L形3D大屏宣传片",
+      "tools": "C4D",
+      "likes": 0,
+      "year": "2024"
+    },
+    {
+      "dur": "00：30",
+      "poster": "/assets/uploads/snipaste_2026-10-26_14-51-31.png",
+      "desc": "熊猫公主福宝通过老虎机抽选自己的驸马熊猫~",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "循环动画《公主福宝的驸马大选》",
+      "video": "/assets/uploads/c276090_xu-yiyuan.mp4",
+      "id": "《公主福宝的驸马大选》",
+      "tools": "AE",
+      "likes": 2,
+      "year": "2024"
+    },
+    {
+      "dur": "05：23",
+      "en": "《PLAYER》",
+      "poster": "/assets/uploads/许怡媛-2-.png",
+      "desc": "反逻辑的公主与巨龙动画故事，打破次元和现实联动。",
+      "role": "分镜，上色，动画",
+      "cat": "动画",
+      "title": "《PLAYER》",
+      "video": "/assets/uploads/c3c85011178e4facf154f8feded67b12.mp4",
+      "id": "《PLAYER》",
+      "tools": "sai2，AE",
+      "likes": 0,
+      "year": "2025"
+    },
+    {
+      "dur": "00：04",
+      "en": "礼物动效 圣诞",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 圣诞",
+      "video": "/assets/uploads/0b1fe9239cad77b8ae280a691dba5373.mp4",
+      "id": "礼物动效 圣诞",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "礼物动效 钻石",
+      "poster": "/assets/uploads/snipaste_2026-10-26_14-58-33.png",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 钻石",
+      "video": "/assets/uploads/3dc039a7635f072245657eac3b0c3b6d.mp4",
+      "id": "礼物动效 钻石",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-02-20.png",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效竹瓶",
+      "video": "/assets/uploads/fb59e505e6069172b316ead05c0bb736.mp4",
+      "id": "礼物动效竹瓶",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：33",
+      "en": "《阿尔法喵计划》1",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-09-26.png",
+      "desc": "版权归搜狐畅游所有，禁止盗用！",
+      "role": "视频包装，音效设计",
+      "cat": "动画",
+      "title": "《阿尔法喵计划》1",
+      "video": "/assets/uploads/66be660e31f7526f0d50ec456cc797b5.mp4",
+      "id": "《阿尔法喵计划》1",
+      "tools": "剪映",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：33",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-13-43.png",
+      "desc": "版权归搜狐畅游所有，禁止盗用！",
+      "role": "视频包装，音效设计",
+      "cat": "动画",
+      "title": "《阿尔法喵计划》2",
+      "video": "/assets/uploads/5629faab318cf7d7dc6515d7630f604e.mp4",
+      "id": "《阿尔法喵计划》2",
+      "tools": "剪映",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：06",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-16-37.png",
+      "desc": "版权归搜狐畅游所有，禁止盗用！",
+      "role": "脚本设计，AI生成，剪辑",
+      "cat": "动画",
+      "title": "《阿尔法喵计划》3",
+      "video": "/assets/uploads/08b34c91ccf0e4b4f9a1717439e11dc5.mp4",
+      "id": "《阿尔法喵计划》3面包房进货",
+      "tools": "剪映",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：05",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-20-35.png",
+      "desc": "版权归搜狐畅游所有，禁止盗用！",
+      "role": "脚本设计，AI生成，剪辑",
+      "cat": "动画",
+      "title": "《阿尔法喵计划》4娃娃机",
+      "video": "/assets/uploads/7c2d009029695609faa3821cec109351.mp4",
+      "id": "《阿尔法喵计划》4娃娃机",
+      "tools": "剪映",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：40",
+      "en": "《阿尔法喵计划》5",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-23-12.png",
+      "desc": "版权归搜狐畅游所有，禁止盗用！",
+      "role": "视频包装，音效设计",
+      "cat": "动画",
+      "title": "《阿尔法喵计划》5",
+      "video": "/assets/uploads/ca47d98c45322cd7fe0261c83eaeeae5.mp4",
+      "id": "《阿尔法喵计划》5",
+      "tools": "剪映",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "id": "礼物动效 餐车",
+      "title": "礼物动效 餐车",
+      "en": "礼物动效 餐车",
+      "cat": "动效",
+      "year": "2026",
+      "dur": "00:04",
+      "role": "动效设计",
+      "tools": "AE",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "likes": 0,
+      "video": "/assets/uploads/3f9790c094d28105679faa78cee07020.mp4",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-57-01.png"
+    },
+    {
+      "id": "礼物动效 射箭",
+      "title": "礼物动效 射箭",
+      "en": "礼物动效 射箭",
+      "cat": "动效",
+      "year": "2026",
+      "dur": "00:04",
+      "role": "动效设计",
+      "tools": "AE",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "likes": 0,
+      "video": "/assets/uploads/5be93ad1e25c4e5b4f94a17717d40218.mp4",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-11-45.png"
+    },
+    {
+      "id": "礼物动效 狮子",
+      "title": "礼物动效 狮子",
+      "en": "礼物动效 狮子",
+      "cat": "动效",
+      "year": "2026",
+      "dur": "00:04",
+      "role": "AI生成，包装设计",
+      "tools": "AE",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "likes": 0,
+      "video": "/assets/uploads/25dea42a279e50a78a75b3dcc8ff2550.mp4",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-14-05.png"
+    },
+    {
+      "id": "礼物动效 小猫",
+      "title": "礼物动效 小猫",
+      "en": "礼物动效 小猫",
+      "cat": "动效",
+      "year": "2026",
+      "dur": "00:04",
+      "role": "动效设计",
+      "tools": "AE",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "likes": 0,
+      "video": "/assets/uploads/a9b2cb34d14f098a89662ac6674cf659.mp4",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-15-53.png"
+    },
+    {
+      "id": "背景动效 雪国",
+      "title": "背景动效 雪国",
+      "en": "背景动效 雪国",
+      "cat": "动效",
+      "year": "2026",
+      "dur": "00:04",
+      "role": "动效设计",
+      "tools": "AE",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "likes": 0,
+      "video": "/assets/uploads/8878ea10d273d56d70d3489a3f21820c.mp4",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-24-52.png"
     }
   ],
   "postcards": [
@@ -398,10 +639,6 @@
       "en": "Creative Illustration",
       "cards": [
         {
-          "img": "/assets/uploads/cad5ee53c5c648f69683179f3e8d004c.jpg",
-          "note": "《游乐园在世界下班后开启》"
-        },
-        {
           "img": "/assets/uploads/2f906ccbb7ea8677814b357dc57aabce.jpg",
           "note": "《Face Blindness》"
         },
@@ -424,22 +661,37 @@
         {
           "img": "/assets/uploads/0d5a7e95526af23237bf3dc0c756adbf.jpg",
           "note": "《Face Blindness》"
+        }
+      ]
+    },
+    {
+      "id": "AI分镜1",
+      "title": "AI分镜1",
+      "en": "AI Storyboard1",
+      "cards": [
+        {
+          "img": "/assets/uploads/0c5fd6bade3dc95c188440b370e83ffa.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
         },
         {
-          "img": "/assets/uploads/0adf0bc45fe62eb587bed3511cbb9826.jpg",
-          "note": "《聆听》"
+          "img": "/assets/uploads/38d287b9fbd142760ab3f68cf3d11d5b.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
         },
         {
-          "img": "/assets/uploads/259038ede3cae8206a57f1fee3fc2840.jpg",
-          "note": "《聆听》"
+          "img": "/assets/uploads/f3af4409acbe927cac046b6e848eda6e.jpg",
+          "note": "AI Storyboard1 | 版权归搜狐畅游所有，请勿盗用商用！"
         },
         {
-          "img": "/assets/uploads/16bab3873652383e353015e121757090.jpg",
-          "note": "《聆听》"
+          "img": "/assets/uploads/80f38d4e184e444a6fd93c5082d19818.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
         },
         {
-          "img": "/assets/uploads/22cd5fd493f919e63b81f04d20ee8799.jpg",
-          "note": "《聆听》"
+          "img": "/assets/uploads/d93a7be78a8ec5d573a67cd7a4fdb953.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+        },
+        {
+          "img": "/assets/uploads/12bdd7fc92b9870dc7c1792734cd3acc.jpg",
+          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
         }
       ]
     },
@@ -502,55 +754,31 @@
       ]
     },
     {
-      "id": "AI分镜1",
-      "title": "AI分镜1",
-      "en": "AI Storyboard1",
+      "id": "创意插画2",
       "cards": [
         {
-          "img": "/assets/uploads/0c5fd6bade3dc95c188440b370e83ffa.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+          "img": "/assets/uploads/cad5ee53c5c648f69683179f3e8d004c.jpg",
+          "note": "《游乐园在世界下班后开启》"
         },
         {
-          "img": "/assets/uploads/38d287b9fbd142760ab3f68cf3d11d5b.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+          "img": "/assets/uploads/0adf0bc45fe62eb587bed3511cbb9826.jpg",
+          "note": "《聆听》"
         },
         {
-          "img": "/assets/uploads/2d699c334034f8a58662f714fdf7f076.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
+          "img": "/assets/uploads/259038ede3cae8206a57f1fee3fc2840.jpg",
+          "note": "《聆听》"
         },
         {
-          "img": "/assets/uploads/f3af4409acbe927cac046b6e848eda6e.jpg",
-          "note": "AI Storyboard1 | 版权归搜狐畅游所有，请勿盗用商用！"
+          "img": "/assets/uploads/16bab3873652383e353015e121757090.jpg",
+          "note": "《聆听》"
         },
         {
-          "img": "/assets/uploads/80f38d4e184e444a6fd93c5082d19818.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/d93a7be78a8ec5d573a67cd7a4fdb953.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/12bdd7fc92b9870dc7c1792734cd3acc.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/3c722099974332718997b8b61858cd28.jpg",
-          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/2663f07e49215271b22b5139ffc205f4.jpg",
-          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/5ced76a72b10b09af51ca0117f44ff4d.jpg",
-          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/da4473689053c1db11d316930d1c0c32.jpg",
-          "note": "AI Storyboard1| 版权归公司所有，请勿盗用商用！"
+          "img": "/assets/uploads/22cd5fd493f919e63b81f04d20ee8799.jpg",
+          "note": "《聆听》"
         }
-      ]
+      ],
+      "en": "Creative Illustration2",
+      "title": "创意插画2"
     },
     {
       "id": "AI分镜 2",
@@ -575,10 +803,6 @@
         },
         {
           "img": "/assets/uploads/86ac99b8260cce88d2a225812a8ec39c.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/ee8c7fb5902e95d540ccb720077db3c0.png",
           "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
         },
         {
@@ -623,22 +847,6 @@
         {
           "img": "/assets/uploads/9b849afe7eaf5ea5e1afd122bc94a9cb.jpg",
           "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/a89e89ad4d13d6ebe23f1e97cf830e16.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/b38ae5640a56004d8def67760236377a.jpg",
-          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/cb84edcfc811315f1258fed31fb4f1bc.jpg",
-          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/4cf643547da8234ea9dc9d7f7763aa07.png",
-          "note": "AI Tool Assets | 版权归公司所有，请勿盗用商用！"
         }
       ]
     },
@@ -701,36 +909,39 @@
         {
           "img": "/assets/uploads/ada4403b4ff813de4aebf57b967faeec.jpg",
           "note": "Hand-drawing skills"
-        },
+        }
+      ]
+    },
+    {
+      "id": "手绘技能2",
+      "cards": [
         {
           "img": "/assets/uploads/6402d9fe0601e4f5952439e3a6db3462.jpg",
-          "note": "Hand-drawing skills"
+          "note": "Hand-drawing skills2"
         },
         {
           "img": "/assets/uploads/620a04b52475252ec47c609141353611.jpg",
-          "note": "Hand-drawing skills"
+          "note": "Hand-drawing skills2"
         },
         {
           "img": "/assets/uploads/46a77de3207c2a4521be653c26daf3c2.jpg",
-          "note": "Hand-drawing skills"
+          "note": "Hand-drawing skills2"
         },
         {
           "img": "/assets/uploads/f1ff2753434cf34fb2d8702d25dac412.jpg",
-          "note": "Hand-drawing skills"
-        },
-        {
-          "img": "/assets/uploads/c3804594ccd165df4dc4c36015ed4fdb.jpg",
-          "note": "Hand-drawing skills"
+          "note": "Hand-drawing skills2"
         },
         {
           "img": "/assets/uploads/ae648bf312183040db7d0130973ca6c0.jpg",
-          "note": "Hand-drawing skills"
+          "note": "Hand-drawing skills2"
         },
         {
-          "img": "/assets/uploads/6ac6c200d8e6b83dbb6916ec5e0f2db8.jpg",
-          "note": "Hand-drawing skills"
+          "img": "/assets/uploads/c3804594ccd165df4dc4c36015ed4fdb.jpg",
+          "note": "Hand-drawing skills2"
         }
-      ]
+      ],
+      "en": "Hand-drawing skills2",
+      "title": "手绘技能2"
     },
     {
       "id": "3D作品",
