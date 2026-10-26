@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <title>作品集后台管理</title>
+  <link rel="stylesheet" href="./save-safety.css?v=20261027-1">
   <style>
     body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #F1EAD9; }
     #nc-root { min-height: 100vh; }
@@ -14,9 +15,15 @@
 </head>
 <body>
   <a class="moderation-link" href="./moderation.html">管理涂鸦与评论</a>
-  <div class="admin-tip">作品集后台 · 改动后等 1~2 分钟自动上线</div>
+  <div id="save-safety" aria-label="内容备份与发布状态">
+    <span id="save-safety-status" role="status" aria-live="polite">编辑后自动保留本机内容备份</span>
+    <button id="export-content-backup" type="button" disabled title="导出文字和素材路径；图片、视频原文件请另外保留">导出备份</button>
+  </div>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>if (window.netlifyIdentity) { window.netlifyIdentity.init({ APIUrl: location.origin + "/.netlify/identity" }); }</script>
-  <script src="https://unpkg.com/decap-cms@^3.3.3/dist/decap-cms.js"></script>
+  <script>window.CMS_MANUAL_INIT = true;</script>
+  <script src="./save-safety.js?v=20261027-1"></script>
+  <script src="./vendor/decap-cms-3.17.1.patched.js?v=20261027-1"></script>
+  <script>if (window.CMS) { window.PortfolioAdminSafety.attach(window.CMS); window.CMS.init(); }</script>
 </body>
 </html>

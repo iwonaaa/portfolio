@@ -142,14 +142,14 @@ collections:
             fields:
               - { label: "ID", name: "id", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
-              - { label: "英文名", name: "en", widget: "string" }
+              - { label: "英文名", name: "en", widget: "string", required: false }
               - { label: "分类", name: "cat", widget: "select", options: ["动效", "特效", "动画", "其他"] }
               - { label: "年份", name: "year", widget: "string" }
               - { label: "时长", name: "dur", widget: "string" }
               - { label: "我的职责", name: "role", widget: "string" }
               - { label: "使用软件", name: "tools", widget: "string" }
-              - { label: "介绍", name: "desc", widget: "text" }
-              - { label: "封面图", name: "poster", widget: "image" }
+              - { label: "介绍", name: "desc", widget: "text", required: false }
+              - { label: "封面图", name: "poster", widget: "image", required: false, hint: "可留空；未上传封面时使用视频画面。" }
               - { label: "视频文件", name: "video", widget: "file", required: false }
               - { label: "初始点赞数", name: "likes", widget: "number", value_type: "int", default: 0 }
           - label: "图片作品"

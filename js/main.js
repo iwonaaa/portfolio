@@ -221,8 +221,8 @@ function renderWorks() {
   grid.innerHTML = list.map((w, i) => `
     <article class="work ticket" data-id="${esc(w.id)}" data-cursor="play" tabindex="0" role="button" aria-label="查看作品：${esc(w.title)}" style="--tilt:${TILTS[i % TILTS.length]}deg">
       <div class="thumb">
-        <img src="${esc(assetPath(w.poster))}" alt="${esc(w.title)} 封面" loading="lazy">
-        ${w.video ? `<video muted loop playsinline preload="none" src="${esc(assetPath(w.video))}"></video>` : ""}
+        ${w.poster ? `<img src="${esc(assetPath(w.poster))}" alt="${esc(w.title)} 封面" loading="lazy">` : ""}
+        ${w.video ? `<video muted loop playsinline preload="${w.poster ? "none" : "metadata"}" src="${esc(assetPath(w.video))}"></video>` : ""}
         <span class="stamp ${CAT_COLOR[w.cat] || "red"}">${esc(w.cat)}</span>
       </div>
       <h3>${esc(w.title)}</h3>

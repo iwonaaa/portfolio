@@ -3,4 +3,5 @@ node_modules/
 .env
 .env.*
 tests/*.png
+tests/results/
 *.zip
