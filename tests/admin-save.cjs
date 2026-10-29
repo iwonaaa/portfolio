@@ -17,7 +17,7 @@ function fragments(bundle){
  assert.ok(b>0&&e>b);
  return {asset:bundle.slice(start,end)+`;return ${name};`,backup:bundle.slice(b,e)};
 }
-const fixture=`<!doctype html><meta charset="utf-8"><title>后台保存回归测试</title><link rel="stylesheet" href="save-safety.css"><div id="nc-root"></div><div id="save-safety"><span id="save-safety-status" role="status"></span><button id="export-content-backup" title="导出文字和素材路径；不含媒体原文件">导出备份</button></div><script>window.CMS_MANUAL_INIT=true;window.repoFiles={content:{'portfolio.json':{content:${JSON.stringify(JSON.stringify(data)).replace(/</g,'\\u003c')}}}};</script><script src="save-safety.js"></script><script src="vendor/decap-cms-3.17.1.patched.js"></script><script>
+const fixture=`<!doctype html><meta charset="utf-8"><title>后台保存回归测试</title><link rel="stylesheet" href="save-safety.css"><div id="nc-root"></div><div id="save-safety"><span id="save-safety-status" role="status"></span><button id="export-content-backup" title="导出文字和素材路径；不含媒体原文件">导出备份</button></div><script>window.CMS_MANUAL_INIT=true;window.repoFiles={content:{'portfolio.json':{content:${JSON.stringify(JSON.stringify(data)).replace(/</g,'\\u003c')}}}};</script><script src="save-safety.js"></script><script src="vendor/decap-cms-3.17.1.patched.js"></script><script src="../js/video-categories.js"></script><script src="video-categories.js"></script><script>
 const Parent=CMS.getBackend('test-repo').BackendClass;
 class SaveTestBackend extends Parent {
  constructor(...args){super(...args);window.testBackend=this;window.testAttempts=0;window.testPayloads=[];}
@@ -32,12 +32,16 @@ class SaveTestBackend extends Parent {
 }
 CMS.registerBackend('portfolio-test',SaveTestBackend);
 PortfolioAdminSafety.attach(CMS);
+PortfolioCategoryEditor.attach(CMS);
 CMS.init({config:{backend:{name:'portfolio-test',login:false},editor:{preview:false}}});
 </script>`;
 const regression=`<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="/admin/save-safety.css"><div id="save-safety"><span id="save-safety-status"></span><button id="export-content-backup">导出备份</button></div><script src="/admin/save-safety.js"></script>`;
 const mime={'.json':'application/json','.yml':'text/yaml','.html':'text/html','.js':'application/javascript','.css':'text/css','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2','.mp4':'video/mp4'};
+let previewData;
 const server=http.createServer((req,res)=>{
  const url=new URL(req.url,'http://local');
+ if(url.pathname.startsWith('/.netlify/functions/')){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({likes:0,comments:[],doodles:[]}));}
+ if(url.pathname==='/content/portfolio.json'&&previewData){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify(previewData));}
  if(url.pathname==='/admin/test-save.html'){res.setHeader('Content-Type','text/html;charset=utf-8');return res.end(fixture);}
  if(url.pathname==='/regression.html'){res.setHeader('Content-Type','text/html;charset=utf-8');return res.end(regression);}
  let rel=decodeURIComponent(url.pathname);if(rel.endsWith('/'))rel+='index.html';
@@ -99,6 +103,28 @@ const server=http.createServer((req,res)=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.waitForFunction(()=>window.CMS?.editor?.getCurrentEntry()?.collection==='portfolio',{timeout:30000});
   const first=await page.evaluate(()=>CMS.editor.getCurrentEntry());assert.equal(first.data.works.length,24);
+  await page.evaluate(()=>{
+    const rows=CMS.editor.getCurrentEntry().data.site.videoCategories.map(row=>({...row,label:row.id==='动效'?'界面动效':row.label}));
+    rows.push({label:'游戏交互'});
+    CMS.editor.applyFieldPatch([{path:'site.videoCategories',value:rows}]);
+  });
+  await page.waitForFunction(()=>CMS.editor.getCurrentEntry().data.site.videoCategories.at(-1)?.id?.startsWith('category-'));
+  const rows=await page.evaluate(()=>CMS.editor.getCurrentEntry().data.site.videoCategories);
+  const added=rows.at(-1);assert.equal(rows[0].id,'动效');assert.equal(rows[0].label,'界面动效');
+  await page.evaluate(value=>CMS.editor.applyFieldPatch([{path:'site.videoCategories',value}]),[added,...rows.slice(0,-1)]);
+  await page.getByText(first.data.works[0].id,{exact:true}).first().locator('xpath=ancestor::*[.//button][1]').getByRole('button').first().click();
+  const categorySelect=page.getByLabel('分类',{exact:true}).first();
+  await categorySelect.selectOption({label:'游戏交互'});
+  assert.equal(await page.evaluate(()=>CMS.editor.getCurrentEntry().data.works[0].cat),added.id);
+  await page.evaluate(()=>{
+    const categories=CMS.editor.getCurrentEntry().data.site.videoCategories.filter(row=>row.id!=='动画');
+    CMS.editor.applyFieldPatch([{path:'site.videoCategories',value:categories}]);
+  });
+  await page.getByRole('button',{name:'Publish',exact:true}).first().click();await page.getByText('Publish now',{exact:true}).click();
+  await page.waitForFunction(()=>document.body.textContent.includes('请先给作品选择现有分类'));
+  assert.equal(await page.evaluate(()=>window.testAttempts),0);
+  await page.evaluate(value=>CMS.editor.applyFieldPatch([{path:'site.videoCategories',value}]),[added,...rows.slice(0,-1)]);
+  results.push({name:'CMS categories: stable rename, live add/select, reorder, refuse removal of a used category',passed:true});
   const editResult=await page.evaluate(()=>CMS.editor.applyFieldPatch([{path:'site.tagline',value:'保存回归测试：中文 🙂'}]));assert.ok(editResult.applied.includes('site.tagline'));
   await page.waitForFunction(()=>JSON.parse(localStorage.getItem('portfolio.content-safety.v1')||'null')?.content?.site?.tagline==='保存回归测试：中文 🙂');
   const before=await page.evaluate(()=>JSON.stringify(CMS.editor.getCurrentEntry().data));
@@ -120,6 +146,26 @@ const server=http.createServer((req,res)=>{
   await page.waitForFunction(()=>!CMS.editor.getCurrentEntry().hasChanged);
   assert.equal(await page.locator('#save-safety').getAttribute('data-error'),'false');
   const committed=await page.evaluate(()=>window.testPayloads[0].data[0]);assert.equal(committed.site.tagline,'保存回归测试：中文 🙂');assert.equal(committed.works.length,24);
+  assert.equal(committed.site.videoCategories[0].label,'游戏交互');assert.equal(committed.works[0].cat,added.id);
+  const previewPage=await context.newPage();const publicErrors=[];previewPage.on('pageerror',error=>publicErrors.push(error.message));
+  previewData=structuredClone(committed);previewData.site.videoCategories.push({id:'empty-category',label:'独立探索'});
+  await previewPage.emulateMedia({reducedMotion:'reduce'});
+  await previewPage.goto(base+'/?shot=works');
+  await previewPage.waitForFunction(()=>document.querySelectorAll('#works-grid .work').length===24);
+  assert.deepEqual(await previewPage.locator('#tabs .tab').allTextContents(),['全部','游戏交互','界面动效','特效','动画','其他','独立探索']);
+  await previewPage.getByRole('tab',{name:'游戏交互',exact:true}).click();assert.equal(await previewPage.locator('#works-grid .work').count(),1);
+  assert.equal(await previewPage.locator('#works-grid .stamp').first().innerText(),'游戏交互');
+  await previewPage.locator('#works-grid .work').first().click();await previewPage.waitForFunction(()=>document.querySelector('#ci-cat').textContent==='游戏交互');
+  await previewPage.keyboard.press('Escape');
+  await previewPage.getByRole('tab',{name:'界面动效',exact:true}).click();
+  assert.equal(await previewPage.locator('#works-grid .work').count(),committed.works.filter(w=>w.cat==='动效').length);
+  await previewPage.screenshot({path:path.join(out,'categories-desktop.png')});
+  await previewPage.getByRole('tab',{name:'独立探索',exact:true}).click();assert.equal(await previewPage.locator('#works-grid .work').count(),0);assert.equal(await previewPage.locator('.works-empty').innerText(),'该分类暂未添加作品。');
+  await previewPage.getByRole('tab',{name:'全部',exact:true}).click();assert.equal(await previewPage.locator('#works-grid .work').count(),24);
+  await previewPage.setViewportSize({width:390,height:844});await previewPage.locator('#tabs').scrollIntoViewIfNeeded();
+  const tabs=await previewPage.locator('#tabs .tab').all();for(const tab of tabs){const box=await tab.boundingBox();assert.ok(box.x>=0&&box.x+box.width<=390);}
+  await previewPage.screenshot({path:path.join(out,'categories-mobile.png')});assert.deepEqual(publicErrors,[]);await previewPage.close();
+  results.push({name:'public categories: correct order, renamed stamps and cinema, new-category filtering, empty state, mobile wrapping',passed:true});
   results.push({name:'actual pinned CMS + production config: live autosave, export, 401 failure preserves draft, retry commits all 24 works',passed:true});
   await page.screenshot({path:path.join(out,'admin-desktop.png')});
   await page.setViewportSize({width:390,height:844});
@@ -147,7 +193,7 @@ const server=http.createServer((req,res)=>{
   await memoryDownload.saveAs(path.join(out,'memory-export-test.json'));
   assert.equal(JSON.parse(fs.readFileSync(path.join(out,'memory-export-test.json'),'utf8')).content.site.tagline,'存储不可用时的最新修改');
   results.push({name:'offline edit survives navigation; no publish while offline; narrow-screen status fits; export works when browser storage is blocked',passed:true});
-  assert.deepEqual(errors,['Object','Object'],'Only the two deliberately simulated rejected saves may report errors');
+  assert.deepEqual(errors,['Object','Object','Object'],'Only the three deliberately rejected saves may report errors');
   fs.writeFileSync(path.join(out,'test-results.json'),JSON.stringify({results,native,errors},null,2)+'\n');
   console.log(JSON.stringify({results,errors},null,2));
  }catch(e){console.error(e);if(debugPage){await debugPage.screenshot({path:path.join(out,'test-failure.png')});logs.push(await debugPage.locator('body').innerText());}fs.writeFileSync(path.join(out,'test-failure.txt'),String(e.stack)+'\n'+logs.join('\n'));process.exitCode=1;}

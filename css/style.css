@@ -214,6 +214,7 @@ body:not(.grain-on) #grain { display: none; }
 @keyframes bob { 50% { transform: rotate(6deg) translateY(10px); } }
 
 .tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+.tabs .tab { max-width: 100%; overflow-wrap: anywhere; }
 .tab {
   font-family: var(--font-hand); font-size: 17px;
   border: 2.5px solid var(--ink); border-radius: var(--wr);
@@ -230,6 +231,7 @@ body:not(.grain-on) #grain { display: none; }
   margin-top: 40px;
 }
 .work h3 { font-family: var(--font-hand); font-weight: 400; font-size: 22px; margin: 12px 4px 2px; }
+.works-empty { grid-column: 1 / -1; margin: 24px 0; color: var(--ink-soft); }
 .wmeta { font-family: var(--font-mono); font-size: 11px; color: var(--ink-soft); margin: 0 4px; letter-spacing: .04em; }
 
 .about-grid { display: grid; grid-template-columns: 320px 1fr; gap: clamp(30px, 6vw, 70px); align-items: start; margin-top: 44px; }

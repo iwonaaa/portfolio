@@ -222,7 +222,25 @@
       "ip": "视频动画：创意公益广告动画，MG动画，电影预告片...",
       "thesis": "AI工作流探索：AI × 动效工作流，AI × 视频工作流，个人作品集网站..."
     },
-    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE"
+    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE",
+    "videoCategories": [
+      {
+        "id": "动效",
+        "label": "动效"
+      },
+      {
+        "id": "特效",
+        "label": "特效"
+      },
+      {
+        "id": "动画",
+        "label": "动画"
+      },
+      {
+        "id": "其他",
+        "label": "其他"
+      }
+    ]
   },
   "works": [
     {

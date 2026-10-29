@@ -19,7 +19,7 @@ Changes:
 
 The existing image/file widget draft backup still stores media Files in IndexedDB. Content-only backups do not imply successful media backup or successful publication. Existing offline drafts with already-lost bytes require the original media files; the fix cannot reconstruct absent bytes.
 
-Regression: in a Node environment with Playwright and Chromium, run `node tests/admin-save.cjs /path/to/the/unmodified/decap-cms.js`. Optional `ADMIN_TEST_PLAYWRIGHT_MODULE` and `ADMIN_TEST_CHROME` select existing local runtimes. The tests use a local server and an in-memory CMS backend; no production authentication or repository writes occur. Test output goes in ignored `tests/results/`. The deliberately simulated failed saves cause two upstream rejected-promise reports; those are asserted separately from unexpected browser errors.
+Regression: in a Node environment with Playwright and Chromium, run `node tests/admin-save.cjs /path/to/the/unmodified/decap-cms.js`. Optional `ADMIN_TEST_PLAYWRIGHT_MODULE` and `ADMIN_TEST_CHROME` select existing local runtimes. The tests use a local server and an in-memory CMS backend; no production authentication or repository writes occur. Test output goes in ignored `tests/results/`. The deliberately rejected saves (a category still in use, expired login, and offline publication) cause three upstream rejected-promise reports; those are asserted separately from unexpected browser errors.
 
 References:
 

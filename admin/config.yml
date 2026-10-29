@@ -26,6 +26,22 @@ collections:
               - { label: "签名语", name: "tagline", widget: "string" }
               - { label: "所在地 · 状态", name: "location", widget: "string" }
               - { label: "封皮下方小字", name: "heroNote", widget: "string" }
+              - label: "视频作品分类"
+                name: "videoCategories"
+                widget: "list"
+                label_singular: "分类"
+                summary: "{{fields.label}}"
+                collapsed: true
+                required: false
+                hint: "可新增、改名、拖动排序。改名会同步显示已有作品；删除分类前，请先将其中作品改选到其他分类。“全部”汇总按钮自动保留。"
+                default:
+                  - { id: "动效", label: "动效" }
+                  - { id: "特效", label: "特效" }
+                  - { id: "动画", label: "动画" }
+                  - { id: "其他", label: "其他" }
+                fields:
+                  - { name: "id", widget: "hidden", default: "", required: false }
+                  - { label: "分类名称", name: "label", widget: "string" }
               - label: "页面固定文字（导航、标题、提示）"
                 name: "copy"
                 widget: "object"
@@ -143,7 +159,7 @@ collections:
               - { label: "ID", name: "id", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
               - { label: "英文名", name: "en", widget: "string", required: false }
-              - { label: "分类", name: "cat", widget: "select", options: ["动效", "特效", "动画", "其他"] }
+              - { label: "分类", name: "cat", widget: "video-category", hint: "可选项来自“站点信息 → 视频作品分类”；新增或改名后会立即更新这里。" }
               - { label: "年份", name: "year", widget: "string" }
               - { label: "时长", name: "dur", widget: "string" }
               - { label: "我的职责", name: "role", widget: "string" }

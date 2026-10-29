@@ -9,15 +9,14 @@ const assetPath = path => {
   return location.protocol === "file:" && value.startsWith("/") ? `.${value}` : value;
 };
 
-const CATS = ["全部", "动效", "特效", "动画", "其他"];
-const CAT_COLOR = { "动效": "red", "特效": "yellow", "动画": "blue", "其他": "green" };
-const CAT_HALL = { "动效": "A", "特效": "B", "动画": "C", "其他": "D" };
+const videoCategories = window.PortfolioVideoCategories;
 const TILTS = [-1.6, 1.2, -0.8, 1.8, -1.1, 0.9, -1.9, 1.5];
 
 const state = {
   site: null,
   works: [],
-  filter: "全部",
+  categories: [],
+  filter: videoCategories.ALL,
   // 每次进入作品集时默认开启；访客仍可在当前浏览中手动关闭。
   sound: true,
   grain: localStorage.getItem("grain") !== "0"
@@ -204,8 +203,11 @@ function fillSite(s) {
 }
 
 function renderTabs() {
-  $("#tabs").innerHTML = CATS.map(cat =>
-    `<button class="tab${cat === state.filter ? " on" : ""}" data-filter="${esc(cat)}" data-cursor="link" role="tab" aria-selected="${cat === state.filter}">${esc(cat)}</button>`
+  state.categories = videoCategories.list(state.site,state.works);
+  const categories = [{id:videoCategories.ALL,label:"全部"},...state.categories];
+  if (!categories.some(cat => cat.id === state.filter)) state.filter = videoCategories.ALL;
+  $("#tabs").innerHTML = categories.map(cat =>
+    `<button class="tab${cat.id === state.filter ? " on" : ""}" data-filter="${esc(cat.id)}" data-cursor="link" role="tab" aria-selected="${cat.id === state.filter}">${esc(cat.label)}</button>`
   ).join("");
   $$("#tabs .tab").forEach(btn => btn.addEventListener("click", () => {
     state.filter = btn.dataset.filter;
@@ -216,23 +218,23 @@ function renderTabs() {
 }
 
 function renderWorks() {
-  const list = state.works.filter(w => state.filter === "全部" || w.cat === state.filter);
+  const list = state.works.filter(w => state.filter === videoCategories.ALL || videoCategories.find(state.categories,w.cat)?.id === state.filter);
   const grid = $("#works-grid");
   grid.innerHTML = list.map((w, i) => `
     <article class="work ticket" data-id="${esc(w.id)}" data-cursor="play" tabindex="0" role="button" aria-label="查看作品：${esc(w.title)}" style="--tilt:${TILTS[i % TILTS.length]}deg">
       <div class="thumb">
         ${w.poster ? `<img src="${esc(assetPath(w.poster))}" alt="${esc(w.title)} 封面" loading="lazy">` : ""}
         ${w.video ? `<video muted loop playsinline preload="${w.poster ? "none" : "metadata"}" src="${esc(assetPath(w.video))}"></video>` : ""}
-        <span class="stamp ${CAT_COLOR[w.cat] || "red"}">${esc(w.cat)}</span>
+        <span class="stamp ${videoCategories.color(state.categories,w.cat)}">${esc(videoCategories.find(state.categories,w.cat)?.label || w.cat)}</span>
       </div>
       <h3>${esc(w.title)}</h3>
       <p class="wmeta">${esc(w.en)} · ${esc(w.year)} · ${esc(w.dur)}</p>
       <div class="ticket-tear" aria-hidden="true"></div>
       <div class="ticket-stub">
         <div class="barcode" aria-hidden="true"></div>
-        <div class="stub-info mono"><span>HALL ${CAT_HALL[w.cat] || "A"} · ROW ${String(i + 1).padStart(2, "0")}</span><span>${esc(w.year)} · ${esc(w.dur)}</span></div>
+        <div class="stub-info mono"><span>HALL ${videoCategories.hall(state.categories,w.cat)} · ROW ${String(i + 1).padStart(2, "0")}</span><span>${esc(w.year)} · ${esc(w.dur)}</span></div>
       </div>
-    </article>`).join("");
+    </article>`).join("") || '<p class="works-empty" role="status">该分类暂未添加作品。</p>';
 
   $$(".work", grid).forEach(card => {
     const w = state.works.find(x => x.id === card.dataset.id);
@@ -255,8 +257,8 @@ function renderWorks() {
 function openCinema(w) {
   $("#ci-title").textContent = w.title;
   const cat = $("#ci-cat");
-  cat.textContent = w.cat;
-  cat.className = "stamp " + (CAT_COLOR[w.cat] || "red");
+  cat.textContent = videoCategories.find(state.categories,w.cat)?.label || w.cat;
+  cat.className = "stamp " + videoCategories.color(state.categories,w.cat);
   $("#ci-meta").textContent = `${w.en} · ${w.year} · ${w.dur}`;
   $("#ci-desc").textContent = w.desc;
   $("#ci-role").textContent = w.role;
