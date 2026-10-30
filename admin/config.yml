@@ -1,6 +1,9 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: job
+
+site_url: "https://xuyiyuan-iwona-job.netlify.app"
+display_url: "https://xuyiyuan-iwona-job.netlify.app"
 
 media_folder: "assets/uploads"
 public_path: "/assets/uploads"
@@ -8,7 +11,7 @@ locale: "zh"
 
 collections:
   - name: "portfolio"
-    label: "作品集全部内容"
+    label: "求职专用版 · 作品集全部内容"
     files:
       - name: "portfolio"
         label: "全部内容（一次保存）"
