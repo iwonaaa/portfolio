@@ -54,7 +54,7 @@
         ]
       },
       {
-        "period": "2026.4-2026.6",
+        "period": "2026.5-2026.6",
         "title": "视频设计实习生",
         "org": "搜狐畅游",
         "desc": "艺术设计中心视效部，负责公司多品类游戏视频设计。",
@@ -67,7 +67,7 @@
         ]
       },
       {
-        "period": "2025.12-2026.3",
+        "period": "2025.12-2026.4",
         "title": "动效设计实习生",
         "org": "武汉微派网络",
         "desc": "负责社交游戏软件《会玩》/<weplay>海内外版本的动效，特效设计。",
@@ -166,6 +166,30 @@
             },
             {
               "image": "/assets/uploads/明日方舟-03-关键画面.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-游戏设计-01-项目概览.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-游戏设计-02-设计思路与解决方案.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-游戏设计-03-结局视觉呈现.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-uiux设计-01-视觉与体验概览.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-uiux设计-02-操作路径与交互反馈.png"
+            },
+            {
+              "image": "/assets/uploads/不关我柿-uiux设计-03-界面系统与视觉反馈.png"
+            },
+            {
+              "image": "/assets/uploads/helvetica-01-项目概览.png"
+            },
+            {
+              "image": "/assets/uploads/helvetica-02-视觉与节奏设计.png"
             },
             {
               "image": "/assets/uploads/脸盲症就业指导-01-项目概览.png"
@@ -677,76 +701,6 @@
       "year": "2022-2025"
     },
     {
-      "dur": "00：33",
-      "en": "Promotional ad 1",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-09-26.png",
-      "desc": "版权归搜狐畅游所有，禁止盗用！",
-      "role": "视频包装，音效设计",
-      "cat": "其他",
-      "title": "《阿尔法喵计划》宣传广告1",
-      "video": "/assets/uploads/66be660e31f7526f0d50ec456cc797b5.mp4",
-      "id": "Promotional ad 1",
-      "tools": "剪映",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：33",
-      "en": "Promotional ad 2",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-13-43.png",
-      "desc": "版权归搜狐畅游所有，禁止盗用！",
-      "role": "视频包装，音效设计",
-      "cat": "其他",
-      "title": "《阿尔法喵计划》宣传广告2",
-      "video": "/assets/uploads/5629faab318cf7d7dc6515d7630f604e.mp4",
-      "id": "Promotional ad 2",
-      "tools": "剪映",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：40",
-      "en": "Promotional ad 3",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-23-12.png",
-      "desc": "版权归搜狐畅游所有，禁止盗用！",
-      "role": "视频包装，音效设计",
-      "cat": "其他",
-      "title": "《阿尔法喵计划》宣传广告3",
-      "video": "/assets/uploads/ca47d98c45322cd7fe0261c83eaeeae5.mp4",
-      "id": "Promotional ad 3",
-      "tools": "剪映",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：06",
-      "en": "AI Video 1",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-16-37.png",
-      "desc": "版权归搜狐畅游所有，禁止盗用！",
-      "role": "脚本设计，AI生成，剪辑",
-      "cat": "特效",
-      "title": "《阿尔法喵计划》AI 视频 1",
-      "video": "/assets/uploads/08b34c91ccf0e4b4f9a1717439e11dc5.mp4",
-      "id": "AI Video 1",
-      "tools": "剪映",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：05",
-      "en": "AI Video 2",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-20-35.png",
-      "desc": "版权归搜狐畅游所有，禁止盗用！",
-      "role": "脚本设计，AI生成，剪辑",
-      "cat": "特效",
-      "title": "《阿尔法喵计划》AI视频 2",
-      "video": "/assets/uploads/7c2d009029695609faa3821cec109351.mp4",
-      "id": "AI Video 2",
-      "tools": "剪映",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
       "dur": "05：23",
       "en": "《PLAYER》",
       "poster": "/assets/uploads/许怡媛-2-.png",
@@ -1089,107 +1043,6 @@
         {
           "img": "/assets/uploads/snipaste_2026-09-29_13-58-53.png",
           "note": "\"Le sens de la fête\" Trailer Visuals "
-        }
-      ]
-    },
-    {
-      "id": "AI分镜1",
-      "title": "AI分镜1",
-      "en": "AI Storyboard1",
-      "cards": [
-        {
-          "img": "/assets/uploads/0c5fd6bade3dc95c188440b370e83ffa.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/38d287b9fbd142760ab3f68cf3d11d5b.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/f3af4409acbe927cac046b6e848eda6e.jpg",
-          "note": "AI Storyboard1 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/80f38d4e184e444a6fd93c5082d19818.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/d93a7be78a8ec5d573a67cd7a4fdb953.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/12bdd7fc92b9870dc7c1792734cd3acc.jpg",
-          "note": "AI Storyboard1| 版权归搜狐畅游所有，请勿盗用商用！"
-        }
-      ]
-    },
-    {
-      "id": "AI分镜 2",
-      "title": "AI分镜 2",
-      "en": "AI Storyboard 2",
-      "cards": [
-        {
-          "img": "/assets/uploads/2ee5cc852e1ed3493b5b7b36855852ac.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/84e6126ad2c1a20444e2bc666116e0d0.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/e6ca8af77a6cee04da2f7782f7a56d0a.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/59a173eda09447251c64ba521234993b.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/86ac99b8260cce88d2a225812a8ec39c.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/3ee0c5e5be191a61f34635de92325094.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/5edb965b24220f537c835b3a849b19eb.png",
-          "note": "AI Storyboard 2 | 版权归搜狐畅游所有，请勿盗用商用！"
-        }
-      ]
-    },
-    {
-      "title": "AI道具资产",
-      "id": "AI道具资产",
-      "en": "AI Tool Assets",
-      "cards": [
-        {
-          "img": "/assets/uploads/cd556d88b1cf74ffe006f362bea5538d.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/368ce2d8d5ed16a96b9b6d214577b02e.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/56b7d5c75a3764e36a517edbf4adf954.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/d22b8ceb1330e0a1bc8d10546b05abe6.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/11f80392fef70197b3ea88336bac1ce6.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/6f80c874b426fdfdbc1097384144dde6.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
-        },
-        {
-          "img": "/assets/uploads/9b849afe7eaf5ea5e1afd122bc94a9cb.jpg",
-          "note": "AI Tool Assets | 版权归搜狐畅游所有，请勿盗用商用！"
         }
       ]
     },
