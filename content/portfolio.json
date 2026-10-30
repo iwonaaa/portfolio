@@ -148,12 +148,35 @@
         {
           "label": "作品思路",
           "color": "#dfcba4",
-          "pages": []
-        },
-        {
-          "label": "角色IP",
-          "color": "#dfb0a5",
-          "pages": []
+          "pages": [
+            {
+              "image": "/assets/uploads/流星队logo-01-项目概览.png"
+            },
+            {
+              "image": "/assets/uploads/流星队logo-02-概念与动态叙事.png"
+            },
+            {
+              "image": "/assets/uploads/流星队logo-03-动效关键画面.png"
+            },
+            {
+              "image": "/assets/uploads/明日方舟-01-项目概览.png"
+            },
+            {
+              "image": "/assets/uploads/明日方舟-02-动态叙事与设计重点.png"
+            },
+            {
+              "image": "/assets/uploads/明日方舟-03-关键画面.png"
+            },
+            {
+              "image": "/assets/uploads/脸盲症就业指导-01-项目概览.png"
+            },
+            {
+              "image": "/assets/uploads/脸盲症就业指导-02-视觉概念与试验.png"
+            },
+            {
+              "image": "/assets/uploads/脸盲症就业指导-03-最终版与动态表现.png"
+            }
+          ]
         },
         {
           "label": "AI探索",
@@ -167,6 +190,27 @@
             },
             {
               "image": "/assets/uploads/03-工作流改变与思考-加粗版-20261029.png"
+            },
+            {
+              "image": "/assets/uploads/项目2-01-视频工作流-概览.png"
+            },
+            {
+              "image": "/assets/uploads/项目2-02-视频工作流-实现步骤.png"
+            },
+            {
+              "image": "/assets/uploads/项目2-03-视频工作流-工作方式与思考.png"
+            },
+            {
+              "image": "/assets/uploads/项目3-01-个人作品集网站-概览.png"
+            },
+            {
+              "image": "/assets/uploads/项目3-02-个人作品集网站-搭建与体验.png"
+            },
+            {
+              "image": "/assets/uploads/项目4-01-动效动画秋招清单-概览.png"
+            },
+            {
+              "image": "/assets/uploads/项目4-02-动效动画秋招清单-筛选与追踪.png"
             }
           ]
         }
@@ -217,20 +261,10 @@
     },
     "location": "求职中",
     "role": "动效设计 · 影视动画专业应届本科毕业生",
-    "notebook": {
-      "ae": "动效设计：角色展示动画，logo动效，礼物特效，道具动效，H5页面动效...",
-      "ip": "视频动画：创意公益广告动画，MG动画，电影预告片...",
-      "thesis": "AI工作流探索：AI × 动效工作流，AI × 视频工作流，个人作品集网站..."
-    },
-    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE",
     "videoCategories": [
       {
         "id": "动效",
-        "label": "动效"
-      },
-      {
-        "id": "特效",
-        "label": "特效"
+        "label": "动效特效"
       },
       {
         "id": "动画",
@@ -238,21 +272,31 @@
       },
       {
         "id": "其他",
-        "label": "其他"
+        "label": "宣传/广告"
+      },
+      {
+        "id": "特效",
+        "label": "AI"
       }
-    ]
+    ],
+    "notebook": {
+      "ae": "动效设计：角色展示动画，logo动效，礼物特效，道具动效，H5页面动效...",
+      "ip": "视频动画：创意公益广告动画，MG动画，电影预告片...",
+      "thesis": "AI工作流探索：AI × 动效工作流，AI × 视频工作流，个人作品集网站..."
+    },
+    "roleEn": "MOTION DESIGN — FILM & ANIMATION GRADUATE"
   },
   "works": [
     {
       "dur": "00:05",
       "en": "Aesthetics Dream Festival — Meteor Team logo animation effect",
       "poster": "/assets/uploads/snipaste_2026-09-04_02-05-04.png",
-      "desc": "        做这个的时候完全热血起来了！看得我想出道！\n         结合原作「正义战队」的团队设定，将“五色流星”作为主要视觉符号，并通过星体运动、能量聚合与故障感强化其游戏世界观。\n         通过 流星聚合、布局节奏、色彩特效、数据故障，震荡影响建立完整的视觉叙事，使 Logo 不只是视觉图像，而是将队伍的概念，精神和影响投映在logo中，形成有生命感的logo动态演绎。",
+      "desc": "     结合原作「正义战队」的团队设定，将“五色流星”作为主要视觉符号，并通过星体运动、能量聚合与故障感强化其游戏世界观。\n     通过 流星聚合、布局节奏、色彩特效、数据故障，震荡影响建立完整的视觉叙事，使 Logo 不只是视觉图像，而是将队伍的概念，精神和影响投映在logo中，形成有生命感的logo动态演绎。",
       "role": "脚本设计，动效设计",
       "cat": "动效",
       "title": "偶像梦幻祭——流星队logo动效",
       "video": "/assets/uploads/新媒体后期制作实习生_许怡媛_测试1_17799240827.mp4",
-      "id": "w1",
+      "id": "Aesthetics Dream Festival — Meteor Team logo animation effect",
       "tools": "AE，AI",
       "likes": 0,
       "year": "2026"
@@ -261,14 +305,40 @@
       "dur": "00:40",
       "en": "Arknights Character Event Showcase",
       "poster": "/assets/uploads/5月18日-1-1-封面.jpg",
-      "desc": "      真的很喜欢这种超强叙事感...有没有人可以找我做PV(我知道这个不是)....好喜欢...\n      在1.5天内完成从不熟悉 IP 调研→ 视觉语言提炼 → 动态脚本 → 完整成片的快速闭环。      \n      通过具有明确视觉识别度的活动风格强化角色展示，并兼顾角色信息传达、活动氛围营造与 PV 视觉统一性。\n       结合已有活动主题提取视觉语言，以 苏联构成主义 × 复古报纸拼贴 × 粗粝工业建筑质感 为主要视觉方向。通过旧报纸、几何构成、建筑结构与人物影像的拼贴组合，营造具有历史感、叙事感与视觉冲击力的活动氛围。",
+      "desc": "      在1.5天内完成从不熟悉 IP 调研→ 视觉语言提炼 → 动态脚本 → 完整成片的快速闭环。      \n      通过具有明确视觉识别度的活动风格强化角色展示，并兼顾角色信息传达、活动氛围营造与 PV 视觉统一性。\n       结合已有活动主题提取视觉语言，以 苏联构成主义 × 复古报纸拼贴 × 粗粝工业建筑质感 为主要视觉方向。通过旧报纸、几何构成、建筑结构与人物影像的拼贴组合，营造具有历史感、叙事感与视觉冲击力的活动氛围。",
       "role": "脚本设计，素材制作，动效设计",
-      "cat": "动效",
+      "cat": "其他",
       "title": "明日方舟角色活动展示",
       "video": "/assets/uploads/明日方舟单角色展示.mp4",
-      "id": "w2",
+      "id": "Arknights Character Event Showcase",
       "tools": "AE",
       "likes": 18,
+      "year": "2026"
+    },
+    {
+      "dur": "01：12",
+      "en": "Indie Game 'NOT ME！ Tomato!' ",
+      "poster": "/assets/uploads/snipaste_2026-10-30_13-23-58.png",
+      "role": "组长 / 玩法策划  / UI&UX 设计 / UI 动效设计",
+      "cat": "动效",
+      "title": "独立游戏《不关我柿！》实机画面",
+      "video": "/assets/uploads/10月21日.mp4",
+      "id": "Indie Game 'NOT ME！ Tomato!' ",
+      "tools": "figma，AE，codex，（godot）",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：44",
+      "en": "Indie Game 'NOT ME！ Tomato!' Promo Image",
+      "poster": "/assets/uploads/xiaoguotu-3-.png",
+      "role": "组长 / 玩法策划  / UI&UX 设计 / UI 动效设计",
+      "cat": "其他",
+      "title": "独立游戏《不关我柿！》宣传视频",
+      "video": "/assets/uploads/10月21日-副本.mp4",
+      "id": "not-me-tomato-trailer",
+      "tools": "figma，AE，codex，（godot）",
+      "likes": 0,
       "year": "2026"
     },
     {
@@ -280,7 +350,7 @@
       "cat": "动画",
       "title": "公益广告创意动画《脸盲症就业指导》",
       "video": "/assets/uploads/脸盲.mp4",
-      "id": "w5《脸盲症就业指导》",
+      "id": "<Employment Guidance for People with Face Blindness>",
       "tools": "AE",
       "likes": 52,
       "year": "2023"
@@ -294,7 +364,7 @@
       "cat": "动画",
       "title": "《想成为树懒的理由》",
       "video": "/assets/uploads/想成为树懒.mp4",
-      "id": "w4《想成为树懒的理由》",
+      "id": "<Reasons I Want to Be a Sloth>",
       "tools": "AE ",
       "likes": 15,
       "year": "2025"
@@ -308,7 +378,7 @@
       "cat": "动画",
       "title": "字母创意变化",
       "video": "/assets/uploads/d-e__c276090__xu_yiyuan.mp4",
-      "id": "w3字母创意变化",
+      "id": "Creative letter variations",
       "tools": "AE ",
       "likes": 7,
       "year": "2024"
@@ -322,82 +392,42 @@
       "cat": "动画",
       "title": "《HELVETICA》",
       "video": "/assets/uploads/c276090_xu-yiyuan_helvetica.mp4",
-      "id": "w8《HELVETICA》",
+      "id": "《HELVETICA》",
       "tools": "AE",
       "likes": 13,
       "year": "2024"
     },
     {
       "dur": "00：04",
-      "en": "礼物动效 圣诞",
+      "en": "Card flip effect",
+      "poster": "/assets/uploads/b6b50309343fb5a2c0aa0e2ad78a1599.png",
       "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
       "role": "动效设计",
       "cat": "动效",
-      "title": "礼物动效 圣诞",
-      "video": "/assets/uploads/0b1fe9239cad77b8ae280a691dba5373.mp4",
-      "id": "礼物动效 圣诞",
-      "tools": "AE",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：04",
-      "en": "礼物动效 钻石",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-00-34.png",
-      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
-      "role": "动效设计",
-      "cat": "特效",
-      "title": "礼物动效 钻石",
-      "video": "/assets/uploads/3dc039a7635f072245657eac3b0c3b6d.mp4",
-      "id": "礼物动效 钻石",
-      "tools": "AE",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00：04",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-02-20.png",
-      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
-      "role": "动效设计",
-      "cat": "动效",
-      "title": "礼物动效竹瓶",
-      "video": "/assets/uploads/fb59e505e6069172b316ead05c0bb736.mp4",
-      "id": "礼物动效竹瓶",
+      "title": "翻卡特效",
+      "video": "/assets/uploads/10月30日.mp4",
+      "id": "Card flip effect",
       "tools": "AE",
       "likes": 0,
       "year": "2026"
     },
     {
       "dur": "00:04",
-      "en": "礼物动效 餐车",
-      "poster": "/assets/uploads/snipaste_2026-10-26_15-57-01.png",
+      "en": "Gift Animation",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-11-45.png",
       "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
       "role": "动效设计",
       "cat": "动效",
-      "title": "礼物动效 餐车",
-      "video": "/assets/uploads/3f9790c094d28105679faa78cee07020.mp4",
-      "id": "礼物动效 餐车",
+      "title": "礼物动效 射箭",
+      "video": "/assets/uploads/5be93ad1e25c4e5b4f94a17717d40218.mp4",
+      "id": "礼物动效 射箭",
       "tools": "AE",
       "likes": 0,
       "year": "2026"
     },
     {
       "dur": "00:04",
-      "en": "礼物动效 小猫",
-      "poster": "/assets/uploads/snipaste_2026-10-26_16-15-53.png",
-      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
-      "role": "动效设计",
-      "cat": "动效",
-      "title": "礼物动效 小猫",
-      "video": "/assets/uploads/a9b2cb34d14f098a89662ac6674cf659.mp4",
-      "id": "礼物动效 小猫",
-      "tools": "AE",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
-      "dur": "00:04",
-      "en": "礼物动效 狮子",
+      "en": "Gift Animation",
       "poster": "/assets/uploads/snipaste_2026-10-26_16-14-05.png",
       "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
       "role": "AI生成，包装设计",
@@ -411,7 +441,202 @@
     },
     {
       "dur": "00:04",
-      "en": "背景动效 雪国",
+      "en": "Gift Animation",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-57-01.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 餐车",
+      "video": "/assets/uploads/3f9790c094d28105679faa78cee07020.mp4",
+      "id": "礼物动效 餐车",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Prop Animation 1",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-35-36.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "道具动效 1泼水节",
+      "video": "/assets/uploads/10月29日-副本-1.mp4",
+      "id": "Prop Animation 1",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Prop Animation 5",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-33-12.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "道具动效5  蝴蝶花",
+      "video": "/assets/uploads/10月29日-副本-1-2.mp4",
+      "id": "Prop Animation 5",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Prop Animation 4",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-33-38.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "道具动效4  星球",
+      "video": "/assets/uploads/10月29日-副本-1-1.mp4",
+      "id": "Prop Animation 4",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：35",
+      "en": "H5 UI animations 1",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-23-35.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "H5页面动效 1",
+      "video": "/assets/uploads/1dd57ca4f5b092f9b4384e9697a3db67.mp4",
+      "id": "H5 UI animations 1",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：28",
+      "en": "H5 UI animations 2",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-26-55.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "H5页面动效 2",
+      "video": "/assets/uploads/e1239c64f8afd4b91c9eab8bbc8d735a.mp4",
+      "id": "H5 UI animations 2",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Gift Animation",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 圣诞",
+      "video": "/assets/uploads/0b1fe9239cad77b8ae280a691dba5373.mp4",
+      "id": "礼物动效 圣诞",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Gift Animation",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-00-34.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 钻石",
+      "video": "/assets/uploads/3dc039a7635f072245657eac3b0c3b6d.mp4",
+      "id": "礼物动效 钻石",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Gift Animation",
+      "poster": "/assets/uploads/snipaste_2026-10-26_15-02-20.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效竹瓶",
+      "video": "/assets/uploads/fb59e505e6069172b316ead05c0bb736.mp4",
+      "id": "礼物动效竹瓶",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00:04",
+      "en": "Gift Animation",
+      "poster": "/assets/uploads/snipaste_2026-10-26_16-15-53.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "礼物动效 小猫",
+      "video": "/assets/uploads/a9b2cb34d14f098a89662ac6674cf659.mp4",
+      "id": "礼物动效 小猫",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Prop Animation 3",
+      "poster": "/assets/uploads/a3115043a6811c24156619bcdedbcf11.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "道具动效 3 金色女神",
+      "video": "/assets/uploads/10月29日-副本-3.mp4",
+      "id": "Prop Animation 3",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Dialog box animation",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-34-36.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "对话框动效",
+      "video": "/assets/uploads/10月29日-副本-4.mp4",
+      "id": "Dialog box animation",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Prop Animation 2",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-35-23.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "道具动效 2 赛博城市 ",
+      "video": "/assets/uploads/10月29日-副本-2.mp4",
+      "id": "Prop Animation 2",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00：04",
+      "en": "Background animation",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-34-13.png",
+      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
+      "role": "动效设计",
+      "cat": "动效",
+      "title": "背景动效",
+      "video": "/assets/uploads/10月29日-副本-5.mp4",
+      "id": "Background animation",
+      "tools": "AE",
+      "likes": 0,
+      "year": "2026"
+    },
+    {
+      "dur": "00:04",
+      "en": "Background animation",
       "poster": "/assets/uploads/snipaste_2026-10-26_16-24-52.png",
       "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
       "role": "动效设计",
@@ -424,32 +649,32 @@
       "year": "2026"
     },
     {
-      "dur": "00:04",
-      "en": "礼物动效 射箭",
-      "poster": "/assets/uploads/snipaste_2026-10-26_16-11-45.png",
-      "desc": "展示内容均已上线，版权归武汉微派网络所有，禁止盗用！",
-      "role": "动效设计",
-      "cat": "动效",
-      "title": "礼物动效 射箭",
-      "video": "/assets/uploads/5be93ad1e25c4e5b4f94a17717d40218.mp4",
-      "id": "礼物动效 射箭",
-      "tools": "AE",
-      "likes": 0,
-      "year": "2026"
-    },
-    {
       "dur": "00:50",
-      "en": "WALK CYCLE STUDY",
+      "en": "\"Le sens de la fête\" Trailer ",
       "poster": "/assets/uploads/snipaste_2026-09-29_14-00-48.png",
       "desc": "  以热情的橙色和冷静的蓝色撞色配色设计表现故事的温情又荒诞的冲突感。\n   灵活运用电影语法和配乐音效把控节奏，突出电影亮点的同时保留悬念。\n",
       "role": "视频包装设计",
       "cat": "其他",
       "title": "《无巧不成婚》预告片",
       "video": "/assets/uploads/9月28日.mp4",
-      "id": "w6《无巧不成婚》",
+      "id": "\"Le sens de la fête\" Trailer ",
       "tools": "Final Cut Pro",
       "likes": 12,
       "year": "2024"
+    },
+    {
+      "dur": "00：35",
+      "en": "Frame-by-frame animation collection",
+      "poster": "/assets/uploads/snipaste_2026-10-30_14-11-03.png",
+      "desc": "大学期间做的一些逐帧动画练习，和部分正在制作的毕业设计草稿。",
+      "role": "全流程",
+      "cat": "动画",
+      "title": "逐帧动画合集",
+      "video": "/assets/uploads/10月23日-副本-1-副本.mp4",
+      "id": "Frame-by-frame animation collection",
+      "tools": "手绘，procreate，CSP",
+      "likes": 0,
+      "year": "2022-2025"
     },
     {
       "dur": "00：33",
@@ -457,7 +682,7 @@
       "poster": "/assets/uploads/snipaste_2026-10-26_15-09-26.png",
       "desc": "版权归搜狐畅游所有，禁止盗用！",
       "role": "视频包装，音效设计",
-      "cat": "动画",
+      "cat": "其他",
       "title": "《阿尔法喵计划》宣传广告1",
       "video": "/assets/uploads/66be660e31f7526f0d50ec456cc797b5.mp4",
       "id": "Promotional ad 1",
@@ -471,7 +696,7 @@
       "poster": "/assets/uploads/snipaste_2026-10-26_15-13-43.png",
       "desc": "版权归搜狐畅游所有，禁止盗用！",
       "role": "视频包装，音效设计",
-      "cat": "动画",
+      "cat": "其他",
       "title": "《阿尔法喵计划》宣传广告2",
       "video": "/assets/uploads/5629faab318cf7d7dc6515d7630f604e.mp4",
       "id": "Promotional ad 2",
@@ -485,7 +710,7 @@
       "poster": "/assets/uploads/snipaste_2026-10-26_15-23-12.png",
       "desc": "版权归搜狐畅游所有，禁止盗用！",
       "role": "视频包装，音效设计",
-      "cat": "动画",
+      "cat": "其他",
       "title": "《阿尔法喵计划》宣传广告3",
       "video": "/assets/uploads/ca47d98c45322cd7fe0261c83eaeeae5.mp4",
       "id": "Promotional ad 3",
@@ -499,7 +724,7 @@
       "poster": "/assets/uploads/snipaste_2026-10-26_15-16-37.png",
       "desc": "版权归搜狐畅游所有，禁止盗用！",
       "role": "脚本设计，AI生成，剪辑",
-      "cat": "动画",
+      "cat": "特效",
       "title": "《阿尔法喵计划》AI 视频 1",
       "video": "/assets/uploads/08b34c91ccf0e4b4f9a1717439e11dc5.mp4",
       "id": "AI Video 1",
@@ -513,7 +738,7 @@
       "poster": "/assets/uploads/snipaste_2026-10-26_15-20-35.png",
       "desc": "版权归搜狐畅游所有，禁止盗用！",
       "role": "脚本设计，AI生成，剪辑",
-      "cat": "动画",
+      "cat": "特效",
       "title": "《阿尔法喵计划》AI视频 2",
       "video": "/assets/uploads/7c2d009029695609faa3821cec109351.mp4",
       "id": "AI Video 2",
@@ -537,47 +762,96 @@
     },
     {
       "dur": "00:10",
-      "en": "COLLAGE EXPERIMENT",
+      "en": "3D animation",
       "poster": "/assets/uploads/许怡媛-副本-2-.png",
       "desc": "使用MAYA进行建模，材质贴图，环境渲染等。并制作短动画《秋日午后》。",
       "role": "全流程",
       "cat": "动画",
       "title": "3D动画《秋日午后》",
       "video": "/assets/uploads/maya.mp4",
-      "id": "w73D动画",
+      "id": "3D动画",
       "tools": "AE",
       "likes": 3,
       "year": "2025"
     },
     {
       "dur": "00：42",
-      "en": "Tony‘s chocolonly  品牌L形3D大屏宣传片",
+      "en": "Tony‘s chocolonly ",
       "poster": "/assets/uploads/snipaste_2026-10-26_14-45-10.png",
       "desc": "Tony's Chocolonely是荷兰的巧克力品牌，是为了抵制可可行业中的不公现象，实现100%无奴隶制的品牌。\n\n在一个不为人知的小岛上，很多人正在采摘树上的可可果。一艘艘大船搭载着他们采摘下来的果实远离这个孤独的小岛。小岛附近的海域已经被染成了巧克力色。这个岛就像是关押这群奴隶的牢笼一样。此时为了改变这个现状，完全透明化的Tony's Chocolonely工厂横空出世。以无法均分的巧克力形象宣传可可行业的不公现象。并被更多人记住。",
       "role": "全流程",
       "cat": "动画",
       "title": "Tony‘s chocolonly  品牌L形3D大屏宣传片",
       "video": "/assets/uploads/홍익_영상-애니메이션_c276090_xu-yiyuan_기말과제.mp4",
-      "id": "W9 Tony‘s chocolonly  品牌L形3D大屏宣传片",
+      "id": "Tony‘s chocolonly ",
       "tools": "C4D",
       "likes": 0,
-      "year": "2024"
-    },
-    {
-      "dur": "00：30",
-      "poster": "/assets/uploads/snipaste_2026-10-26_14-51-31.png",
-      "desc": "熊猫公主福宝通过老虎机抽选自己的驸马熊猫~",
-      "role": "全流程",
-      "cat": "动画",
-      "title": "循环动画《公主福宝的驸马大选》",
-      "video": "/assets/uploads/c276090_xu-yiyuan.mp4",
-      "id": "《公主福宝的驸马大选》",
-      "tools": "AE",
-      "likes": 2,
       "year": "2024"
     }
   ],
   "postcards": [
+    {
+      "id": "独立游戏《不关我柿！》",
+      "title": "独立游戏《不关我柿！》UI",
+      "en": "Indie Game 'NOT ME！ Tomato!' UI",
+      "cards": [
+        {
+          "img": "/assets/uploads/snipaste_2026-10-30_13-23-58.png",
+          "note": "首页"
+        },
+        {
+          "img": "/assets/uploads/豌豆妈妈家-3-.png",
+          "note": "对话证据"
+        },
+        {
+          "img": "/assets/uploads/group-4-1-.png",
+          "note": "发布报道"
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-10-30_13-09-39.png",
+          "note": "主页面+前往采访"
+        },
+        {
+          "img": "/assets/uploads/snipaste_2026-10-21_03-05-48.png",
+          "note": "证据"
+        },
+        {
+          "img": "/assets/uploads/frame-14.png",
+          "note": "UI拆图"
+        }
+      ]
+    },
+    {
+      "id": "独立游戏《不关我柿！》",
+      "title": "独立游戏《不关我柿！》宣传图（AI）",
+      "en": "Indie Game 'NOT ME！ Tomato!' Promo Image（AI）",
+      "cards": [
+        {
+          "img": "/assets/uploads/xiaoguotu-4-.png",
+          "note": "结局4 敬业的代价"
+        },
+        {
+          "img": "/assets/uploads/xiaoguotu.png",
+          "note": "结局2 煽风点火有一套"
+        },
+        {
+          "img": "/assets/uploads/微信图片_20261026133110_9420_4.png",
+          "note": "结局5 真是好瓜你呀你"
+        },
+        {
+          "img": "/assets/uploads/xiaoguotu-3-.png",
+          "note": "结局3 为了吃饭不丢人！"
+        },
+        {
+          "img": "/assets/uploads/xiaoguotu-2-.png",
+          "note": "结局1 果蔬和平大使"
+        },
+        {
+          "img": "/assets/uploads/微信图片_20261026133134_9421_4.png",
+          "note": "loading画面"
+        }
+      ]
+    },
     {
       "id": "毕业设计《我的理想国》",
       "title": "毕业设计《我的理想国》",
