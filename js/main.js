@@ -255,6 +255,9 @@ function renderWorks() {
 }
 
 function openCinema(w) {
+  // Suspend music before starting the video, including pending autoplay/fades.
+  document.body.classList.add("cinema-open");
+  window.dispatchEvent(new CustomEvent("cinema-open"));
   $("#ci-title").textContent = w.title;
   const cat = $("#ci-cat");
   cat.textContent = videoCategories.find(state.categories,w.cat)?.label || w.cat;
@@ -276,9 +279,7 @@ function openCinema(w) {
     cv.poster = assetPath(w.poster);
     poster.style.display = "none";
     empty.style.display = "none";
-    cv.muted = false;
-    cv.volume = 0;
-    if (vplayer.syncMute) vplayer.syncMute();
+    if (vplayer.preparePlayback) vplayer.preparePlayback();
     if (vplayer.playWithFade) vplayer.playWithFade(); else cv.play().catch(() => {});
     vplayer.controls.classList.add("on");
     vplayer.sync();
@@ -295,11 +296,9 @@ function openCinema(w) {
     if (vplayer.simStart) vplayer.simStart(w.dur);
     vplayer.sync();
   }
-  document.body.classList.add("cinema-open");
   document.body.style.overflow = "hidden";
   $("#cinema").setAttribute("aria-hidden", "false");
   sfx("open");
-  window.dispatchEvent(new CustomEvent("cinema-open"));
 }
 
 function closeCinema() {
@@ -403,13 +402,41 @@ function initMusic(src) {
   bgm.loop = true;
   bgm.volume = 0;
   let target = preferredMediaVolume("bgm");
+  let playVersion = 0, playPending = false;
+  const canPlay = () => bgmOn && !document.body.classList.contains("cinema-open");
   if (volumeSlider) volumeSlider.value = String(Math.round(target * 100));
   const sync = () => { btn.textContent = bgmOn ? "音乐 ON" : "音乐 OFF"; btn.classList.toggle("on", bgmOn); btn.setAttribute("aria-pressed", String(bgmOn)); };
   const fadeTo = (v, after) => {
+    if (typeof gsap !== "undefined") gsap.killTweensOf(bgm);
     if (typeof gsap !== "undefined") gsap.to(bgm, { volume: v, duration: 0.8, ease: "power1.inOut", onComplete: after });
     else { bgm.volume = v; if (after) after(); }
   };
-  const playWithFade = () => { bgm.volume = 0; bgm.play().then(() => fadeTo(target)).catch(() => {}); };
+  const stopMusic = () => {
+    playVersion++;
+    playPending = false;
+    if (typeof gsap !== "undefined") gsap.killTweensOf(bgm);
+    bgm.pause();
+    bgm.volume = 0;
+  };
+  const unlockEvents = ["pointerdown", "keydown", "wheel", "touchstart"];
+  const removeUnlock = () => unlockEvents.forEach(ev => removeEventListener(ev, unlock));
+  const playWithFade = () => {
+    if (!canPlay() || playPending) return;
+    const version = ++playVersion;
+    playPending = true;
+    if (typeof gsap !== "undefined") gsap.killTweensOf(bgm);
+    bgm.volume = 0;
+    bgm.play().then(() => {
+      if (version !== playVersion) return;
+      playPending = false;
+      if (!canPlay()) { stopMusic(); return; }
+      removeUnlock();
+      fadeTo(target);
+    }).catch(() => {
+      if (version === playVersion) playPending = false;
+    });
+  };
+  bgm.addEventListener("play", () => { if (!canPlay()) stopMusic(); });
   // 每次进入作品集时默认开启。
   bgmOn = true;
   sync();
@@ -417,34 +444,25 @@ function initMusic(src) {
     target = Number(volumeSlider.value) / 100;
     localStorage.setItem("bgm-volume", String(target));
     localStorage.setItem("bgm-volume-set", "1");
-    if (bgmOn && !bgm.paused) fadeTo(target);
+    if (canPlay() && !bgm.paused) fadeTo(target);
   });
-  if (bgmOn) playWithFade();
   // 浏览器拦截自动播放时，第一次点击/按键/触摸时补播
-  const unlock = e => {
+  function unlock(e) {
     if (e && e.target && e.target.closest && e.target.closest("#btn-music")) return;
-    if (bgmOn && bgm && bgm.paused) playWithFade();
-    removeEventListener("pointerdown", unlock);
-    removeEventListener("keydown", unlock);
-  };
-  addEventListener("pointerdown", unlock);
-  addEventListener("keydown", unlock);
-  addEventListener("wheel", unlock, { passive: true });
-  addEventListener("touchstart", unlock, { passive: true });
+    if (canPlay() && bgm.paused) playWithFade();
+  }
+  unlockEvents.forEach(ev => addEventListener(ev, unlock, { passive: true }));
+  playWithFade();
   btn.addEventListener("click", () => {
     bgmOn = !bgmOn;
     localStorage.setItem("bgm", bgmOn ? "1" : "0");
-    if (bgmOn) playWithFade(); else fadeTo(0, () => bgm.pause());
+    if (bgmOn) playWithFade(); else stopMusic();
     sync();
     sfx("click");
   });
-  // 打开作品放映厅 → 音乐缓出停止；关闭弹窗 → 缓入恢复
-  addEventListener("cinema-open", () => {
-    if (!bgmOn || !bgm || bgm.paused) return;
-    fadeTo(0, () => bgm.pause());
-  });
+  // Keep music suspended for the entire modal lifetime, even while paused/scrolling.
+  addEventListener("cinema-open", stopMusic);
   addEventListener("cinema-close", () => {
-    if (!bgmOn || !bgm) return;
     playWithFade();
   });
 }
@@ -942,6 +960,15 @@ function initPlayer() {
     if (volumeSlider) volumeSlider.value = String(Math.round(videoTarget * 100));
   };
   function syncMute() { muteBtn.textContent = cv.muted ? "🔇" : "🔊"; }
+  vplayer.preparePlayback = () => {
+    if (typeof gsap !== "undefined") gsap.killTweensOf(cv);
+    // A previous video's mute/zero-volume choice must not silence a new opening.
+    if (videoTarget === 0) videoTarget = defaultAudioVolume("video") || AUDIO_DEFAULTS.video / 100;
+    cv.muted = false;
+    cv.volume = videoTarget;
+    if (volumeSlider) volumeSlider.value = String(Math.round(videoTarget * 100));
+    syncMute();
+  };
   syncMute();
   muteBtn.addEventListener("click", () => { cv.muted = !cv.muted; syncMute(); sfx("click"); });
   if (volumeSlider) volumeSlider.addEventListener("input", () => {
