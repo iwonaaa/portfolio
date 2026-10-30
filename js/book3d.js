@@ -812,7 +812,8 @@
       const edgeMat = new THREE.MeshStandardMaterial({ color: 0x2A251E, roughness: 0.75 });
       const mesh = new THREE.Mesh(geo, [
         edgeMat, edgeMat,
-        new THREE.MeshStandardMaterial({ map: faces[fKey].tex, roughness: 0.88 }),
+        // Printed artwork keeps its source sRGB colors; the binding and edges retain scene lighting.
+        new THREE.MeshBasicMaterial({ map: faces[fKey].tex, toneMapped: false }),
         edgeMat, edgeMat, edgeMat
       ]);
       mesh.castShadow = true;
@@ -822,8 +823,8 @@
       innerGeo.translate(PW / 2, -COVER_T / 2 - 0.003, 0);
       flipUvs(innerGeo);
       const origB = innerGeo.attributes.position.array.slice();
-      const innerMesh = new THREE.Mesh(innerGeo, new THREE.MeshStandardMaterial({
-        map: faces[bKey].tex, roughness: 0.92, side: THREE.BackSide
+      const innerMesh = new THREE.Mesh(innerGeo, new THREE.MeshBasicMaterial({
+        map: faces[bKey].tex, toneMapped: false, side: THREE.BackSide
       }));
       pivot.add(innerMesh);
       book.add(pivot);
@@ -837,12 +838,12 @@
     const backGeo = geo.clone();
     flipUvs(backGeo);
     const origB = backGeo.attributes.position.array.slice();
-    const frontMesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({
-      map: faces[fKey].tex, roughness: 0.92, side: THREE.FrontSide
+    const frontMesh = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      map: faces[fKey].tex, toneMapped: false, side: THREE.FrontSide
     }));
     frontMesh.castShadow = true;
-    const backMesh = new THREE.Mesh(backGeo, new THREE.MeshStandardMaterial({
-      map: faces[bKey].tex, roughness: 0.92, side: THREE.BackSide
+    const backMesh = new THREE.Mesh(backGeo, new THREE.MeshBasicMaterial({
+      map: faces[bKey].tex, toneMapped: false, side: THREE.BackSide
     }));
     pivot.add(frontMesh);
     pivot.add(backMesh);
